@@ -10,9 +10,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+
 public class RegistrarUsuario extends AppCompatActivity {
 
     EditText UsuarioNombre, ContraNueva, RepeContraNueva, Localidad, PalabraClave;
+    String claveUsuario = "holatiocomoestas";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +32,7 @@ public class RegistrarUsuario extends AppCompatActivity {
     }
 
 
-    public void crear(View View) {
+    public void crear(View View) throws NoSuchAlgorithmException {
 
         String usuario = UsuarioNombre.getText().toString();
         String contraseñaNueva1 = ContraNueva.getText().toString();
@@ -33,19 +40,40 @@ public class RegistrarUsuario extends AppCompatActivity {
         String localidad = Localidad.getText().toString();
         String Clave = PalabraClave.getText().toString();
 
-        if ( contraseñaNueva1.equals(contraseñaNueva2) ) {
-            MainActivity.prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = MainActivity.prefe.edit();
-            SharedPreferences.Editor editor2 = MainActivity.prefe.edit();
-            editor.putString(usuario, contraseñaNueva1).commit();
+        MainActivity.prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
+        String d= MainActivity.prefe.getString(usuario, "");
 
-            Toast.makeText(this, "Usuario registrado", Toast.LENGTH_LONG).show();
-            finish();
-            Intent volver = new Intent (this, MainActivity.class);
-            startActivity(volver);
+
+        if (usuario.equals("") || contraseñaNueva1.equals("") || contraseñaNueva2.equals("")) {
+            Toast.makeText(this, "Algún campo está vacio", Toast.LENGTH_SHORT).show();
+        } else {
+            if(MainActivity.prefe.contains(usuario)){
+                Toast.makeText(this, "El usuario "+usuario+" ya está registrado", Toast.LENGTH_SHORT).show();
+            }else{
+                if (contraseñaNueva1.equals(contraseñaNueva2)) {
+
+                        MainActivity.prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = MainActivity.prefe.edit();
+
+
+                        editor.putString(usuario+"nombre",usuario).commit();
+                        editor.putString(usuario+"contra", contraseñaNueva1).commit();
+                        editor.putString(usuario+"Palabra",Clave).commit();
+
+
+                        Toast.makeText(this, "Usuario registrado", Toast.LENGTH_LONG).show();
+                        finish();
+                        Intent volver = new Intent(this, MainActivity.class);
+                        startActivity(volver);
+                    }else {
+                    Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+
+                }
+            }
         }
-
     }
+
+
 
     public void volver(View view){
         finish();

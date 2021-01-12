@@ -33,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logear(View v) {
+
         String usuario = etUsuario.getText().toString();
         String contraseña = etContraseña.getText().toString();
+
         prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
         GuardarCont = prefe.getString(usuario, "");
 
