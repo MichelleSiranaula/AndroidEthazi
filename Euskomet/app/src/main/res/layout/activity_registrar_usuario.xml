@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegistrarUsuario">
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="99dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginBottom="96dp"
+        android:onClick="volver"
+        android:text="Cancelar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="260dp"
+        android:layout_marginBottom="96dp"
+        android:onClick="crear"
+        android:text="Guardar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/idLocalidadText"
+        android:layout_width="210dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="28dp"
+        android:ems="10"
+        android:hint="Localidad"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idRepetirContraText" />
+
+    <EditText
+        android:id="@+id/idPClaveTxt"
+        android:layout_width="210dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="28dp"
+        android:ems="10"
+        android:hint="Palabra Clave"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idLocalidadText" />
+
+    <TextView
+        android:id="@+id/tvUsuario"
+        android:layout_width="48dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="90dp"
+        android:text="Usuario"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/idUsuarioTxt"
+        android:layout_width="210dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="74dp"
+        android:layout_marginEnd="28dp"
+        android:ems="10"
+        android:hint="Usuario"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvContraseña"
+        android:layout_width="72dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="50dp"
+        android:text="Contraseña"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUsuario" />
+
+    <EditText
+        android:id="@+id/idContratxt"
+        android:layout_width="210dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="28dp"
+        android:ems="10"
+        android:hint="Contraseña"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idUsuarioTxt" />
+
+    <TextView
+        android:id="@+id/tvContraseña2"
+        android:layout_width="120dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="27dp"
+        android:text="Repetir Contraseña"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvContraseña" />
+
+    <EditText
+        android:id="@+id/idRepetirContraText"
+        android:layout_width="210dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="28dp"
+        android:ems="10"
+        android:hint="Repetir contraseña"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idContratxt" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="61dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="44dp"
+        android:text="Localidad"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvContraseña2" />
+
+    <TextView
+        android:id="@+id/idPClave"
+        android:layout_width="86dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="57dp"
+        android:text="Palabra Clave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

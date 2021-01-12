@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Euskomet</string>
+
+    <string name="maLogearUsuM">USUARIO INCORRECTO</string>
+    <string name="maLogearContraB">CONTRASEÑA CORRECTA</string>
+    <string name="maLogearContraM">CONTRASEÑA INCORRECTA</string>
+
+</resources>
