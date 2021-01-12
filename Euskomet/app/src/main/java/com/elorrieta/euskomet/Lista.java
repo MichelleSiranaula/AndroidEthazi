@@ -1,6 +1,8 @@
 package com.elorrieta.euskomet;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +23,11 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemClickL
 
     private ConnectivityManager connectivityManager = null;
     private Spinner spinner;
+    RecyclerView oRecyclerView;
+
+    ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
+    ArrayList<Provincia> datosProv = new ArrayList<Provincia>();
+    //ArrayList<Object> arrObject = new ArrayList<Object>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,32 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemClickL
         spinner = findViewById(R.id.spinner);
 
         conectarOnClick(null);
+
+        /*try {
+            ArrayList<Object> arrObject = new ArrayList<Object>();
+            arrObject = conectarMuni();
+            for (int i=0;i<arrObject.size();i++) {
+                datosMuni.add((Municipio) arrObject.get(i));
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        oRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        oRecyclerView.setLayoutManager(llm);
+
+        ListaAdapter oContactoAdapter = new ListaAdapter(datosMuni,this);
+        /*ListaAdapter oContactoAdapter = new ListaAdapter(arrMuni, new OnItemClickListener() {
+            @Override public void onItemClick(Municipio item) {
+                //Toast.makeText(this, "Nombre : " + item.getNombre(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "nombre", Toast.LENGTH_LONG).show();
+            }
+        });*/
+       // oRecyclerView.setAdapter(oContactoAdapter);
     }
 
     @Override
@@ -64,20 +97,34 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemClickL
     }
 
     public void conectarOnClick(View v) {
-        try {
-            if (isConnected()) {
-                    ArrayAdapter<String>adapter = new ArrayAdapter <String> (this, android.R.layout.simple_spinner_item, conectar());
-                    spinner.setAdapter(adapter);
-            } else {
-                Toast.makeText(getApplicationContext(), "ERROR_NO_INTERNET", Toast.LENGTH_SHORT).show();
+        if (isConnected()) {
+            try {
+                ArrayList<Object> arrObject = new ArrayList<Object>();
+                arrObject = conectarProvincia();
+                for (int i=0;i<arrObject.size();i++) {
+                    datosProv.add((Provincia) arrObject.get(i));
+                    System.out.println(datosProv.get(i));
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (InterruptedException e) {
-            Toast.makeText(getApplicationContext(), "ERROR_GENERAL", Toast.LENGTH_SHORT).show();
+                ArrayAdapter<Provincia> adapter = new ArrayAdapter<Provincia> (this, android.R.layout.simple_spinner_item, datosProv);
+                spinner.setAdapter(adapter);
+        } else {
+            Toast.makeText(getApplicationContext(), "ERROR_NO_INTERNET", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private ArrayList<String> conectar() throws InterruptedException {
-        ClientThread clientThread = new ClientThread("SELECT nombre FROM provincia");
+    private ArrayList<Object> conectarProvincia() throws InterruptedException {
+        ClientThread clientThread = new ClientThread("SELECT * FROM provincia", "Provincia");
+        Thread thread = new Thread(clientThread);
+        thread.start();
+        thread.join();
+        return clientThread.getDatos();
+    }
+
+    private ArrayList<Object> conectarMuni() throws InterruptedException {
+        ClientThread clientThread = new ClientThread("SELECT * FROM municipio", "Municipio");
         Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
