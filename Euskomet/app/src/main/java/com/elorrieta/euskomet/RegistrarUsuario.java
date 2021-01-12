@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.SecretKey;
@@ -55,11 +56,28 @@ public class RegistrarUsuario extends AppCompatActivity {
                         MainActivity.prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = MainActivity.prefe.edit();
 
+                        MessageDigest md = MessageDigest.getInstance("SHA");
+                        byte dataBytes[] = contraseñaNueva1.getBytes();
+                        md.update(dataBytes);
+                        byte array[] = md.digest();
+                        String texto2 = "";
+                        for (byte b : array) {
+                         texto2 += b;
+                        }
+
+                        MessageDigest md2 = MessageDigest.getInstance("SHA");
+                        byte dataBytes2[] = Clave.getBytes();
+                        md2.update(dataBytes2);
+
+                        byte array2[] = md2.digest();
+                        String texto3 = "";
+                        for (byte b : array2) {
+                            texto3 += b;
+                        }
 
                         editor.putString(usuario+"nombre",usuario).commit();
-                        editor.putString(usuario+"contra", contraseñaNueva1).commit();
-                        editor.putString(usuario+"Palabra",Clave).commit();
-
+                        editor.putString(usuario+"contra", texto2).commit();
+                        editor.putString(usuario+"Palabra",texto3).commit();
 
                         Toast.makeText(this, "Usuario registrado", Toast.LENGTH_LONG).show();
                         finish();

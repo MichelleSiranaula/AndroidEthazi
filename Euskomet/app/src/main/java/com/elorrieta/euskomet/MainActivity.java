@@ -13,6 +13,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText etUsuario, etContraseña;
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void logear(View v) {
+    public void logear(View v) throws NoSuchAlgorithmException {
 
         String usuario = etUsuario.getText().toString();
         String contraseña = etContraseña.getText().toString();
@@ -45,14 +48,25 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,"Algún campo está vacio", Toast.LENGTH_LONG).show();
         } else {
             if (GuardarUsu.equals(usuario)) {
-                if (GuardarCont.equals(contraseña)) {
+
+                MessageDigest md2 = MessageDigest.getInstance("SHA");
+                byte dataBytes2[] = contraseña.getBytes();
+                md2.update(dataBytes2);
+
+                byte array2[] = md2.digest();
+                String texto3 = "";
+                for (byte b : array2) {
+                    texto3 += b;
+                }
+
+                if (GuardarCont.equals(texto3)) {
                     Toast.makeText(this, "SESIÓN INICIADA", Toast.LENGTH_LONG).show();
                     siguiente(null);
                 } else {
                     Toast.makeText(this,"CONTRASEÑA INCORRECTA", Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(this,getResources().getString(R.string.maLogearUsuM), Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"USUARIO NO ENCONTRADO", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -79,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
         Animation oAnimacion = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.mover_derecha);
         imageView.startAnimation(oAnimacion);
+    }
+
+
+    public void init(){
+
+
     }
 
 }
