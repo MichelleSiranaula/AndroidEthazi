@@ -2,24 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvNombreMuni"
-        android:layout_width="171dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold" />
+        android:layout_margin="12dp"></androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tvNombreMuni"
+            android:layout_width="171dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvDescripcionMuni"
-        android:layout_width="176dp"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tvDescripcionMuni"
+            android:layout_width="176dp"
+            android:layout_height="wrap_content" />
 
-    <ImageView
-        android:id="@+id/ivFavMuni"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_weight="1"
-        app:srcCompat="@android:drawable/btn_star" />
+        <ImageView
+            android:id="@+id/ivFavMuni"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/btn_star" />
 
-</LinearLayout>
+    </LinearLayout>
+

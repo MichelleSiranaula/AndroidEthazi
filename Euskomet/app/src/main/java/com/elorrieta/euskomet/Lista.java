@@ -18,16 +18,19 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Lista extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class Lista extends AppCompatActivity implements AdapterView.OnItemSelectedListener,AdapterView.OnItemClickListener {
 
     private ConnectivityManager connectivityManager = null;
     private Spinner spinner;
-    RecyclerView oRecyclerView;
+    private RecyclerView oRecyclerView;
+    private ListaAdapter oListaAdapter = null;
 
     ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
     ArrayList<Provincia> datosProv = new ArrayList<Provincia>();
+    ArrayList<Municipio> datosMuniProvB = new ArrayList<Municipio>();
+    ArrayList<Municipio> datosMuniProvG = new ArrayList<Municipio>();
+    ArrayList<Municipio> datosMuniProvA = new ArrayList<Municipio>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemClickL
         setContentView(R.layout.activity_lista);
 
         spinner = findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
 
         conectarOnClick(null);
 
@@ -55,17 +59,42 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemClickL
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         oRecyclerView.setLayoutManager(llm);
 
-        ListaAdapter oContactoAdapter = new ListaAdapter(datosMuni,this);
+        for (int i=0;i<datosMuni.size();i++) {
+            if (datosMuni.get(i).getCod_prov()==1) {
+                datosMuniProvB.add(datosMuni.get(i));
+            }
+            if (datosMuni.get(i).getCod_prov()==2) {
+                datosMuniProvG.add(datosMuni.get(i));
+            }
+            if (datosMuni.get(i).getCod_prov()==3) {
+                datosMuniProvA.add(datosMuni.get(i));
+            }
+        }
+
         /*ListaAdapter oContactoAdapter = new ListaAdapter(arrMuni, new OnItemClickListener() {
             @Override public void onItemClick(Municipio item) {
                 //Toast.makeText(this, "Nombre : " + item.getNombre(), Toast.LENGTH_LONG).show();
                 Toast.makeText(this, "nombre", Toast.LENGTH_LONG).show();
             }
         });*/
-        oRecyclerView.setAdapter(oContactoAdapter);
     }
 
-    @Override
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+        String selec=spinner.getSelectedItem().toString();
+        if (selec.equals("Bizkaia")) {
+            oListaAdapter = new ListaAdapter(datosMuniProvB,this);
+        } else if (selec.equals("Gipuzkoa")) {
+            oListaAdapter = new ListaAdapter(datosMuniProvG,this);
+        } else if (selec.equals("Araba")) {
+            oListaAdapter = new ListaAdapter(datosMuniProvA,this);
+        }
+        oRecyclerView.setAdapter(oListaAdapter);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
     }
