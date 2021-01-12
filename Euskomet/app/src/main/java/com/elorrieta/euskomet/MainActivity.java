@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText etUsuario, etContraseña;
     public static SharedPreferences prefe;
-    public static String GuardarCont,localidad;
+    public static String GuardarCont,GuardarUsu;
     private ImageView imageView;
 
     @Override
@@ -38,17 +38,18 @@ public class MainActivity extends AppCompatActivity {
         String contraseña = etContraseña.getText().toString();
 
         prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
-        GuardarCont = prefe.getString(usuario, "");
+        GuardarCont = prefe.getString(usuario+"contra", "");
+        GuardarUsu = prefe.getString(usuario+"nombre", "");
 
         if (etUsuario.getText().toString().isEmpty() || etContraseña.getText().toString().isEmpty()) {
             Toast.makeText(this,"Algún campo está vacio", Toast.LENGTH_LONG).show();
         } else {
-            if (prefe.contains(usuario)) {
+            if (GuardarUsu.equals(usuario)) {
                 if (GuardarCont.equals(contraseña)) {
                     Toast.makeText(this, "SESIÓN INICIADA", Toast.LENGTH_LONG).show();
-                    siguiente();
+                    siguiente(null);
                 } else {
-                    Toast.makeText(this,"USUARIO O CONTRASEÑA INCORRECTOS", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"CONTRASEÑA INCORRECTA", Toast.LENGTH_LONG).show();
                 }
             } else {
                 Toast.makeText(this,getResources().getString(R.string.maLogearUsuM), Toast.LENGTH_LONG).show();
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(recu);
     }
 
-    public void siguiente(){
+    public void siguiente(View view){
         finish();
         Intent sig = new Intent (this, menuprincipal.class);
         startActivity(sig);

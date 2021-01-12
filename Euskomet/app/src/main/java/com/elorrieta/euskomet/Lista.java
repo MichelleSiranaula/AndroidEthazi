@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Lista extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -27,7 +28,6 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemClickL
 
     ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
     ArrayList<Provincia> datosProv = new ArrayList<Provincia>();
-    //ArrayList<Object> arrObject = new ArrayList<Object>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemClickL
 
         conectarOnClick(null);
 
-        /*try {
+        try {
             ArrayList<Object> arrObject = new ArrayList<Object>();
             arrObject = conectarMuni();
             for (int i=0;i<arrObject.size();i++) {
@@ -62,7 +62,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemClickL
                 Toast.makeText(this, "nombre", Toast.LENGTH_LONG).show();
             }
         });*/
-       // oRecyclerView.setAdapter(oContactoAdapter);
+        oRecyclerView.setAdapter(oContactoAdapter);
     }
 
     @Override
@@ -97,18 +97,20 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemClickL
     }
 
     public void conectarOnClick(View v) {
+        ArrayList<Object> arrObject = new ArrayList<Object>();
+        ArrayList<String> listaNombProv = new ArrayList<String>();
+
         if (isConnected()) {
             try {
-                ArrayList<Object> arrObject = new ArrayList<Object>();
                 arrObject = conectarProvincia();
                 for (int i=0;i<arrObject.size();i++) {
                     datosProv.add((Provincia) arrObject.get(i));
-                    System.out.println(datosProv.get(i));
+                    listaNombProv.add(datosProv.get(i).getNombreProv());
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-                ArrayAdapter<Provincia> adapter = new ArrayAdapter<Provincia> (this, android.R.layout.simple_spinner_item, datosProv);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, listaNombProv);
                 spinner.setAdapter(adapter);
         } else {
             Toast.makeText(getApplicationContext(), "ERROR_NO_INTERNET", Toast.LENGTH_SHORT).show();

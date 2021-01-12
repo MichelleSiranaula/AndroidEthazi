@@ -30,7 +30,10 @@ public class ClientThread implements Runnable {
         String sBBDD;
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            sIP = "192.168.106.28";
+            //IP de clase
+            //sIP = "192.168.106.28";
+            //IP en casa
+            sIP = "192.168.1.135";
             sPuerto = "3306";
             sBBDD = "euskomet_db";
             String url = "jdbc:mysql://" + sIP + ":" + sPuerto + "/" + sBBDD + "?serverTimezone=UTC";

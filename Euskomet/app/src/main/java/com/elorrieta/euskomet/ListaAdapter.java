@@ -16,7 +16,6 @@ import java.util.List;
 
 public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiViewHolder> {
     private List<Municipio> muniList;
-    private DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     private AdapterView.OnItemClickListener listener;
 
     public class MiViewHolder extends RecyclerView.ViewHolder {
