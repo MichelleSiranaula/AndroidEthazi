@@ -42,13 +42,13 @@ public class RegistrarUsuario extends AppCompatActivity {
         String Clave = PalabraClave.getText().toString();
 
         MainActivity.prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
-        String d= MainActivity.prefe.getString(usuario, "");
+        String d= MainActivity.prefe.getString(usuario+"nombre", "");
 
 
-        if (usuario.equals("") || contraseñaNueva1.equals("") || contraseñaNueva2.equals("")) {
+        if (usuario.equals("") || contraseñaNueva1.equals("") || contraseñaNueva2.equals("") || Clave.equals("")) {
             Toast.makeText(this, "Algún campo está vacio", Toast.LENGTH_SHORT).show();
         } else {
-            if(MainActivity.prefe.contains(usuario)){
+            if(MainActivity.prefe.contains(d)){
                 Toast.makeText(this, "El usuario "+usuario+" ya está registrado", Toast.LENGTH_SHORT).show();
             }else{
                 if (contraseñaNueva1.equals(contraseñaNueva2)) {
