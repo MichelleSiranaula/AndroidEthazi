@@ -37,7 +37,7 @@ public class ClientThread implements Runnable {
             sPuerto = "3306";
             sBBDD = "euskomet_db";
             String url = "jdbc:mysql://" + sIP + ":" + sPuerto + "/" + sBBDD + "?serverTimezone=UTC";
-            con = DriverManager.getConnection( url, "user1", "123");
+            con = DriverManager.getConnection( url, "user1", "");
             st = con.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()) {

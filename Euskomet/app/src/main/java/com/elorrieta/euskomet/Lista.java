@@ -106,20 +106,28 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menusen, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.logout) {
+        if (id == R.id.casa) {
             finish();
-            Intent volver = new Intent (this, MainActivity.class);
+            Intent volver = new Intent (this, menuprincipal.class);
             startActivity(volver);
             return true;
         }
-        if (id == R.id.info) {
-            Toast.makeText(this, "Somos el DreamTeam real.", Toast.LENGTH_LONG).show();
+        if (id == R.id.share) {
+            Toast.makeText(this, "En creación", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        if (id == R.id.mapa) {
+            Toast.makeText(this, "En creación", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        if (id == R.id.camara) {
+            Toast.makeText(this, "En creación", Toast.LENGTH_LONG).show();
             return true;
         }
          return super.onOptionsItemSelected(item);

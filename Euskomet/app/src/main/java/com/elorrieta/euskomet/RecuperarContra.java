@@ -83,10 +83,10 @@ public class RecuperarContra extends AppCompatActivity {
 
 
                 }else{
-                    Toast.makeText(this, "Usuarios no existe", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error en palabra clave", Toast.LENGTH_SHORT).show();
                 }
             }else{
-                Toast.makeText(this, "Error palabra clave", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "El usuario "+usuario+" no existe", Toast.LENGTH_SHORT).show();
             }
         }
     }
