@@ -13,30 +13,40 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Info extends AppCompatActivity {
 
     ImageView imageView3,imageView4, imagen;
     boolean fav = false;
-    private final String CARPETA_RAIZ = "storage/emulated/0/Pictures";
-    private final String RUTA_IMAGEN = CARPETA_RAIZ + "misFotos";
-    private String path="";
-    private int COD_FOTO = 20;
+    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    String nombreFoto = timeStamp + ".jpg";
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private ConnectivityManager connectivityManager = null;
+    String imagenString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,89 +59,72 @@ public class Info extends AppCompatActivity {
 
         imagen = findViewById(R.id.imagen);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-        }
 
     }
 
-    /*public void hacerFoto(View view) {
-        File fileImagen = new File(Environment.getExternalStorageState(), CARPETA_RAIZ);
-        boolean isCreada = fileImagen.exists();
-        String nombreImagen = (System.currentTimeMillis()/1000) + ".jpg";
-
-        if (isCreada == false) {
-            isCreada = fileImagen.mkdirs();
-        }
-        if (isCreada == true) {
-            nombreImagen = (System.currentTimeMillis()/1000) + ".jpg";
-        }
-
-        //Environment.getExternalStorageState() +
-        path = File.separator + CARPETA_RAIZ + File.separator + nombreImagen;
-        File imagenF = new File(path);
-
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagenF));
-
-        MediaScannerConnection.scanFile(this, new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener() {
-            @Override
-            public void onScanCompleted(String path, Uri uri) {
-                Log.i("Ruta de almacenamiento", "Path :" + path);
-            }
-        });
-
-        Bitmap bitmap = BitmapFactory.decodeFile(path);
-        imagen.setImageBitmap(bitmap);
-    }*/
-
-    public void hacerFoto(View view) {
-        File fileImagen = new File(Environment.getExternalStorageState(), CARPETA_RAIZ);
-        boolean isCreada = fileImagen.exists();
-        String nombreImagen = "";
-
-        if (isCreada == false) {
-            isCreada = fileImagen.mkdirs();
-        }
-        if (isCreada == true) {
-            nombreImagen = (System.currentTimeMillis()/1000) + ".jpg";
-        }
-
-        //Environment.getExternalStorageState() +
-        path = Environment.getExternalStorageState() + File.separator + CARPETA_RAIZ + File.separator + nombreImagen;
-        File imagenF = new File(path);
-
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            String authorities = this.getPackageName() + ".provider";
-            Uri imageUri = FileProvider.getUriForFile(this, authorities, imagenF);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        } else {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagenF));
-        }
-        startActivityForResult(intent, COD_FOTO);
+    //PARA HACER FOTOS
+    public void hacerFoto() {
+        Intent intento1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File foto = new File(getExternalFilesDir(null), nombreFoto);
+        startActivityForResult(intento1, REQUEST_IMAGE_CAPTURE);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imagen.setImageBitmap(imageBitmap);
 
-        if (resultCode == RESULT_OK) {
-            if (COD_FOTO == 20) {
-                MediaScannerConnection.scanFile(this, new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener() {
-                    @Override
-                    public void onScanCompleted(String path, Uri uri) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] imagen = stream.toByteArray();
+            imagenString = String.valueOf(Base64.encode(imagen, Base64.DEFAULT));
+            Log.i("foto", imagenString);
 
-                    }
-                });
-
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
-                imagen.setImageBitmap(bitmap);
-            }
+            conectarOnClick();
         }
     }
 
+    //PARA GUARDAR LA FOTO EN LA BBDD
+    public void conectarOnClick() {
+        ArrayList<Object> arrObject = new ArrayList<Object>();
+        ArrayList<String> listaNombProv = new ArrayList<String>();
 
+        if (isConnected()) {
+            try {
+                insertarFoto();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "ERROR_NO_INTERNET", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private ArrayList<Object> insertarFoto() throws InterruptedException {
+        ClientThreadInsert clientThreadInsert = new ClientThreadInsert("UPDATE municipio set foto='" + imagenString + "' where cod_muni = 1");
+        Thread thread = new Thread(clientThreadInsert);
+        thread.start();
+        thread.join();
+        return clientThreadInsert.getDatos();
+    }
+
+    public boolean isConnected() {
+        boolean ret = false;
+        try {
+            connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if ((networkInfo != null) && (networkInfo.isAvailable()) && (networkInfo.isConnected()))
+                ret = true;
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error_comunicación", Toast.LENGTH_SHORT).show();
+        }
+        return ret;
+    }
+
+    //ACTIONBAR
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
@@ -153,21 +146,21 @@ public class Info extends AppCompatActivity {
             return true;
         }
         if (id == R.id.camara) {
-            hacerFoto(null);
+            hacerFoto();
             //Toast.makeText(this, "Aquí irá la cámara.", Toast.LENGTH_LONG).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-
-
+    //PARA IR A LA PANTALLA DE LISTA
     public void volver(View view){
         finish();
         Intent volver = new Intent (this, Lista.class);
         startActivity(volver);
     }
 
+    //ANIMACION
     public void mostrarfav(View view){
         imageView3.setVisibility(View.INVISIBLE);
         imageView4.setVisibility(View.VISIBLE);

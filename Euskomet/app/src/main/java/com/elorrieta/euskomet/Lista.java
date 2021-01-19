@@ -32,6 +32,8 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     ArrayList<Municipio> datosMuniProvG = new ArrayList<Municipio>();
     ArrayList<Municipio> datosMuniProvA = new ArrayList<Municipio>();
 
+    boolean info = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,17 +84,40 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         String selec=spinner.getSelectedItem().toString();
         if (selec.equals("Bizkaia")) {
-            oListaAdapter = new ListaAdapter(datosMuniProvB,this);
+            oListaAdapter = new ListaAdapter(datosMuniProvB, new OnItemClickListener() {
+                @Override
+                public void onItemClick(Municipio item) {
+                    siguiente();
+                }
+            });
+
         } else if (selec.equals("Gipuzkoa")) {
-            oListaAdapter = new ListaAdapter(datosMuniProvG,this);
+            oListaAdapter = new ListaAdapter(datosMuniProvG,new OnItemClickListener() {
+                @Override
+                public void onItemClick(Municipio item) {
+                    siguiente();
+                }
+            });
         } else if (selec.equals("Araba")) {
-            oListaAdapter = new ListaAdapter(datosMuniProvA,this);
+            oListaAdapter = new ListaAdapter(datosMuniProvA,new OnItemClickListener() {
+                @Override
+                public void onItemClick(Municipio item) {
+                    siguiente();
+                }
+            });
         }
+
         oRecyclerView.setAdapter(oListaAdapter);
     }
 
-    public void onNothingSelected(AdapterView<?> parent) {
+    //PARA IR A LA PANTALLA DE LISTA
+    public void siguiente(){
+        finish();
+        Intent volver = new Intent (this, Info.class);
+        startActivity(volver);
+    }
 
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -163,6 +188,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     }
 
     private ArrayList<Object> conectarMuni() throws InterruptedException {
+
         ClientThread clientThread = new ClientThread("SELECT * FROM municipio", "Municipio");
         Thread thread = new Thread(clientThread);
         thread.start();
