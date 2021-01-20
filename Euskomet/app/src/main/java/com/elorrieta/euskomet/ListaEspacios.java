@@ -29,11 +29,6 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
 
     ArrayList<Provincia> datosProv = new ArrayList<Provincia>();
 
-    ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
-    ArrayList<Municipio> datosMuniProvB = new ArrayList<Municipio>();
-    ArrayList<Municipio> datosMuniProvG = new ArrayList<Municipio>();
-    ArrayList<Municipio> datosMuniProvA = new ArrayList<Municipio>();
-
     ArrayList<EspaciosNaturales> datosEspacios = new ArrayList<EspaciosNaturales>();
     ArrayList<EspaciosNaturales> datosEspaciosB = new ArrayList<EspaciosNaturales>();
     ArrayList<EspaciosNaturales> datosEspaciosG = new ArrayList<EspaciosNaturales>();
@@ -53,30 +48,6 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
         spinner.setOnItemSelectedListener(this);
 
         conectarOnClick(null);
-
-        //METER DATOS EN EL ARRAY datosMuni
-        try {
-            ArrayList<Object> arrObject = new ArrayList<Object>();
-            arrObject = conectarMuni();
-            for (int i=0;i<arrObject.size();i++) {
-                datosMuni.add((Municipio) arrObject.get(i));
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        for (int i=0;i<datosMuni.size();i++) {
-            if (datosMuni.get(i).getCod_prov()==1) {
-                datosMuniProvB.add(datosMuni.get(i));
-            }
-            if (datosMuni.get(i).getCod_prov()==2) {
-                datosMuniProvG.add(datosMuni.get(i));
-            }
-            if (datosMuni.get(i).getCod_prov()==3) {
-                datosMuniProvA.add(datosMuni.get(i));
-            }
-        }
 
         //METER DATOS EN EL ARRAY datosEspacios
         try {
@@ -117,33 +88,25 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         String selec=spinner.getSelectedItem().toString();
         if (selec.equals("Bizkaia")) {
-            if (accion.equals("muni")) {
-                oListaAdapter = new ListaAdapter(datosMuniProvB, new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Municipio item) {
-                        siguiente((datosMuniProvB, item.getCod_muni());
-                    }
-                });
-            } else {
-                oListaAdapter = new ListaAdapter(datosEspaciosB, new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(EspaciosNaturales item) {
-                        siguiente(datosEspaciosB, item.getCod_enatural());
-                    }
-                });
-            }
+            oListaAdapter = new ListaAdapter(datosEspaciosB, new OnItemClickListener() {
+                @Override
+                public void onItemClick(EspaciosNaturales item) {
+                    siguiente(datosEspaciosB, item.getCod_enatural());
+                }
+            });
+
         } else if (selec.equals("Gipuzkoa")) {
             oListaAdapter = new ListaAdapter(datosEspaciosG,new OnItemClickListener() {
                 @Override
-                public void onItemClick(Municipio item) {
-                    siguiente(datosEspaciosG, item.getCod_muni());
+                public void onItemClick(EspaciosNaturales item) {
+                    siguiente(datosEspaciosG, item.getCod_enatural());
                 }
             });
         } else if (selec.equals("Araba")) {
             oListaAdapter = new ListaAdapter(datosEspaciosA,new OnItemClickListener() {
                 @Override
-                public void onItemClick(Municipio item) {
-                    siguiente(datosEspaciosA, item.getCod_muni());
+                public void onItemClick(EspaciosNaturales item) {
+                    siguiente(datosEspaciosA, item.getCod_enatural());
                 }
             });
         }
@@ -158,11 +121,11 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     }
 
     //PARA IR A LA PANTALLA DE LISTA
-    public void siguiente(ArrayList<Object> arrayMuni, int codMuni){
+    public void siguiente(ArrayList<EspaciosNaturales> arrayEspacios, int codEspacios){
         finish();
         Intent siguiente = new Intent (this, Info.class);
-        siguiente.putExtra("arrayMunicipios", arrayMuni);
-        siguiente.putExtra("codMunicipio", codMuni);
+        siguiente.putExtra("arrayEspacios", arrayEspacios);
+        siguiente.putExtra("codMunicipio", codEspacios);
         startActivity(siguiente);
     }
 
@@ -226,15 +189,6 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
 
     private ArrayList<Object> conectarProvincia() throws InterruptedException {
         ClientThread clientThread = new ClientThread("SELECT * FROM provincia", "Provincia");
-        Thread thread = new Thread(clientThread);
-        thread.start();
-        thread.join();
-        return clientThread.getDatos();
-    }
-
-    private ArrayList<Object> conectarMuni() throws InterruptedException {
-
-        ClientThread clientThread = new ClientThread("SELECT * FROM municipio", "Municipio");
         Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();

@@ -21,8 +21,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class Lista extends AppCompatActivity implements AdapterView.OnItemSelectedListener,AdapterView.OnItemClickListener {
-
-    //HOLAAAAAAAAAAAA UNAAAAAAAAAAAAAAAAI
     private ConnectivityManager connectivityManager = null;
     private Spinner spinner;
     private RecyclerView oRecyclerView;
@@ -87,14 +85,12 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         String selec=spinner.getSelectedItem().toString();
         if (selec.equals("Bizkaia")) {
-            if (accion.equals("muni")) {
                 oListaAdapter = new ListaAdapter(datosMuniProvB, new OnItemClickListener() {
                     @Override
                     public void onItemClick(Municipio item) {
-                        siguiente((datosMuniProvB, item.getCod_muni());
+                        siguiente(datosMuniProvB, item.getCod_muni());
                     }
                 });
-            }
         } else if (selec.equals("Gipuzkoa")) {
             oListaAdapter = new ListaAdapter(datosMuniProvG,new OnItemClickListener() {
                 @Override
@@ -198,15 +194,6 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     private ArrayList<Object> conectarMuni() throws InterruptedException {
 
         ClientThread clientThread = new ClientThread("SELECT * FROM municipio", "Municipio");
-        Thread thread = new Thread(clientThread);
-        thread.start();
-        thread.join();
-        return clientThread.getDatos();
-    }
-
-    private ArrayList<Object> conectarEspacios() throws InterruptedException {
-
-        ClientThread clientThread = new ClientThread("SELECT e.*, m.cod_prov FROM espacios_naturales e, municipio m, muni_espacios me WHERE e.cod_enatural = me.cod_enatural AND m.cod_muni = me.cod_muni order by e.cod_enatural, m.cod_prov", "Espacios");
         Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
