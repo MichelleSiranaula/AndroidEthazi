@@ -67,18 +67,17 @@ public class Info extends AppCompatActivity {
                 txtNombreMuni.setText(datosMuni.get(i).getNombre());
                 txtInfoMuni.setText(datosMuni.get(i).getDescripcion());
 
-                Log.i("bitmap", datosMuni.get(i).getFoto());
 
-                encodeByte=Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
+                /*encodeByte=Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
                 inputStream  = new ByteArrayInputStream(encodeByte);
                 bitmap  = BitmapFactory.decodeStream(inputStream);
 
-                /*encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
-                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);*/
+                encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
+                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
 
-                /*encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.URL_SAFE);
-                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);*/
-                imagen.setImageBitmap(bitmap);
+                encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.URL_SAFE);
+                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
+                imagen.setImageBitmap(bitmap);*/
             }
         }
     }
@@ -96,15 +95,19 @@ public class Info extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imagen.setImageBitmap(imageBitmap);
+            //imagen.setImageBitmap(imageBitmap);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] imagen = stream.toByteArray();
-            imagenString = String.valueOf(Base64.encode(imagen, Base64.DEFAULT));
+            byte[] imagenB = stream.toByteArray();
+            imagenString = String.valueOf(Base64.encode(imagenB, Base64.DEFAULT));
             Log.i("foto", imagenString);
 
-            conectarOnClick();
+            byte [] encodeByte = Base64.decode(imagenString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
+            imagen.setImageBitmap(bitmap);
+
+            //conectarOnClick();
         }
     }
 

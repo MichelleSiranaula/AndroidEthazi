@@ -6,26 +6,39 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"></androidx.cardview.widget.CardView>
+        android:layout_width="330dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        app:cardBackgroundColor="#83F8F3F3">
+
+        <ImageView
+            android:id="@+id/ivFavMuni"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="260dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/btn_star" />
+
         <TextView
             android:id="@+id/tvNombre"
             android:layout_width="171dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvDescripcion"
             android:layout_width="176dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="40dp" />
+    </androidx.cardview.widget.CardView>
 
-        <ImageView
-            android:id="@+id/ivFavMuni"
-            android:layout_width="wrap_content"
-            android:layout_height="19dp"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/btn_star" />
 
-    </LinearLayout>
+
+</LinearLayout>
 

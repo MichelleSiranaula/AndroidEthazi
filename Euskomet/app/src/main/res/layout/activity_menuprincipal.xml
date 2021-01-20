@@ -4,39 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/fotofondoprueba1"
+    android:background="@mipmap/nubefondo"
     tools:context=".menuprincipal">
-
-    <Button
-        android:id="@+id/idbtnFavs"
-        android:layout_width="244dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="500dp"
-        android:text="Favoritos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/idbtnRankingEN"
         android:layout_width="244dp"
         android:layout_height="54dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="40dp"
         android:text="Ranking Espacios Naturales"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/idbtnRankingM" />
 
     <Button
-        android:id="@+id/idbtnRankingM"
+        android:id="@+id/idbtnMunicipios"
         android:layout_width="244dp"
         android:layout_height="54dp"
-        android:layout_marginTop="300dp"
-        android:text="Ranking Municipios"
+        android:layout_marginTop="152dp"
+        android:onClick="siguienteMuni"
+        android:text="Municipios"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,24 +34,34 @@
         android:id="@+id/idbtnEspaNaturales"
         android:layout_width="244dp"
         android:layout_height="54dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="40dp"
         android:onClick="siguienteEspacios"
         android:text="Espacios Naturales"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/idbtnMunicipios" />
 
     <Button
-        android:id="@+id/idbtnMunicipios"
+        android:id="@+id/idbtnFavs"
         android:layout_width="244dp"
         android:layout_height="54dp"
-        android:layout_marginTop="104dp"
-        android:onClick="siguienteMuni"
-        android:text="Municipios"
+        android:layout_marginTop="40dp"
+        android:text="Favoritos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idbtnRankingEN" />
+
+    <Button
+        android:id="@+id/idbtnRankingM"
+        android:layout_width="244dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="40dp"
+        android:text="Ranking Municipios"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/idbtnEspaNaturales" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
