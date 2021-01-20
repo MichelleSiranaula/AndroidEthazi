@@ -1,6 +1,8 @@
 package com.elorrieta.euskomet;
 
-public class Municipio {
+import java.io.Serializable;
+
+public class Municipio implements Serializable {
 
     private int cod_muni;
     private String nombre;

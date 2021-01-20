@@ -7,7 +7,7 @@
     tools:context=".Info">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/txtNombreMuni"
         android:layout_width="174dp"
         android:layout_height="32dp"
         android:layout_marginTop="124dp"
@@ -38,7 +38,7 @@
         app:srcCompat="@android:drawable/btn_star_big_off" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/txtInfoMuni"
         android:layout_width="350dp"
         android:layout_height="250dp"
         android:layout_marginStart="24dp"
@@ -60,7 +60,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/imgFav"
         android:layout_width="32dp"
         android:layout_height="28dp"
         android:layout_marginTop="76dp"

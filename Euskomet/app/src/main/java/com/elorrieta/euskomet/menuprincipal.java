@@ -21,6 +21,7 @@ public class menuprincipal extends AppCompatActivity {
     public void siguiente(View view){
         finish();
         Intent siguiente = new Intent (this, Lista.class);
+        siguiente.putExtra("accion","muni");
         startActivity(siguiente);
     }
     public boolean onCreateOptionsMenu(Menu menu) {
