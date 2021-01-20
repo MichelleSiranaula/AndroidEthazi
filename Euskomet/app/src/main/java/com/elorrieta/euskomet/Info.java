@@ -68,6 +68,7 @@ public class Info extends AppCompatActivity {
                 txtInfoMuni.setText(datosMuni.get(i).getDescripcion());
 
                 Log.i("bitmap", datosMuni.get(i).getFoto());
+
                 encodeByte=Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
                 inputStream  = new ByteArrayInputStream(encodeByte);
                 bitmap  = BitmapFactory.decodeStream(inputStream);
@@ -109,8 +110,8 @@ public class Info extends AppCompatActivity {
 
     //PARA GUARDAR LA FOTO EN LA BBDD
     public void conectarOnClick() {
-        ArrayList<Object> arrObject = new ArrayList<Object>();
-        ArrayList<String> listaNombProv = new ArrayList<String>();
+        //ArrayList<Object> arrObject = new ArrayList<Object>();
+        //ArrayList<String> listaNombProv = new ArrayList<String>();
 
         if (isConnected()) {
             try {
@@ -159,8 +160,7 @@ public class Info extends AppCompatActivity {
         }
         if (id == R.id.mapa) {
             finish();
-            Intent volver = new Intent (this, GoogleMaps.class);
-            startActivity(volver);
+            abrirMapa(datosMuni,codMuni);
             return true;
         }
         if (id == R.id.share) {
@@ -172,6 +172,14 @@ public class Info extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //PARA ABRIR EL MAPA
+    public void abrirMapa(ArrayList<Municipio> datosMuni, int codMuni){
+        Intent mapa = new Intent (this, GoogleMaps.class);
+        mapa.putExtra("arrayMunicipios", datosMuni);
+        mapa.putExtra("codMunicipio", codMuni);
+        startActivity(mapa);
     }
 
     //PARA IR A LA PANTALLA DE LISTA

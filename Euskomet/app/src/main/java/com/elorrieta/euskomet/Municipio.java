@@ -9,13 +9,17 @@ public class Municipio implements Serializable {
     private String descripcion;
     private int cod_prov;
     private String foto;
+    private double latitud;
+    private double longitud;
 
-    public Municipio(int cod_muni, String nombre, String descripcion, int cod_prov, String foto) {
+    public Municipio(int cod_muni, String nombre, String descripcion, int cod_prov, String foto, double latitud, double longitud) {
         this.cod_muni = cod_muni;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.cod_prov = cod_prov;
         this.foto = foto;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     public Municipio() {
@@ -60,6 +64,22 @@ public class Municipio implements Serializable {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 }
 

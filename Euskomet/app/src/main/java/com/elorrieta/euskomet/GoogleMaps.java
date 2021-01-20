@@ -1,10 +1,7 @@
 package com.elorrieta.euskomet;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,15 +13,31 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 
 
 public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
 
+    Integer codMuni = 0;
+    ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
+
     private GoogleMap mapa;
-    private final LatLng oElorrieta = new LatLng(43.35, -3.0833);
+    private LatLng oMunicipio = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle extras = getIntent().getExtras();
+        codMuni = extras.getInt("codMunicipio");
+        datosMuni = (ArrayList<Municipio>) getIntent().getSerializableExtra("arrayMunicipios");
+
+        for (int i=0;i<datosMuni.size();i++) {
+            if (datosMuni.get(i).getCod_muni() == codMuni) {
+                oMunicipio = new LatLng(datosMuni.get(i).getLatitud(), datosMuni.get(i).getLongitud());
+            }
+        }
+
         setContentView(R.layout.activity_google_maps);
         // Obtenemos el mapa de forma asíncrona (notificará cuando esté listo)
         SupportMapFragment mapFragment = (SupportMapFragment)
@@ -36,9 +49,9 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
         mapa = googleMap;
         mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mapa.getUiSettings().setZoomControlsEnabled(false); // Oculta loscontroles de zoom.
-        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(oElorrieta, 15));
+        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(oMunicipio, 15));
         mapa.addMarker(new MarkerOptions()
-                .position(oElorrieta)
+                .position(oMunicipio)
                 .title("Elorrieta")
                 .snippet("CIFP Elorrieta-Erreka Mari LHII")
                 .icon(BitmapDescriptorFactory
