@@ -20,12 +20,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class ListaEspacios extends AppCompatActivity implements AdapterView.OnItemSelectedListener,AdapterView.OnItemClickListener{
+public class ListaEspacios extends AppCompatActivity implements AdapterView.OnItemSelectedListener,AdapterView.OnItemClickListener {
 
     private ConnectivityManager connectivityManager = null;
     private Spinner spinner;
     private RecyclerView oRecyclerView;
-    private ListaAdapter oListaAdapter = null;
+    private ListaAdapterEspacios oListaAdapter = null;
 
     ArrayList<Provincia> datosProv = new ArrayList<Provincia>();
 
@@ -35,9 +35,6 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     ArrayList<EspaciosNaturales> datosEspaciosA = new ArrayList<EspaciosNaturales>();
 
     boolean info = true;
-
-    Bundle extras = getIntent().getExtras();
-    String accion = extras.getString("accion");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +76,6 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         oRecyclerView.setLayoutManager(llm);
-
-
     }
 
     //
@@ -88,7 +83,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         String selec=spinner.getSelectedItem().toString();
         if (selec.equals("Bizkaia")) {
-            oListaAdapter = new ListaAdapter(datosEspaciosB, new OnItemClickListener() {
+            oListaAdapter = new ListaAdapterEspacios(datosEspaciosB, new OnItemClickListenerE() {
                 @Override
                 public void onItemClick(EspaciosNaturales item) {
                     siguiente(datosEspaciosB, item.getCod_enatural());
@@ -96,14 +91,14 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
             });
 
         } else if (selec.equals("Gipuzkoa")) {
-            oListaAdapter = new ListaAdapter(datosEspaciosG,new OnItemClickListener() {
+            oListaAdapter = new ListaAdapterEspacios(datosEspaciosG,new OnItemClickListenerE() {
                 @Override
                 public void onItemClick(EspaciosNaturales item) {
                     siguiente(datosEspaciosG, item.getCod_enatural());
                 }
             });
         } else if (selec.equals("Araba")) {
-            oListaAdapter = new ListaAdapter(datosEspaciosA,new OnItemClickListener() {
+            oListaAdapter = new ListaAdapterEspacios(datosEspaciosA,new OnItemClickListenerE() {
                 @Override
                 public void onItemClick(EspaciosNaturales item) {
                     siguiente(datosEspaciosA, item.getCod_enatural());
@@ -216,5 +211,4 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
         }
         return ret;
     }
-}
 }

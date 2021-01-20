@@ -3,9 +3,10 @@ package com.elorrieta.euskomet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.BreakIterator;
 import java.util.ArrayList;
 
 
@@ -23,8 +24,8 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiViewHolder
 
         public MiViewHolder(View view) {
             super(view);
-            nombreMuni = (TextView) view.findViewById(R.id.tvNombreMuni);
-            descripcionMuni = (TextView) view.findViewById(R.id.tvDescripcionMuni);
+            nombreMuni = (TextView) view.findViewById(R.id.tvNombre);
+            descripcionMuni = (TextView) view.findViewById(R.id.tvDescripcion);
         }
     }
 

@@ -3,17 +3,15 @@ package com.elorrieta.euskomet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
-public class ListaAdapterEspacios extends RecyclerView.Adapter<ListaAdapter.MiViewHolder> {
-    private ArrayList<EspaciosNaturales> datosMuni = new ArrayList<EspaciosNaturales>();
-    private OnItemClickListener listener;
-
-    /*public ListaAdapter(ArrayList<Municipio> datosMuniProvB, OnItemClickListener onItemClickListener) {
-    }*/
+public class ListaAdapterEspacios extends RecyclerView.Adapter<ListaAdapterEspacios.MiViewHolder> {
+    private ArrayList<EspaciosNaturales> datosEspacios = new ArrayList<EspaciosNaturales>();
+    private OnItemClickListenerE listener;
 
     public class MiViewHolder extends RecyclerView.ViewHolder {
         public TextView nombreEspacios;
@@ -21,37 +19,40 @@ public class ListaAdapterEspacios extends RecyclerView.Adapter<ListaAdapter.MiVi
 
         public MiViewHolder(View view) {
             super(view);
-            nombreEspacios = (TextView) view.findViewById(R.id.tvNombreMuni);
-            descripcionMuni = (TextView) view.findViewById(R.id.tvDescripcionMuni);
+            nombreEspacios = (TextView) view.findViewById(R.id.tvNombre);
+            descripcionEspacios = (TextView) view.findViewById(R.id.tvDescripcion);
         }
     }
 
-    public ListaAdapter(ArrayList<Municipio> datosMuni, OnItemClickListener onItemClickListener) {
-        this.datosMuni = datosMuni;
+    public ListaAdapterEspacios(ArrayList<EspaciosNaturales> datosEspacios, OnItemClickListenerE onItemClickListener) {
+        this.datosEspacios = datosEspacios;
         this.listener = onItemClickListener;
     }
 
     @Override
-    public void onBindViewHolder(ListaAdapter.MiViewHolder holder, int position) {
-        Municipio m = datosMuni.get(position);
-        holder.nombreMuni.setText((CharSequence) datosMuni.get(position).getNombre());
-        holder.descripcionMuni.setText((CharSequence) datosMuni.get(position).getDescripcion());
+    public void onBindViewHolder(@NonNull ListaAdapterEspacios.MiViewHolder holder, int position) {
+        EspaciosNaturales e = datosEspacios.get(position);
+        holder.nombreEspacios.setText((CharSequence) datosEspacios.get(position).getNombre());
+        holder.descripcionEspacios.setText((CharSequence) datosEspacios.get(position).getDescripcion());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(m);
+                listener.onItemClick(e);
             }
         });
-
     }
+
     @Override
     public int getItemCount() {
-        return datosMuni.size();
+        return datosEspacios.size();
     }
 
     @Override
-    public ListaAdapter.MiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.linea,parent, false);
-        return new ListaAdapter.MiViewHolder(v);
+        return new ListaAdapterEspacios.MiViewHolder(v);
     }
+
+
+
 }

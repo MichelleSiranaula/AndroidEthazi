@@ -35,8 +35,6 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
 
     boolean info = true;
 
-    Bundle extras = getIntent().getExtras();
-    String accion = extras.getString("accion");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

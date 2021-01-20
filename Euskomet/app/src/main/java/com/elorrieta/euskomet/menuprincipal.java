@@ -18,12 +18,18 @@ public class menuprincipal extends AppCompatActivity {
         getSupportActionBar().show();
     }
 
-    public void siguiente(View view){
+    public void siguienteMuni(View view){
         finish();
         Intent siguiente = new Intent (this, Lista.class);
-        siguiente.putExtra("accion","muni");
         startActivity(siguiente);
     }
+
+    public void siguienteEspacios(View view){
+        finish();
+        Intent siguiente = new Intent (this, EspaciosNaturales.class);
+        startActivity(siguiente);
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menusen, menu);
         return true;
