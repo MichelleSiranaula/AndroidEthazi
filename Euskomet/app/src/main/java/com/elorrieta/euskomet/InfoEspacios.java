@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Info extends AppCompatActivity {
+public class InfoEspacios extends AppCompatActivity {
 
     ImageView imageView3,imageView4, imagen;
     boolean fav = false;
@@ -37,16 +37,14 @@ public class Info extends AppCompatActivity {
     private ConnectivityManager connectivityManager = null;
     String imagenString;
 
-    Integer codMuni = 0;
-    ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
-    TextView txtNombreMuni, txtInfoMuni;
+    Integer codEspacios = 0;
+    ArrayList<EspaciosNaturales> datosEspacios = new ArrayList<EspaciosNaturales>();
+    TextView txtNombreEspacios, txtInfoEspacios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info);
-
-        imageView3 = findViewById(R.id.imageView3);
+        setContentView(R.layout.activity_info_espacios);imageView3 = findViewById(R.id.imageView3);
         imageView4 = findViewById(R.id.imgFav);
         imageView4.setVisibility(View.INVISIBLE);
         imageView3.setVisibility(View.VISIBLE);
@@ -55,29 +53,32 @@ public class Info extends AppCompatActivity {
         Bitmap bitmap = null;
         InputStream inputStream = null;
         imagen = findViewById(R.id.imagen);
-        txtNombreMuni = findViewById(R.id.txtNombreEspacio);
-        txtInfoMuni = findViewById(R.id.txtInfoEspacio);
+        txtNombreEspacios = findViewById(R.id.txtNombreEspacio);
+        txtInfoEspacios = findViewById(R.id.txtInfoEspacio);
 
         Bundle extras = getIntent().getExtras();
-        codMuni = extras.getInt("codMunicipio");
-        datosMuni = (ArrayList<Municipio>) getIntent().getSerializableExtra("arrayMunicipios");
+        codEspacios = extras.getInt("codEspacios");
+        datosEspacios = (ArrayList<EspaciosNaturales>) getIntent().getSerializableExtra("arrayEspacios");
 
-        for (int i=0;i<datosMuni.size();i++) {
-            if (datosMuni.get(i).getCod_muni() == codMuni) {
-                txtNombreMuni.setText(datosMuni.get(i).getNombre());
-                txtInfoMuni.setText(datosMuni.get(i).getDescripcion());
+        for (int i = 0; i< datosEspacios.size(); i++) {
+            if (datosEspacios.get(i).getCod_enatural() == codEspacios) {
+                txtNombreEspacios.setText(datosEspacios.get(i).getNombre());
+                txtInfoEspacios.setText(datosEspacios.get(i).getDescripcion());
 
-                Log.i("bitmap", datosMuni.get(i).getFoto());
-                encodeByte=Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
-                inputStream  = new ByteArrayInputStream(encodeByte);
-                bitmap  = BitmapFactory.decodeStream(inputStream);
+                //FOTO DESDE DB
+                /*if (datosEspacios.get(i).getFoto().length() != 0) {
+                    Log.i("bitmap", datosEspacios.get(i).getFoto());
+                    encodeByte=Base64.decode(datosEspacios.get(i).getFoto(),Base64.DEFAULT);
+                    inputStream  = new ByteArrayInputStream(encodeByte);
+                    bitmap  = BitmapFactory.decodeStream(inputStream);
 
-                /*encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
-                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);*/
+                encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
+                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
 
-                /*encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.URL_SAFE);
-                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);*/
-                imagen.setImageBitmap(bitmap);
+                encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.URL_SAFE);
+                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
+                    imagen.setImageBitmap(bitmap);
+                }*/
             }
         }
     }
@@ -109,9 +110,8 @@ public class Info extends AppCompatActivity {
 
     //PARA GUARDAR LA FOTO EN LA BBDD
     public void conectarOnClick() {
-        ArrayList<Object> arrObject = new ArrayList<Object>();
-        ArrayList<String> listaNombProv = new ArrayList<String>();
-
+        //ArrayList<Object> arrObject = new ArrayList<Object>();
+        //ArrayList<String> listaNombProv = new ArrayList<String>();
         if (isConnected()) {
             try {
                 insertarFoto();
@@ -124,7 +124,7 @@ public class Info extends AppCompatActivity {
     }
 
     private ArrayList<Object> insertarFoto() throws InterruptedException {
-        ClientThreadInsert clientThreadInsert = new ClientThreadInsert("UPDATE municipio set foto='" + imagenString + "' where cod_muni ="+codMuni+"");
+        ClientThreadInsert clientThreadInsert = new ClientThreadInsert("UPDATE municipio set foto='" + imagenString + "' where cod_muni ="+ codEspacios +"");
         Thread thread = new Thread(clientThreadInsert);
         thread.start();
         thread.join();
@@ -177,7 +177,7 @@ public class Info extends AppCompatActivity {
     //PARA IR A LA PANTALLA DE LISTA
     public void volver(View view){
         finish();
-        Intent volver = new Intent (this, Lista.class);
+        Intent volver = new Intent (this, ListaEspacios.class);
         startActivity(volver);
     }
 

@@ -8,12 +8,14 @@ public class Municipio implements Serializable {
     private String nombre;
     private String descripcion;
     private int cod_prov;
+    private String foto;
 
-    public Municipio(int cod_muni, String nombre, String descripcion, int cod_prov) {
+    public Municipio(int cod_muni, String nombre, String descripcion, int cod_prov, String foto) {
         this.cod_muni = cod_muni;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.cod_prov = cod_prov;
+        this.foto = foto;
     }
 
     public Municipio() {
@@ -50,6 +52,14 @@ public class Municipio implements Serializable {
 
     public void setCod_prov(int cod_prov) {
         this.cod_prov = cod_prov;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }
 

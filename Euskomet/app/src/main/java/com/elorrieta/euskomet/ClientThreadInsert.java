@@ -33,7 +33,7 @@ public class ClientThreadInsert implements Runnable {
             //IP de clase
             //sIP = "192.168.106.28";
             //IP en casa
-            sIP = "172.0.0.1";
+            sIP = "192.168.1.136";
             sPuerto = "3306";
             sBBDD = "euskomet_db";
             String url = "jdbc:mysql://" + sIP + ":" + sPuerto + "/" + sBBDD + "?serverTimezone=UTC";

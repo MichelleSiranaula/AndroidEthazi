@@ -26,7 +26,7 @@ public class menuprincipal extends AppCompatActivity {
 
     public void siguienteEspacios(View view){
         finish();
-        Intent siguiente = new Intent (this, EspaciosNaturales.class);
+        Intent siguiente = new Intent (this, ListaEspacios.class);
         startActivity(siguiente);
     }
 

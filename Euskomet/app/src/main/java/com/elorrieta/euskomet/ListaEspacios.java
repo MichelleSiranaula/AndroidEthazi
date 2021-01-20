@@ -118,9 +118,9 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     //PARA IR A LA PANTALLA DE LISTA
     public void siguiente(ArrayList<EspaciosNaturales> arrayEspacios, int codEspacios){
         finish();
-        Intent siguiente = new Intent (this, Info.class);
+        Intent siguiente = new Intent (this, InfoEspacios.class);
         siguiente.putExtra("arrayEspacios", arrayEspacios);
-        siguiente.putExtra("codMunicipio", codEspacios);
+        siguiente.putExtra("codEspacios", codEspacios);
         startActivity(siguiente);
     }
 

@@ -4,7 +4,7 @@
     <!-- Permiso para poder el estado de la red en el teléfono -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Permiso para poder acceder a internet -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Permiso para cámara -->
-    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- uses-permission android:name="android.permission.CAMERA" / -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListaEspacios"></activity>
+        <activity android:name=".InfoEspacios"></activity>
+        <activity android:name=".ListaEspacios" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

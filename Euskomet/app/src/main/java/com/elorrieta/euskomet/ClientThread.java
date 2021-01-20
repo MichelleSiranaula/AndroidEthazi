@@ -33,7 +33,7 @@ public class ClientThread implements Runnable {
             //IP de clase
             //sIP = "192.168.106.28";
             //IP en casa
-            sIP = "172.0.0.1";
+            sIP = "192.168.1.136";
             sPuerto = "3306";
             sBBDD = "euskomet_db";
             String url = "jdbc:mysql://" + sIP + ":" + sPuerto + "/" + sBBDD + "?serverTimezone=UTC";
@@ -42,7 +42,7 @@ public class ClientThread implements Runnable {
             rs = st.executeQuery();
             while (rs.next()) {
                 if (tipoObjeto.equals("Municipio")) {
-                    Municipio m = new Municipio(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                    Municipio m = new Municipio(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
                     datos.add(m);
                 } else if (tipoObjeto.equals("Provincia")) {
                     Provincia p = new Provincia(rs.getInt(1), rs.getString(2));
