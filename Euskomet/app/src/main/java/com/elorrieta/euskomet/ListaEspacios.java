@@ -20,9 +20,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Lista extends AppCompatActivity implements AdapterView.OnItemSelectedListener,AdapterView.OnItemClickListener {
+public class ListaEspacios extends AppCompatActivity implements AdapterView.OnItemSelectedListener,AdapterView.OnItemClickListener{
 
-    //HOLAAAAAAAAAAAA UNAAAAAAAAAAAAAAAAI
     private ConnectivityManager connectivityManager = null;
     private Spinner spinner;
     private RecyclerView oRecyclerView;
@@ -34,6 +33,11 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     ArrayList<Municipio> datosMuniProvB = new ArrayList<Municipio>();
     ArrayList<Municipio> datosMuniProvG = new ArrayList<Municipio>();
     ArrayList<Municipio> datosMuniProvA = new ArrayList<Municipio>();
+
+    ArrayList<EspaciosNaturales> datosEspacios = new ArrayList<EspaciosNaturales>();
+    ArrayList<EspaciosNaturales> datosEspaciosB = new ArrayList<EspaciosNaturales>();
+    ArrayList<EspaciosNaturales> datosEspaciosG = new ArrayList<EspaciosNaturales>();
+    ArrayList<EspaciosNaturales> datosEspaciosA = new ArrayList<EspaciosNaturales>();
 
     boolean info = true;
 
@@ -74,12 +78,38 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
             }
         }
 
+        //METER DATOS EN EL ARRAY datosEspacios
+        try {
+            ArrayList<Object> arrObject = new ArrayList<Object>();
+            arrObject = conectarEspacios();
+            for (int i=0;i<arrObject.size();i++) {
+                datosEspacios.add((EspaciosNaturales) arrObject.get(i));
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (int i=0;i<datosEspacios.size();i++) {
+            if (datosEspacios.get(i).getCod_prov()==1) {
+                datosEspaciosB.add(datosEspacios.get(i));
+            }
+            if (datosEspacios.get(i).getCod_prov()==2) {
+                datosEspaciosG.add(datosEspacios.get(i));
+            }
+            if (datosEspacios.get(i).getCod_prov()==3) {
+                datosEspaciosA.add(datosEspacios.get(i));
+            }
+        }
+
         //RECYCLERVIEW
         oRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         oRecyclerView.setLayoutManager(llm);
+
+
     }
 
     //
@@ -94,19 +124,26 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
                         siguiente((datosMuniProvB, item.getCod_muni());
                     }
                 });
+            } else {
+                oListaAdapter = new ListaAdapter(datosEspaciosB, new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(EspaciosNaturales item) {
+                        siguiente(datosEspaciosB, item.getCod_enatural());
+                    }
+                });
             }
         } else if (selec.equals("Gipuzkoa")) {
-            oListaAdapter = new ListaAdapter(datosMuniProvG,new OnItemClickListener() {
+            oListaAdapter = new ListaAdapter(datosEspaciosG,new OnItemClickListener() {
                 @Override
                 public void onItemClick(Municipio item) {
-                    siguiente(datosMuniProvG, item.getCod_muni());
+                    siguiente(datosEspaciosG, item.getCod_muni());
                 }
             });
         } else if (selec.equals("Araba")) {
-            oListaAdapter = new ListaAdapter(datosMuniProvA,new OnItemClickListener() {
+            oListaAdapter = new ListaAdapter(datosEspaciosA,new OnItemClickListener() {
                 @Override
                 public void onItemClick(Municipio item) {
-                    siguiente(datosMuniProvA, item.getCod_muni());
+                    siguiente(datosEspaciosA, item.getCod_muni());
                 }
             });
         }
@@ -121,7 +158,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     }
 
     //PARA IR A LA PANTALLA DE LISTA
-    public void siguiente(ArrayList<Municipio> arrayMuni, int codMuni){
+    public void siguiente(ArrayList<Object> arrayMuni, int codMuni){
         finish();
         Intent siguiente = new Intent (this, Info.class);
         siguiente.putExtra("arrayMunicipios", arrayMuni);
@@ -162,7 +199,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
             Toast.makeText(this, "En creación", Toast.LENGTH_LONG).show();
             return true;
         }
-         return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     //CONEXION CON LA BASE DE DATOS
@@ -180,8 +217,8 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, listaNombProv);
-                spinner.setAdapter(adapter);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, listaNombProv);
+            spinner.setAdapter(adapter);
         } else {
             Toast.makeText(getApplicationContext(), "ERROR_NO_INTERNET", Toast.LENGTH_SHORT).show();
         }
@@ -226,4 +263,4 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
         return ret;
     }
 }
-
+}
