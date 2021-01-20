@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,13 +27,22 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     private RecyclerView oRecyclerView;
     private ListaAdapter oListaAdapter = null;
 
-    ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
     ArrayList<Provincia> datosProv = new ArrayList<Provincia>();
+
+    ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
     ArrayList<Municipio> datosMuniProvB = new ArrayList<Municipio>();
     ArrayList<Municipio> datosMuniProvG = new ArrayList<Municipio>();
     ArrayList<Municipio> datosMuniProvA = new ArrayList<Municipio>();
 
+    ArrayList<EspaciosNaturales> datosEspacios = new ArrayList<EspaciosNaturales>();
+    ArrayList<EspaciosNaturales> datosEspaciosB = new ArrayList<EspaciosNaturales>();
+    ArrayList<EspaciosNaturales> datosEspaciosG = new ArrayList<EspaciosNaturales>();
+    ArrayList<EspaciosNaturales> datosEspaciosA = new ArrayList<EspaciosNaturales>();
+
     boolean info = true;
+
+    Bundle extras = getIntent().getExtras();
+    String accion = extras.getString("accion");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +54,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
 
         conectarOnClick(null);
 
+        //METER DATOS EN EL ARRAY datosMuni
         try {
             ArrayList<Object> arrObject = new ArrayList<Object>();
             arrObject = conectarMuni();
@@ -54,12 +65,6 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        oRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        oRecyclerView.setLayoutManager(llm);
 
         for (int i=0;i<datosMuni.size();i++) {
             if (datosMuni.get(i).getCod_prov()==1) {
@@ -73,48 +78,75 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
             }
         }
 
-        /*ListaAdapter oContactoAdapter = new ListaAdapter(arrMuni, new OnItemClickListener() {
-            @Override public void onItemClick(Municipio item) {
-                //Toast.makeText(this, "Nombre : " + item.getNombre(), Toast.LENGTH_LONG).show();
-                Toast.makeText(this, "nombre", Toast.LENGTH_LONG).show();
+        //METER DATOS EN EL ARRAY datosEspacios
+        try {
+            ArrayList<Object> arrObject = new ArrayList<Object>();
+            arrObject = conectarEspacios();
+            for (int i=0;i<arrObject.size();i++) {
+                datosEspacios.add((EspaciosNaturales) arrObject.get(i));
             }
-        });*/
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (int i=0;i<datosEspacios.size();i++) {
+            if (datosEspacios.get(i).getCod_prov()==1) {
+                datosEspaciosB.add(datosEspacios.get(i));
+            }
+            if (datosEspacios.get(i).getCod_prov()==2) {
+                datosEspaciosG.add(datosEspacios.get(i));
+            }
+            if (datosEspacios.get(i).getCod_prov()==3) {
+                datosEspaciosA.add(datosEspacios.get(i));
+            }
+        }
+
+        //RECYCLERVIEW
+        oRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        oRecyclerView.setLayoutManager(llm);
+
+
     }
 
+    //ITEM SELECTED DEL SPINNER
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         String selec=spinner.getSelectedItem().toString();
         if (selec.equals("Bizkaia")) {
-            oListaAdapter = new ListaAdapter(datosMuniProvB, new OnItemClickListener() {
-                @Override
-                public void onItemClick(Municipio item) {
-                    siguiente();
-                }
-            });
-
+            if (accion.equals("muni")) {
+                oListaAdapter = new ListaAdapter(datosMuniProvB, new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Municipio item) {
+                        siguiente((datosMuniProvB, item.getCod_muni());
+                    }
+                });
+            } else {
+                oListaAdapter = new ListaAdapter(datosEspaciosB, new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(EspaciosNaturales item) {
+                        siguiente(datosEspaciosB, item.getCod_enatural());
+                    }
+                });
+            }
         } else if (selec.equals("Gipuzkoa")) {
-            oListaAdapter = new ListaAdapter(datosMuniProvG,new OnItemClickListener() {
+            oListaAdapter = new ListaAdapter(datosEspaciosG,new OnItemClickListener() {
                 @Override
                 public void onItemClick(Municipio item) {
-                    siguiente();
+                    siguiente(datosEspaciosG, item.getCod_muni());
                 }
             });
         } else if (selec.equals("Araba")) {
-            oListaAdapter = new ListaAdapter(datosMuniProvA,new OnItemClickListener() {
+            oListaAdapter = new ListaAdapter(datosEspaciosA,new OnItemClickListener() {
                 @Override
                 public void onItemClick(Municipio item) {
-                    siguiente();
+                    siguiente(datosEspaciosA, item.getCod_muni());
                 }
             });
         }
-
         oRecyclerView.setAdapter(oListaAdapter);
-    }
-
-    //PARA IR A LA PANTALLA DE LISTA
-    public void siguiente(){
-        finish();
-        Intent volver = new Intent (this, Info.class);
-        startActivity(volver);
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
@@ -124,12 +156,23 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
         String text = parent.getItemAtPosition(position).toString();
     }
 
+    //PARA IR A LA PANTALLA DE LISTA
+    public void siguiente(ArrayList<Object> arrayMuni, int codMuni){
+        finish();
+        Intent siguiente = new Intent (this, Info.class);
+        siguiente.putExtra("arrayMunicipios", arrayMuni);
+        siguiente.putExtra("codMunicipio", codMuni);
+        startActivity(siguiente);
+    }
+
+    //VOLVER AL MENU PRINCIPAL
     public void volver(View view){
         finish();
         Intent volver = new Intent (this, menuprincipal.class);
         startActivity(volver);
     }
 
+    //BARRA DE ACCIONES
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
@@ -158,6 +201,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
          return super.onOptionsItemSelected(item);
     }
 
+    //CONEXION CON LA BASE DE DATOS
     public void conectarOnClick(View v) {
         ArrayList<Object> arrObject = new ArrayList<Object>();
         ArrayList<String> listaNombProv = new ArrayList<String>();
@@ -190,6 +234,15 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     private ArrayList<Object> conectarMuni() throws InterruptedException {
 
         ClientThread clientThread = new ClientThread("SELECT * FROM municipio", "Municipio");
+        Thread thread = new Thread(clientThread);
+        thread.start();
+        thread.join();
+        return clientThread.getDatos();
+    }
+
+    private ArrayList<Object> conectarEspacios() throws InterruptedException {
+
+        ClientThread clientThread = new ClientThread("SELECT e.*, m.cod_prov FROM espacios_naturales e, municipio m, muni_espacios me WHERE e.cod_enatural = me.cod_enatural AND m.cod_muni = me.cod_muni order by e.cod_enatural, m.cod_prov", "Espacios");
         Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();

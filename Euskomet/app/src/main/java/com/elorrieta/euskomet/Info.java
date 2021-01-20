@@ -1,39 +1,25 @@
 package com.elorrieta.euskomet;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,17 +34,34 @@ public class Info extends AppCompatActivity {
     private ConnectivityManager connectivityManager = null;
     String imagenString;
 
+    Integer codMuni = 0;
+    ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
+    TextView txtNombreMuni, txtInfoMuni;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
+
         imageView3 = findViewById(R.id.imageView3);
-        imageView4 = findViewById(R.id.imageView4);
+        imageView4 = findViewById(R.id.imgFav);
         imageView4.setVisibility(View.INVISIBLE);
         imageView3.setVisibility(View.VISIBLE);
 
         imagen = findViewById(R.id.imagen);
+        txtNombreMuni = findViewById(R.id.txtNombreMuni);
+        txtInfoMuni = findViewById(R.id.txtInfoMuni);
 
+        Bundle extras = getIntent().getExtras();
+        codMuni = extras.getInt("codMunicipio");
+        datosMuni = (ArrayList<Municipio>) getIntent().getSerializableExtra("arrayMunicipios");
+
+        for (int i=0;i<datosMuni.size();i++) {
+            if (datosMuni.get(i).getCod_muni() == codMuni) {
+                txtNombreMuni.setText(datosMuni.get(i).getNombre());
+                txtInfoMuni.setText(datosMuni.get(i).getDescripcion());
+            }
+        }
 
     }
 

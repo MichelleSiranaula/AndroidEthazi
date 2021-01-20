@@ -47,6 +47,9 @@ public class ClientThread implements Runnable {
                 } else if (tipoObjeto.equals("Provincia")) {
                     Provincia p = new Provincia(rs.getInt(1), rs.getString(2));
                     datos.add(p);
+                } else if (tipoObjeto.equals("Espacios")) {
+                    EspaciosNaturales e = new EspaciosNaturales(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6), rs.getString(7), rs.getInt(8));
+                    datos.add(e);
                 }
             }
         } catch (ClassNotFoundException e) {

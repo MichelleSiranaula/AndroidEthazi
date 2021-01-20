@@ -1,5 +1,5 @@
 package com.elorrieta.euskomet;
 
-public interface OnItemClickListener {
+ interface OnItemClickListener {
     void onItemClick(Municipio item);
 }
