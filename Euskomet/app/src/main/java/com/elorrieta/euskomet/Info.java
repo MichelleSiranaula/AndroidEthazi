@@ -138,7 +138,9 @@ public class Info extends AppCompatActivity {
             return true;
         }
         if (id == R.id.mapa) {
-            Toast.makeText(this, "Aquí iría el mapa.", Toast.LENGTH_LONG).show();
+            finish();
+            Intent volver = new Intent (this, GoogleMaps.class);
+            startActivity(volver);
             return true;
         }
         if (id == R.id.share) {
