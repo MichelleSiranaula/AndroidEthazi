@@ -124,7 +124,7 @@ public class InfoEspacios extends AppCompatActivity {
     }
 
     private ArrayList<Object> insertarFoto() throws InterruptedException {
-        ClientThreadInsert clientThreadInsert = new ClientThreadInsert("UPDATE municipio set foto='" + imagenString + "' where cod_muni ="+ codEspacios +"");
+        ClientThreadInsert clientThreadInsert = new ClientThreadInsert("UPDATE espacios_naturales set foto='" + imagenString + "' where cod_enatural ="+ codEspacios +"");
         Thread thread = new Thread(clientThreadInsert);
         thread.start();
         thread.join();
