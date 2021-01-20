@@ -112,6 +112,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
 
     }
 
+    //
     //ITEM SELECTED DEL SPINNER
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         String selec=spinner.getSelectedItem().toString();
