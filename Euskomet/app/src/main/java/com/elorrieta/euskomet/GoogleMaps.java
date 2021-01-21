@@ -23,6 +23,7 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mapa;
     private LatLng oMunicipio = null;
+    private String nombre="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,8 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
 
         for (int i=0;i<datosMuni.size();i++) {
             if (datosMuni.get(i).getCod_muni() == codMuni) {
-                oMunicipio = new LatLng(datosMuni.get(i).getLatitud(), datosMuni.get(i).getLongitud());
+                oMunicipio = new LatLng(datosMuni.get(i).getLongitud(), datosMuni.get(i).getLatitud());
+                nombre = datosMuni.get(i).getNombre();
             }
         }
 
@@ -48,12 +50,11 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mapa = googleMap;
         mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        mapa.getUiSettings().setZoomControlsEnabled(false); // Oculta loscontroles de zoom.
+        mapa.getUiSettings().setZoomControlsEnabled(true); // Oculta loscontroles de zoom.
         mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(oMunicipio, 15));
         mapa.addMarker(new MarkerOptions()
                 .position(oMunicipio)
-                .title("Elorrieta")
-                .snippet("CIFP Elorrieta-Erreka Mari LHII")
+                .title(nombre)
                 .icon(BitmapDescriptorFactory
                         .fromResource(android.R.drawable.ic_menu_compass))
                 .anchor(0.5f, 0.5f));

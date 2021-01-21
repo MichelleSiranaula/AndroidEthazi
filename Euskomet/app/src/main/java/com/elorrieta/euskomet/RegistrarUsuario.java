@@ -78,7 +78,7 @@ public class RegistrarUsuario extends AppCompatActivity {
                         editor.putString(usuario+"nombre",usuario).commit();
                         editor.putString(usuario+"contra", texto2).commit();
                         editor.putString(usuario+"Palabra",texto3).commit();
-
+                    
                         Toast.makeText(this, "Usuario registrado", Toast.LENGTH_LONG).show();
                         finish();
                         Intent volver = new Intent(this, MainActivity.class);
