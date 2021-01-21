@@ -14,8 +14,6 @@ public class ClientThreadInsert implements Runnable {
     private String sql = "";
     private String tipoObjeto = "";
 
-    ArrayList<Object> datos = new ArrayList<Object>();
-
     public ClientThreadInsert(String sql) {
         this.sql = sql;
         this.tipoObjeto = tipoObjeto;
@@ -64,7 +62,4 @@ public class ClientThreadInsert implements Runnable {
         }
     }
 
-    public ArrayList<Object> getDatos() {
-        return datos;
-    }
 }

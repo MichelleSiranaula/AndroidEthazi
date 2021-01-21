@@ -51,7 +51,7 @@ public class ClientThread implements Runnable {
                     EspaciosNaturales e = new EspaciosNaturales(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6), rs.getString(7), rs.getInt(8));
                     datos.add(e);
                 }else if (tipoObjeto.equals("usuarios")){
-                   usuarios u = new usuarios (rs.getString(2),rs.getString(3),rs.getString(4));
+                   Usuarios u = new Usuarios(rs.getString(2),rs.getString(3),rs.getString(4));
                    datos.add(u);
                 }
             }

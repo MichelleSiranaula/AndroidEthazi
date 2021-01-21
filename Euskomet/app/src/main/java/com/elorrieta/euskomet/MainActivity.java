@@ -2,7 +2,6 @@ package com.elorrieta.euskomet;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,9 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText etUsuario, etContraseña;
     public static SharedPreferences prefe;
-    public static String GuardarCont,GuardarUsu;
     private ImageView imageView;
-    ArrayList<usuarios> usuarioarr = new ArrayList<usuarios>();
+    ArrayList<Usuarios> usuarioarr = new ArrayList<Usuarios>();
     String nombrearr,contrarr,parr;
 
     @Override
@@ -43,10 +41,6 @@ public class MainActivity extends AppCompatActivity {
         String usuario = etUsuario.getText().toString();
         String contraseña = etContraseña.getText().toString();
 
-        prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
-        GuardarCont = prefe.getString(usuario + "contra", "");
-        GuardarUsu = prefe.getString(usuario + "nombre", "");
-
         if (etUsuario.getText().toString().isEmpty() || etContraseña.getText().toString().isEmpty()) {
             Toast.makeText(this, "Algún campo está vacio", Toast.LENGTH_LONG).show();
         } else {
@@ -54,14 +48,14 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<Object> arrObject = new ArrayList<Object>();
             arrObject = usuar();
             for (int i = 0; i < arrObject.size(); i++) {
-                usuarioarr.add((usuarios) arrObject.get(i));
+                usuarioarr.add((Usuarios) arrObject.get(i));
             }
 
             for (int i = 0; i < usuarioarr.size(); i++) {
 
-                nombrearr = usuarioarr.get(i).getNombre().toString();
-                contrarr = usuarioarr.get(i).getContraseña().toString();
-                parr = usuarioarr.get(i).getP_clave().toString();
+                nombrearr = usuarioarr.get(i).getNombre();
+                contrarr = usuarioarr.get(i).getContraseña();
+                parr = usuarioarr.get(i).getP_clave();
 
                 if (usuario.equals(nombrearr)) {
 
@@ -82,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(this, "CONTRASEÑA INCORRECTA", Toast.LENGTH_LONG).show();
                     }
+                    break;
                 }
                 }
             if(!usuario.equals(nombrearr)){
@@ -109,8 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void mover_Animation() {
-        Animation oAnimacion = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.mover_derecha);
+        Animation oAnimacion = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.mover_derecha);
         imageView.startAnimation(oAnimacion);
     }
 
@@ -120,12 +114,6 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
         thread.join();
         return clientThread.getDatos();
-    }
-
-
-    public void init(){
-
-
     }
 
 }

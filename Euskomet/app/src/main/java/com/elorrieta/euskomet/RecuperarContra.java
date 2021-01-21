@@ -2,9 +2,7 @@ package com.elorrieta.euskomet;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +25,7 @@ public class RecuperarContra extends AppCompatActivity {
     String usuario = null;
     String contraseña = null;
 
-    ArrayList<usuarios> usuarioarr = new ArrayList<usuarios>();
+    ArrayList<Usuarios> usuarioarr = new ArrayList<Usuarios>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +61,7 @@ public class RecuperarContra extends AppCompatActivity {
             ArrayList<Object> arrObject = new ArrayList<Object>();
             arrObject = usuar();
             for (int i = 0; i < arrObject.size(); i++) {
-                usuarioarr.add((usuarios) arrObject.get(i));
+                usuarioarr.add((Usuarios) arrObject.get(i));
             }
 
             for (int i = 0; i < usuarioarr.size(); i++) {
@@ -142,7 +140,7 @@ private ArrayList<Object> usuar() throws InterruptedException {
             ArrayList<Object> arrObject = new ArrayList<Object>();
             arrObject = usuar();
             for (int i = 0; i < arrObject.size(); i++) {
-                usuarioarr.add((usuarios) arrObject.get(i));
+                usuarioarr.add((Usuarios) arrObject.get(i));
             }
 
             for (int i = 0; i < usuarioarr.size(); i++) {

@@ -130,12 +130,11 @@ public class Info extends AppCompatActivity {
         }
     }
 
-    private ArrayList<Object> insertarFoto() throws InterruptedException {
+    private void insertarFoto() throws InterruptedException {
         ClientThreadInsert clientThreadInsert = new ClientThreadInsert("UPDATE municipio set foto='" + imagenString + "' where cod_muni ="+codMuni+"");
         Thread thread = new Thread(clientThreadInsert);
         thread.start();
         thread.join();
-        return clientThreadInsert.getDatos();
     }
 
     public boolean isConnected() {

@@ -93,12 +93,11 @@ public class RegistrarUsuario extends AppCompatActivity {
         }
     }
 
-    private ArrayList<Object> usuarioInsert(String usuario,String texto2,String texto3) throws InterruptedException {
+    private void usuarioInsert(String usuario,String texto2,String texto3) throws InterruptedException {
         ClientThreadInsert clientThreadInsert = new ClientThreadInsert("INSERT into usuario (nombre,contraseña, p_clave) values ('"+usuario+"','"+texto2+"','"+texto3+"')");
         Thread thread = new Thread(clientThreadInsert);
         thread.start();
         thread.join();
-        return clientThreadInsert.getDatos();
     }
 
     public void volver(View view){
