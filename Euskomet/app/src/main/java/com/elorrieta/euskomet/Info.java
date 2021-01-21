@@ -10,11 +10,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,8 @@ public class Info extends AppCompatActivity {
     private ConnectivityManager connectivityManager = null;
     String imagenString;
     double latitud = 0;
+    ImageButton btnFav;
+    boolean botonPulsado = false;
 
     Integer codMuni = 0;
     ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
@@ -47,10 +51,10 @@ public class Info extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
-        imageView3 = findViewById(R.id.imageView3);
+        /*imageView3 = findViewById(R.id.imageView3);
         imageView4 = findViewById(R.id.imgFav);
         imageView4.setVisibility(View.INVISIBLE);
-        imageView3.setVisibility(View.VISIBLE);
+        imageView3.setVisibility(View.VISIBLE);*/
 
         byte [] encodeByte= null;
         Bitmap bitmap = null;
@@ -58,6 +62,8 @@ public class Info extends AppCompatActivity {
         imagen = findViewById(R.id.imagen);
         txtNombreMuni = findViewById(R.id.txtNombreEspacio);
         txtInfoMuni = findViewById(R.id.txtInfoEspacio);
+        txtInfoMuni.setMovementMethod(new ScrollingMovementMethod());
+        btnFav = findViewById(R.id.btnFav);
 
         Bundle extras = getIntent().getExtras();
         codMuni = extras.getInt("codMunicipio");
@@ -190,6 +196,17 @@ public class Info extends AppCompatActivity {
         finish();
         Intent volver = new Intent (this, Lista.class);
         startActivity(volver);
+    }
+
+    //BOTON DE FAVORITO
+    public void pulsado(View view) {
+        if (botonPulsado) {
+            botonPulsado = false;
+            //btnFav.setImageDrawable();
+        } else {
+            botonPulsado = true;
+            //btnFav.setImageResource(Integer.parseInt("@android:drawable/btn_star_big_on"));
+        }
     }
 
     //ANIMACION
