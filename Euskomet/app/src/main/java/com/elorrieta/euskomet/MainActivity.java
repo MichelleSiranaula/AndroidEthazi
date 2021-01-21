@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     public static SharedPreferences prefe;
     public static String GuardarCont,GuardarUsu;
     private ImageView imageView;
+    ArrayList<usuarios> usuarioarr = new ArrayList<usuarios>();
+    String nombrearr,contrarr,parr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,38 +38,54 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void logear(View v) throws NoSuchAlgorithmException {
+    public void logear(View v) throws NoSuchAlgorithmException, InterruptedException {
 
         String usuario = etUsuario.getText().toString();
         String contraseña = etContraseña.getText().toString();
 
         prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
-        GuardarCont = prefe.getString(usuario+"contra", "");
-        GuardarUsu = prefe.getString(usuario+"nombre", "");
+        GuardarCont = prefe.getString(usuario + "contra", "");
+        GuardarUsu = prefe.getString(usuario + "nombre", "");
 
         if (etUsuario.getText().toString().isEmpty() || etContraseña.getText().toString().isEmpty()) {
-            Toast.makeText(this,"Algún campo está vacio", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Algún campo está vacio", Toast.LENGTH_LONG).show();
         } else {
-            if (GuardarUsu.equals(usuario)) {
 
-                MessageDigest md2 = MessageDigest.getInstance("SHA");
-                byte dataBytes2[] = contraseña.getBytes();
-                md2.update(dataBytes2);
+            ArrayList<Object> arrObject = new ArrayList<Object>();
+            arrObject = usuar();
+            for (int i = 0; i < arrObject.size(); i++) {
+                usuarioarr.add((usuarios) arrObject.get(i));
+            }
 
-                byte array2[] = md2.digest();
-                String texto3 = "";
-                for (byte b : array2) {
-                    texto3 += b;
+            for (int i = 0; i < usuarioarr.size(); i++) {
+
+                nombrearr = usuarioarr.get(i).getNombre().toString();
+                contrarr = usuarioarr.get(i).getContraseña().toString();
+                parr = usuarioarr.get(i).getP_clave().toString();
+
+                if (usuario.equals(nombrearr)) {
+
+                    MessageDigest md2 = MessageDigest.getInstance("SHA");
+                    byte dataBytes2[] = contraseña.getBytes();
+                    md2.update(dataBytes2);
+
+                    byte array2[] = md2.digest();
+                    String texto3 = "";
+                    for (byte b : array2) {
+                        texto3 += b;
+                    }
+
+                    if (texto3.equals(contrarr)) {
+                        Toast.makeText(this, "SESIÓN INICIADA", Toast.LENGTH_LONG).show();
+                        siguiente(null);
+
+                    } else {
+                        Toast.makeText(this, "CONTRASEÑA INCORRECTA", Toast.LENGTH_LONG).show();
+                    }
                 }
-
-                if (GuardarCont.equals(texto3)) {
-                    Toast.makeText(this, "SESIÓN INICIADA", Toast.LENGTH_LONG).show();
-                    siguiente(null);
-                } else {
-                    Toast.makeText(this,"CONTRASEÑA INCORRECTA", Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Toast.makeText(this,"USUARIO NO ENCONTRADO", Toast.LENGTH_LONG).show();
+            if(!usuario.equals(nombrearr)){
+                Toast.makeText(this, "USUARIO NO REGISTRADO", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -93,6 +112,14 @@ public class MainActivity extends AppCompatActivity {
         Animation oAnimacion = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.mover_derecha);
         imageView.startAnimation(oAnimacion);
+    }
+
+    private ArrayList<Object> usuar() throws InterruptedException {
+        ClientThread clientThread = new ClientThread("SELECT * FROM usuario", "usuarios");
+        Thread thread = new Thread(clientThread);
+        thread.start();
+        thread.join();
+        return clientThread.getDatos();
     }
 
 
