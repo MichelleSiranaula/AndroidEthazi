@@ -7,21 +7,23 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-public class ClientThread implements Runnable {
+public class ClientThreadSelect implements Runnable {
     private String sql = "";
     private String tipoObjeto = "";
 
-    public ClientThread(String sql) {
+    ArrayList<Object> datos = new ArrayList<Object>();
+
+    public ClientThreadSelect(String sql, String tipoObjeto) {
         this.sql = sql;
         this.tipoObjeto = tipoObjeto;
     }
 
     @Override
     public void run() {
-        Statement st = null;
+        ResultSet rs = null;
+        PreparedStatement st = null;
         Connection con = null;
         String sIP;
         String sPuerto;
@@ -36,8 +38,23 @@ public class ClientThread implements Runnable {
             sBBDD = "euskomet_db";
             String url = "jdbc:mysql://" + sIP + ":" + sPuerto + "/" + sBBDD + "?serverTimezone=UTC";
             con = DriverManager.getConnection( url, "user1", "");
-            st = con.createStatement();
-            st.executeUpdate(sql);
+            st = con.prepareStatement(sql);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                if (tipoObjeto.equals("Municipio")) {
+                    Municipio m = new Municipio(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getDouble(6), rs.getDouble(7));
+                    datos.add(m);
+                } else if (tipoObjeto.equals("Provincia")) {
+                    Provincia p = new Provincia(rs.getInt(1), rs.getString(2));
+                    datos.add(p);
+                } else if (tipoObjeto.equals("Espacios")) {
+                    EspaciosNaturales e = new EspaciosNaturales(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6), rs.getString(7), rs.getInt(8));
+                    datos.add(e);
+                }else if (tipoObjeto.equals("usuarios")){
+                   Usuarios u = new Usuarios(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
+                   datos.add(u);
+                }
+            }
         } catch (ClassNotFoundException e) {
             Log.e("ClassNotFoundException", "");
             e.printStackTrace();
@@ -49,6 +66,9 @@ public class ClientThread implements Runnable {
             e.printStackTrace();
         } finally {
             try {
+                if(rs!=null) {
+                    rs.close();
+                }
                 if(st!=null) {
                     st.close();
                 }
@@ -62,4 +82,8 @@ public class ClientThread implements Runnable {
         }
     }
 
+    public ArrayList<Object> getDatos() {
+        return datos;
+    }
 }
+

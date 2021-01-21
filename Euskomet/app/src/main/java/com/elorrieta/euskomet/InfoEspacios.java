@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
@@ -37,6 +35,7 @@ public class InfoEspacios extends AppCompatActivity {
     private ConnectivityManager connectivityManager = null;
     String imagenString;
     double latitud = 0;
+    String usuarioCon = "";
 
     Integer codEspacios = 0;
     ArrayList<EspaciosNaturales> datosEspacios = new ArrayList<EspaciosNaturales>();
@@ -60,6 +59,7 @@ public class InfoEspacios extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         codEspacios = extras.getInt("codEspacios");
         datosEspacios = (ArrayList<EspaciosNaturales>) getIntent().getSerializableExtra("arrayEspacios");
+        usuarioCon = extras.getString("usuarioCon");
 
         for (int i = 0; i< datosEspacios.size(); i++) {
             if (datosEspacios.get(i).getCod_enatural() == codEspacios) {
@@ -125,12 +125,11 @@ public class InfoEspacios extends AppCompatActivity {
         }
     }
 
-    private ArrayList<Object> insertarFoto() throws InterruptedException {
-        ClientThreadInsert clientThreadInsert = new ClientThreadInsert("UPDATE espacios_naturales set foto='" + imagenString + "' where cod_enatural ="+ codEspacios +"");
-        Thread thread = new Thread(clientThreadInsert);
+    private void insertarFoto() throws InterruptedException {
+        ClientThread clientThread = new ClientThread("UPDATE espacios_naturales set foto='" + imagenString + "' where cod_enatural ="+ codEspacios +"");
+        Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
-        return clientThreadInsert.getDatos();
     }
 
     public boolean isConnected() {

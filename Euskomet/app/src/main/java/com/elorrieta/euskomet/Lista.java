@@ -35,7 +35,6 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
 
     boolean info = true;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +77,6 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
         oRecyclerView.setLayoutManager(llm);
     }
 
-    //
     //ITEM SELECTED DEL SPINNER
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         String selec=spinner.getSelectedItem().toString();
@@ -182,20 +180,20 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     }
 
     private ArrayList<Object> conectarProvincia() throws InterruptedException {
-        ClientThread clientThread = new ClientThread("SELECT * FROM provincia", "Provincia");
-        Thread thread = new Thread(clientThread);
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT * FROM provincia", "Provincia");
+        Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
-        return clientThread.getDatos();
+        return clientThreadSelect.getDatos();
     }
 
     private ArrayList<Object> conectarMuni() throws InterruptedException {
 
-        ClientThread clientThread = new ClientThread("SELECT * FROM municipio", "Municipio");
-        Thread thread = new Thread(clientThread);
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT * FROM municipio", "Municipio");
+        Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
-        return clientThread.getDatos();
+        return clientThreadSelect.getDatos();
     }
 
     public boolean isConnected() {

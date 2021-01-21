@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -16,12 +15,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Info extends AppCompatActivity {
+public class Info extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     ImageView imageView3,imageView4, imagen;
     boolean fav = false;
@@ -39,8 +39,8 @@ public class Info extends AppCompatActivity {
     private ConnectivityManager connectivityManager = null;
     String imagenString;
     double latitud = 0;
-    ImageButton btnFav;
-    boolean botonPulsado = false;
+    CheckBox cbFavorito;
+    boolean existe;
 
     Integer codMuni = 0;
     ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
@@ -63,11 +63,24 @@ public class Info extends AppCompatActivity {
         txtNombreMuni = findViewById(R.id.txtNombreEspacio);
         txtInfoMuni = findViewById(R.id.txtInfoEspacio);
         txtInfoMuni.setMovementMethod(new ScrollingMovementMethod());
-        btnFav = findViewById(R.id.btnFav);
+        cbFavorito = findViewById(R.id.cbFavorito);
+        cbFavorito.setOnCheckedChangeListener(this);
 
         Bundle extras = getIntent().getExtras();
         codMuni = extras.getInt("codMunicipio");
         datosMuni = (ArrayList<Municipio>) getIntent().getSerializableExtra("arrayMunicipios");
+
+        try {
+            existe = existeDB();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (existe == true) {
+            cbFavorito.setChecked(true);
+        } else {
+            cbFavorito.setChecked(false);
+        }
 
         for (int i=0;i<datosMuni.size();i++) {
             if (datosMuni.get(i).getCod_muni() == codMuni) {
@@ -87,6 +100,25 @@ public class Info extends AppCompatActivity {
                 imagen.setImageBitmap(bitmap);*/
             }
         }
+    }
+
+    //ON CHECKEDCHANGED DEL COMBOBOX
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        try {
+            if (isChecked) {
+                if (existe == false) {
+                    insertarFav();
+                }
+            } else {
+                if (existe == true) {
+                    borrarFav();
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     //PARA HACER FOTOS
@@ -116,9 +148,6 @@ public class Info extends AppCompatActivity {
 
     //PARA GUARDAR LA FOTO EN LA BBDD
     public void conectarOnClick() {
-        //ArrayList<Object> arrObject = new ArrayList<Object>();
-        //ArrayList<String> listaNombProv = new ArrayList<String>();
-
         if (isConnected()) {
             try {
                 insertarFoto();
@@ -131,10 +160,32 @@ public class Info extends AppCompatActivity {
     }
 
     private void insertarFoto() throws InterruptedException {
-        ClientThreadInsert clientThreadInsert = new ClientThreadInsert("UPDATE municipio set foto='" + imagenString + "' where cod_muni ="+codMuni+"");
-        Thread thread = new Thread(clientThreadInsert);
+        ClientThread clientThread = new ClientThread("UPDATE municipio set foto='" + imagenString + "' where cod_muni ="+ codMuni +"");
+        Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
+    }
+
+    private void insertarFav() throws InterruptedException {
+        ClientThread clientThread = new ClientThread("INSERT into fav_municipio (cod_muni,cod_usuario) values ("+ codMuni +","+ MainActivity.codUsuario +")");
+        Thread thread = new Thread(clientThread);
+        thread.start();
+        thread.join();
+    }
+
+    private void borrarFav() throws InterruptedException {
+        ClientThread clientThread = new ClientThread("DELETE FROM fav_municipio WHERE cod_muni='" + codMuni + "' AND cod_usuario ="+ MainActivity.codUsuario +"");
+        Thread thread = new Thread(clientThread);
+        thread.start();
+        thread.join();
+    }
+
+    private boolean existeDB() throws InterruptedException {
+        ClientThreadSimple clientThread = new ClientThreadSimple("SELECT * FROM fav_municipio WHERE cod_muni='" + codMuni + "' AND cod_usuario ="+ MainActivity.codUsuario +"");
+        Thread thread = new Thread(clientThread);
+        thread.start();
+        thread.join();
+        return clientThread.getExiste();
     }
 
     public boolean isConnected() {
@@ -195,17 +246,6 @@ public class Info extends AppCompatActivity {
         finish();
         Intent volver = new Intent (this, Lista.class);
         startActivity(volver);
-    }
-
-    //BOTON DE FAVORITO
-    public void pulsado(View view) {
-        if (botonPulsado) {
-            botonPulsado = false;
-            //btnFav.setImageDrawable();
-        } else {
-            botonPulsado = true;
-            //btnFav.setImageResource(Integer.parseInt("@android:drawable/btn_star_big_on"));
-        }
     }
 
     //ANIMACION

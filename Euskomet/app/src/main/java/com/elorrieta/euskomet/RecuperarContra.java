@@ -116,11 +116,11 @@ public class RecuperarContra extends AppCompatActivity {
     }
 
 private ArrayList<Object> usuar() throws InterruptedException {
-        ClientThread clientThread = new ClientThread("SELECT * FROM usuario", "usuarios");
-        Thread thread = new Thread(clientThread);
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT * FROM usuario", "usuarios");
+        Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
-        return clientThread.getDatos();
+        return clientThreadSelect.getDatos();
         }
 
 
@@ -187,11 +187,10 @@ private ArrayList<Object> usuar() throws InterruptedException {
 
     }
 
-    private ArrayList<Object> usuarcamcontr() throws InterruptedException {
-        ClientThreadInsert clientThreadInsert = new ClientThreadInsert("UPDATE usuario set contraseña='" + texto3 + "' where nombre='"+Usuario+"'");
-        Thread thread = new Thread(clientThreadInsert);
+    private void usuarcamcontr() throws InterruptedException {
+        ClientThread clientThread = new ClientThread("UPDATE usuario set contraseña='" + texto3 + "' where nombre='"+Usuario+"'");
+        Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
-        return clientThreadInsert.getDatos();
     }
 }

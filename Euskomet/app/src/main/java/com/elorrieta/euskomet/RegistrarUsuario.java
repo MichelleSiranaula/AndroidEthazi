@@ -12,11 +12,6 @@ import android.widget.Toast;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
 
 public class RegistrarUsuario extends AppCompatActivity {
 
@@ -54,9 +49,6 @@ public class RegistrarUsuario extends AppCompatActivity {
             }else{
                 if (contraseñaNueva1.equals(contraseñaNueva2)) {
 
-                        MainActivity.prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = MainActivity.prefe.edit();
-
                         MessageDigest md = MessageDigest.getInstance("SHA");
                         byte dataBytes[] = contraseñaNueva1.getBytes();
                         md.update(dataBytes);
@@ -77,10 +69,7 @@ public class RegistrarUsuario extends AppCompatActivity {
                         }
 
                         usuarioInsert(usuario,texto2,texto3);
-//                        editor.putString(usuario+"nombre",usuario).commit();
-//                        editor.putString(usuario+"contra", texto2).commit();
-//                        editor.putString(usuario+"Palabra",texto3).commit();
-                    
+
                         Toast.makeText(this, "Usuario registrado", Toast.LENGTH_LONG).show();
                         finish();
                         Intent volver = new Intent(this, MainActivity.class);
@@ -94,8 +83,8 @@ public class RegistrarUsuario extends AppCompatActivity {
     }
 
     private void usuarioInsert(String usuario,String texto2,String texto3) throws InterruptedException {
-        ClientThreadInsert clientThreadInsert = new ClientThreadInsert("INSERT into usuario (nombre,contraseña, p_clave) values ('"+usuario+"','"+texto2+"','"+texto3+"')");
-        Thread thread = new Thread(clientThreadInsert);
+        ClientThread clientThread = new ClientThread("INSERT into usuario (nombre,contraseña, p_clave) values ('"+usuario+"','"+texto2+"','"+texto3+"')");
+        Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
     }

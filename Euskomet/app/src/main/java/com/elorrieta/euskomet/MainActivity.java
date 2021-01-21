@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -18,11 +19,14 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static int codUsuario = 0;
+
     private EditText etUsuario, etContraseña;
     public static SharedPreferences prefe;
     private ImageView imageView;
     ArrayList<Usuarios> usuarioarr = new ArrayList<Usuarios>();
     String nombrearr,contrarr,parr;
+    String usuarioCon="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
             for (int i = 0; i < usuarioarr.size(); i++) {
 
+                codUsuario = usuarioarr.get(i).getCod_usuario();
                 nombrearr = usuarioarr.get(i).getNombre();
                 contrarr = usuarioarr.get(i).getContraseña();
                 parr = usuarioarr.get(i).getP_clave();
 
                 if (usuario.equals(nombrearr)) {
-
+                    usuarioCon = nombrearr;
                     MessageDigest md2 = MessageDigest.getInstance("SHA");
                     byte dataBytes2[] = contraseña.getBytes();
                     md2.update(dataBytes2);
@@ -71,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
 
                     if (texto3.equals(contrarr)) {
                         Toast.makeText(this, "SESIÓN INICIADA", Toast.LENGTH_LONG).show();
-                        siguiente(null);
-
+                        siguiente();
+                        break;
                     } else {
                         Toast.makeText(this, "CONTRASEÑA INCORRECTA", Toast.LENGTH_LONG).show();
                     }
-                    break;
+
                 }
                 }
             if(!usuario.equals(nombrearr)){
@@ -97,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(recu);
     }
 
-    public void siguiente(View view){
+    public void siguiente(){
         finish();
         Intent sig = new Intent (this, menuprincipal.class);
         startActivity(sig);
@@ -109,11 +114,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ArrayList<Object> usuar() throws InterruptedException {
-        ClientThread clientThread = new ClientThread("SELECT * FROM usuario", "usuarios");
-        Thread thread = new Thread(clientThread);
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT * FROM usuario", "usuarios");
+        Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
-        return clientThread.getDatos();
+        return clientThreadSelect.getDatos();
     }
 
 }

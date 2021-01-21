@@ -6,23 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".Info">
 
+
     <TextView
         android:id="@+id/txtNombreEspacio"
         android:layout_width="174dp"
         android:layout_height="32dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="200dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="124dp"
         android:text="Nombre del Lugar"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFav" />
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imagen"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
+        android:layout_width="139dp"
+        android:layout_height="171dp"
         android:layout_marginTop="64dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginEnd="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -32,12 +33,12 @@
         android:layout_width="336dp"
         android:layout_height="259dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="24dp"
         android:scrollbars="vertical"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imagen" />
 
@@ -51,15 +52,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtInfoEspacio" />
 
-    <ImageButton
-        android:id="@+id/btnFav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
+    <CheckBox
+        android:id="@+id/cbFavorito"
+        android:layout_width="127dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="64dp"
-        android:onClick="pulsado"
+        android:button="@android:drawable/btn_star"
+        android:text="  Favorito"
+        android:textColorHighlight="#FFEB3B"
+        android:textColorLink="#FDE01F"
+        android:textCursorDrawable="@android:drawable/btn_star_big_on"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star_big_off" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNombreEspacio" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
