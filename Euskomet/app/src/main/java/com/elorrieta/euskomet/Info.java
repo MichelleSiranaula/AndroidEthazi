@@ -36,6 +36,7 @@ public class Info extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ConnectivityManager connectivityManager = null;
     String imagenString;
+    double latitud = 0;
 
     Integer codMuni = 0;
     ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
@@ -66,7 +67,7 @@ public class Info extends AppCompatActivity {
             if (datosMuni.get(i).getCod_muni() == codMuni) {
                 txtNombreMuni.setText(datosMuni.get(i).getNombre());
                 txtInfoMuni.setText(datosMuni.get(i).getDescripcion());
-
+                latitud = datosMuni.get(i).getLatitud();
 
                 /*encodeByte=Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
                 inputStream  = new ByteArrayInputStream(encodeByte);
@@ -95,7 +96,7 @@ public class Info extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //imagen.setImageBitmap(imageBitmap);
+            imagen.setImageBitmap(imageBitmap);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -103,11 +104,7 @@ public class Info extends AppCompatActivity {
             imagenString = String.valueOf(Base64.encode(imagenB, Base64.DEFAULT));
             Log.i("foto", imagenString);
 
-            byte [] encodeByte = Base64.decode(imagenString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
-            imagen.setImageBitmap(bitmap);
-
-            //conectarOnClick();
+            conectarOnClick();
         }
     }
 
@@ -163,7 +160,9 @@ public class Info extends AppCompatActivity {
         }
         if (id == R.id.mapa) {
             finish();
-            abrirMapa(datosMuni,codMuni);
+            if (latitud != 0) {
+                abrirMapa(datosMuni,codMuni, "Municipios");
+            }
             return true;
         }
         if (id == R.id.share) {
@@ -178,10 +177,11 @@ public class Info extends AppCompatActivity {
     }
 
     //PARA ABRIR EL MAPA
-    public void abrirMapa(ArrayList<Municipio> datosMuni, int codMuni){
+    public void abrirMapa(ArrayList<Municipio> datosMuni, int codMuni, String mapaM){
         Intent mapa = new Intent (this, GoogleMaps.class);
         mapa.putExtra("arrayMunicipios", datosMuni);
         mapa.putExtra("codMunicipio", codMuni);
+        mapa.putExtra("mapa", mapaM);
         startActivity(mapa);
     }
 

@@ -21,9 +21,13 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
     Integer codMuni = 0;
     ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
 
+    Integer codEspacios = 0;
+    ArrayList<EspaciosNaturales> datosEspacios = new ArrayList<EspaciosNaturales>();
+
     private GoogleMap mapa;
-    private LatLng oMunicipio = null;
+    private LatLng oSitio = null;
     private String nombre="";
+    private String quien="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +37,28 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
         codMuni = extras.getInt("codMunicipio");
         datosMuni = (ArrayList<Municipio>) getIntent().getSerializableExtra("arrayMunicipios");
 
-        for (int i=0;i<datosMuni.size();i++) {
-            if (datosMuni.get(i).getCod_muni() == codMuni) {
-                oMunicipio = new LatLng(datosMuni.get(i).getLongitud(), datosMuni.get(i).getLatitud());
-                nombre = datosMuni.get(i).getNombre();
+        codEspacios = extras.getInt("codEspacios");
+        datosEspacios = (ArrayList<EspaciosNaturales>) getIntent().getSerializableExtra("arrayEspacios");
+
+        quien = extras.getString("mapa");
+
+        if (quien.equals("Municipios")) {
+            for (int i=0;i<datosMuni.size();i++) {
+                if (datosMuni.get(i).getCod_muni() == codMuni) {
+                    oSitio = new LatLng(datosMuni.get(i).getLongitud(), datosMuni.get(i).getLatitud());
+                    nombre = datosMuni.get(i).getNombre();
+                }
+            }
+        } else if (quien.equals("Espacios")) {
+            for (int i=0;i<datosEspacios.size();i++) {
+                if (datosEspacios.get(i).getCod_enatural() == codEspacios) {
+                    oSitio = new LatLng(datosEspacios.get(i).getLongitud(), datosEspacios.get(i).getLatitud());
+                    nombre = datosEspacios.get(i).getNombre();
+                }
             }
         }
 
         setContentView(R.layout.activity_google_maps);
-        // Obtenemos el mapa de forma asíncrona (notificará cuando esté listo)
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.mapa);
         mapFragment.getMapAsync(this);
@@ -51,9 +68,9 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
         mapa = googleMap;
         mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mapa.getUiSettings().setZoomControlsEnabled(true); // Oculta loscontroles de zoom.
-        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(oMunicipio, 15));
+        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(oSitio, 15));
         mapa.addMarker(new MarkerOptions()
-                .position(oMunicipio)
+                .position(oSitio)
                 .title(nombre)
                 .icon(BitmapDescriptorFactory
                         .fromResource(android.R.drawable.ic_menu_compass))

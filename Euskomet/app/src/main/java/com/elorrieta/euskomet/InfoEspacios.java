@@ -36,6 +36,7 @@ public class InfoEspacios extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ConnectivityManager connectivityManager = null;
     String imagenString;
+    double latitud = 0;
 
     Integer codEspacios = 0;
     ArrayList<EspaciosNaturales> datosEspacios = new ArrayList<EspaciosNaturales>();
@@ -64,6 +65,7 @@ public class InfoEspacios extends AppCompatActivity {
             if (datosEspacios.get(i).getCod_enatural() == codEspacios) {
                 txtNombreEspacios.setText(datosEspacios.get(i).getNombre());
                 txtInfoEspacios.setText(datosEspacios.get(i).getDescripcion());
+                latitud = datosEspacios.get(i).getLatitud();
 
                 //FOTO DESDE DB
                 /*if (datosEspacios.get(i).getFoto().length() != 0) {
@@ -159,8 +161,9 @@ public class InfoEspacios extends AppCompatActivity {
         }
         if (id == R.id.mapa) {
             finish();
-            Intent volver = new Intent (this, GoogleMaps.class);
-            startActivity(volver);
+            if (latitud != 0) {
+                abrirMapa(datosEspacios, codEspacios, "Espacios");
+            }
             return true;
         }
         if (id == R.id.share) {
@@ -172,6 +175,15 @@ public class InfoEspacios extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //PARA ABRIR EL MAPA
+    public void abrirMapa(ArrayList<EspaciosNaturales> datosEspacios, int codEspacios, String mapaE){
+        Intent mapa = new Intent (this, GoogleMaps.class);
+        mapa.putExtra("arrayEspacios", datosEspacios);
+        mapa.putExtra("codEspacios", codEspacios);
+        mapa.putExtra("mapa", mapaE);
+        startActivity(mapa);
     }
 
     //PARA IR A LA PANTALLA DE LISTA
