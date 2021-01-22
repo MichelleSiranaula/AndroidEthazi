@@ -42,8 +42,8 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     CheckBox cbFavorito;
     boolean existe;
 
-    Integer codMuni = 0;
-    ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
+    Integer codMuni = Lista.cod_muni;
+    ArrayList<Municipio> datosMuni = Lista.arrayMuni;
     TextView txtNombreMuni, txtInfoMuni;
 
     @Override
@@ -66,9 +66,8 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         cbFavorito = findViewById(R.id.cbFavorito);
         cbFavorito.setOnCheckedChangeListener(this);
 
-        Bundle extras = getIntent().getExtras();
-        codMuni = extras.getInt("codMunicipio");
-        datosMuni = (ArrayList<Municipio>) getIntent().getSerializableExtra("arrayMunicipios");
+        //Bundle extras = getIntent().getExtras();
+        //datosMuni = (ArrayList<Municipio>) getIntent().getSerializableExtra("arrayMunicipios");
 
         try {
             existe = existeDB();
@@ -109,15 +108,26 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
             if (isChecked) {
                 if (existe == false) {
                     insertarFav();
+                    refrescar();
                 }
             } else {
                 if (existe == true) {
                     borrarFav();
+                    refrescar();
                 }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+    }
+
+    //REFRESCAR LA PAGINA
+    public void refrescar() {
+        Intent intent = new Intent(this, Info.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivityForResult(intent, 0);
+        overridePendingTransition(0,0);
 
     }
 

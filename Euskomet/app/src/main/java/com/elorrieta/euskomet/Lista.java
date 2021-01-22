@@ -21,6 +21,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class Lista extends AppCompatActivity implements AdapterView.OnItemSelectedListener,AdapterView.OnItemClickListener {
+    public static int cod_muni=0;
+
     private ConnectivityManager connectivityManager = null;
     private Spinner spinner;
     private RecyclerView oRecyclerView;
@@ -32,6 +34,9 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     ArrayList<Municipio> datosMuniProvB = new ArrayList<Municipio>();
     ArrayList<Municipio> datosMuniProvG = new ArrayList<Municipio>();
     ArrayList<Municipio> datosMuniProvA = new ArrayList<Municipio>();
+
+    //array que se pasa a la clase INFO
+    public static ArrayList<Municipio> arrayMuni = new ArrayList<Municipio>();
 
     boolean info = true;
 
@@ -84,21 +89,27 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
                 oListaAdapter = new ListaAdapter(datosMuniProvB, new OnItemClickListener() {
                     @Override
                     public void onItemClick(Municipio item) {
-                        siguiente(datosMuniProvB, item.getCod_muni());
+                        cod_muni=item.getCod_muni();
+                        arrayMuni = datosMuniProvB;
+                        siguiente();
                     }
                 });
         } else if (selec.equals("Gipuzkoa")) {
             oListaAdapter = new ListaAdapter(datosMuniProvG,new OnItemClickListener() {
                 @Override
                 public void onItemClick(Municipio item) {
-                    siguiente(datosMuniProvG, item.getCod_muni());
+                    cod_muni=item.getCod_muni();
+                    arrayMuni = datosMuniProvG;
+                    siguiente();
                 }
             });
         } else if (selec.equals("Araba")) {
             oListaAdapter = new ListaAdapter(datosMuniProvA,new OnItemClickListener() {
                 @Override
                 public void onItemClick(Municipio item) {
-                    siguiente(datosMuniProvA, item.getCod_muni());
+                    cod_muni=item.getCod_muni();
+                    arrayMuni = datosMuniProvA;
+                    siguiente();
                 }
             });
         }
@@ -113,11 +124,9 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     }
 
     //PARA IR A LA PANTALLA DE LISTA
-    public void siguiente(ArrayList<Municipio> arrayMuni, int codMuni){
+    public void siguiente(){
         finish();
         Intent siguiente = new Intent (this, Info.class);
-        siguiente.putExtra("arrayMunicipios", arrayMuni);
-        siguiente.putExtra("codMunicipio", codMuni);
         startActivity(siguiente);
     }
 
