@@ -12,20 +12,14 @@ import java.util.ArrayList;
 
 public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiViewHolder> {
     private ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
-    //private AdapterView.OnItemClickListener listener;
     private OnItemClickListener listener;
-
-    /*public ListaAdapter(ArrayList<Municipio> datosMuniProvB, OnItemClickListener onItemClickListener) {
-    }*/
 
     public class MiViewHolder extends RecyclerView.ViewHolder {
         public TextView nombreMuni;
-        public TextView descripcionMuni;
 
         public MiViewHolder(View view) {
             super(view);
             nombreMuni = (TextView) view.findViewById(R.id.tvNombre);
-            descripcionMuni = (TextView) view.findViewById(R.id.tvDescripcion);
         }
     }
 
@@ -38,7 +32,6 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiViewHolder
     public void onBindViewHolder(MiViewHolder holder, int position) {
         Municipio m = datosMuni.get(position);
         holder.nombreMuni.setText((CharSequence) datosMuni.get(position).getNombre());
-        holder.descripcionMuni.setText((CharSequence) datosMuni.get(position).getDescripcion());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

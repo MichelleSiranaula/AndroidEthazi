@@ -60,6 +60,7 @@
             android:layout_marginLeft="80dp"
             android:layout_marginTop="550dp"
             android:text="Historico del lugar"
+            android:background="#2c72bc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtInfoEspacio" />
 

@@ -14,6 +14,7 @@
         android:layout_marginStart="216dp"
         android:layout_marginTop="128dp"
         android:spinnerMode="dropdown"
+        android:backgroundTint="#2f6078"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,10 +23,10 @@
         android:layout_width="344dp"
         android:layout_height="466dp"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="44dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintHorizontal_bias="0.38"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerProv" />
 
@@ -35,17 +36,18 @@
         android:layout_height="38dp"
         android:layout_marginTop="128dp"
         android:layout_marginEnd="20dp"
+        android:backgroundTint="#2f6078"
         app:layout_constraintEnd_toStartOf="@+id/spinnerProv"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/txtMuni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginBottom="12dp"
         android:fontFamily="sans-serif-black"
-        android:text="FILTROS"
+        android:text="MUNICIPIOS"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toTopOf="@+id/spinnerFiltros"
         app:layout_constraintStart_toStartOf="parent" />

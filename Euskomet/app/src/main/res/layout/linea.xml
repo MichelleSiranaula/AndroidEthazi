@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="330dp"
-        android:layout_height="100dp"
+        android:layout_width="278dp"
+        android:layout_height="68dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
@@ -17,16 +17,19 @@
             android:id="@+id/tvNombre"
             android:layout_width="171dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvDescripcion"
-            android:layout_width="176dp"
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="40dp" />
+            android:layout_marginTop="20dp"
+            app:srcCompat="@android:drawable/ic_menu_mapmode" />
+
     </androidx.cardview.widget.CardView>
 
 

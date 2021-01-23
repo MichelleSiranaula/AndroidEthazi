@@ -46,7 +46,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista);
+        setContentView(R.layout.activity_lista_espacios);
 
         spinnerProv = findViewById(R.id.spinnerProv);
         spinnerProv.setOnItemSelectedListener(this);

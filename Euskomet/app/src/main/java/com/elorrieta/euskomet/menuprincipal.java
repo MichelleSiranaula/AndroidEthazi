@@ -31,7 +31,7 @@ public class menuprincipal extends AppCompatActivity {
         Intent siguiente = new Intent (this, ListaEspacios.class);
         startActivity(siguiente);
     }
-
+    
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menusen, menu);
         return true;

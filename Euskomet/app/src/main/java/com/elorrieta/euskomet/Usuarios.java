@@ -16,7 +16,6 @@ public class Usuarios implements Serializable {
         this.cod_usuario = cod_usuario;
     }
 
-
     public String getNombre() {
         return nombre;
     }

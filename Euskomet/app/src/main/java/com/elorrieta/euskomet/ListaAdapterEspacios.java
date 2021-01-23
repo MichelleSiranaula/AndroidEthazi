@@ -15,12 +15,10 @@ public class ListaAdapterEspacios extends RecyclerView.Adapter<ListaAdapterEspac
 
     public class MiViewHolder extends RecyclerView.ViewHolder {
         public TextView nombreEspacios;
-        public TextView descripcionEspacios;
 
         public MiViewHolder(View view) {
             super(view);
             nombreEspacios = (TextView) view.findViewById(R.id.tvNombre);
-            descripcionEspacios = (TextView) view.findViewById(R.id.tvDescripcion);
         }
     }
 
@@ -33,7 +31,6 @@ public class ListaAdapterEspacios extends RecyclerView.Adapter<ListaAdapterEspac
     public void onBindViewHolder(@NonNull ListaAdapterEspacios.MiViewHolder holder, int position) {
         EspaciosNaturales e = datosEspacios.get(position);
         holder.nombreEspacios.setText((CharSequence) datosEspacios.get(position).getNombre());
-        holder.descripcionEspacios.setText((CharSequence) datosEspacios.get(position).getDescripcion());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

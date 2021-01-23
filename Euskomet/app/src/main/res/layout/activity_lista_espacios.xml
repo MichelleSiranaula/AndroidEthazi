@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/txtEN"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/nubefondo"
@@ -13,8 +14,8 @@
         android:layout_height="38dp"
         android:layout_marginStart="216dp"
         android:layout_marginTop="128dp"
-        android:background="#83F8F3F3"
         android:spinnerMode="dropdown"
+        android:backgroundTint="#2f6078"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,7 +24,7 @@
         android:layout_width="344dp"
         android:layout_height="466dp"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="44dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
@@ -36,19 +37,22 @@
         android:layout_height="38dp"
         android:layout_marginTop="128dp"
         android:layout_marginEnd="20dp"
-        android:background="#83F8F3F3"
+        android:backgroundTint="#2f6078"
         app:layout_constraintEnd_toStartOf="@+id/spinnerProv"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/txtEspacios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginStart="24dp"
+        android:fontFamily="sans-serif-black"
         android:text="ESPACIOS NATURALES"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toTopOf="@+id/spinnerFiltros"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.71" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

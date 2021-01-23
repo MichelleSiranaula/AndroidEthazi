@@ -4,7 +4,112 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/nubefondo"
     tools:context=".RegistrarUsuario">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="359dp"
+        android:layout_height="372dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        app:cardBackgroundColor="#83F8F3F3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/idPClaveTxt"
+            android:layout_width="210dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="300dp"
+            android:layout_marginEnd="28dp"
+            android:ems="10"
+            android:hint="Palabra Clave"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idLocalidadText" />
+
+        <TextView
+            android:id="@+id/tvUsuario"
+            android:layout_width="48dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Usuario"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/idUsuarioTxt"
+            android:layout_width="210dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="28dp"
+            android:ems="10"
+            android:hint="Usuario"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvContraseña"
+            android:layout_width="105dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="100dp"
+            android:text="Contraseña"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUsuario" />
+
+        <EditText
+            android:id="@+id/idContratxt"
+            android:layout_width="210dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="28dp"
+            android:ems="10"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idUsuarioTxt" />
+
+        <TextView
+            android:id="@+id/tvContraseña2"
+            android:layout_width="198dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="190dp"
+            android:text="Repetir Contraseña"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvContraseña" />
+
+        <EditText
+            android:id="@+id/idRepetirContraText"
+            android:layout_width="210dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="210dp"
+            android:layout_marginEnd="28dp"
+            android:ems="10"
+            android:hint="Repetir contraseña"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idContratxt" />
+
+        <TextView
+            android:id="@+id/idPClave"
+            android:layout_width="138dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="280dp"
+            android:text="Palabra Clave"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/button5"
@@ -14,6 +119,7 @@
         android:layout_marginBottom="96dp"
         android:onClick="volver"
         android:text="Cancelar"
+        android:background="#2c72bc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -25,117 +131,10 @@
         android:layout_marginBottom="96dp"
         android:onClick="crear"
         android:text="Guardar"
+        android:background="#2c72bc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/idLocalidadText"
-        android:layout_width="210dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="28dp"
-        android:ems="10"
-        android:hint="Localidad"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idRepetirContraText" />
 
-    <EditText
-        android:id="@+id/idPClaveTxt"
-        android:layout_width="210dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="28dp"
-        android:ems="10"
-        android:hint="Palabra Clave"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idLocalidadText" />
-
-    <TextView
-        android:id="@+id/tvUsuario"
-        android:layout_width="48dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="90dp"
-        android:text="Usuario"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/idUsuarioTxt"
-        android:layout_width="210dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="74dp"
-        android:layout_marginEnd="28dp"
-        android:ems="10"
-        android:hint="Usuario"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvContraseña"
-        android:layout_width="72dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"
-        android:text="Contraseña"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUsuario" />
-
-    <EditText
-        android:id="@+id/idContratxt"
-        android:layout_width="210dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="28dp"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idUsuarioTxt" />
-
-    <TextView
-        android:id="@+id/tvContraseña2"
-        android:layout_width="120dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="27dp"
-        android:text="Repetir Contraseña"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvContraseña" />
-
-    <EditText
-        android:id="@+id/idRepetirContraText"
-        android:layout_width="210dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="28dp"
-        android:ems="10"
-        android:hint="Repetir contraseña"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idContratxt" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="61dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="44dp"
-        android:text="Localidad"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvContraseña2" />
-
-    <TextView
-        android:id="@+id/idPClave"
-        android:layout_width="86dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="57dp"
-        android:text="Palabra Clave"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

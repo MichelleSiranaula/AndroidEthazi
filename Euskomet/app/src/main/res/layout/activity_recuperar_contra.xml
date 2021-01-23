@@ -4,131 +4,153 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/nubefondo"
     tools:context=".RecuperarContra">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="362dp"
+        android:layout_height="402dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="72dp"
+        app:cardBackgroundColor="#83F8F3F3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/idRepeContratxt"
+            android:layout_width="210dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="340dp"
+            android:layout_marginEnd="30dp"
+            android:ems="10"
+            android:hint="Contraseña nueva"
+            android:inputType="textPersonName"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idContraNuevatxt" />
+
+        <TextView
+            android:id="@+id/idRepeContra"
+            android:layout_width="137dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="310dp"
+            android:text="Contraseña nueva"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idContraNueva" />
+
+        <TextView
+            android:id="@+id/idUsuario"
+            android:layout_width="58dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="25dp"
+            android:text="Usuario"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/usuariotext"
+            android:layout_width="210dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="30dp"
+            android:ems="10"
+            android:hint="Usuario"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/idPalaClave"
+            android:layout_width="104dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="115dp"
+            android:text="Palabra Clave"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idUsuario" />
+
+        <EditText
+            android:id="@+id/Clavetext"
+            android:layout_width="210dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="140dp"
+            android:layout_marginEnd="30dp"
+            android:ems="10"
+            android:hint="Palabra Clave"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usuariotext" />
+
+        <TextView
+            android:id="@+id/idContraNueva"
+            android:layout_width="137dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="210dp"
+            android:text="Contraseña nueva"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idPalaClave" />
+
+        <EditText
+            android:id="@+id/idContraNuevatxt"
+            android:layout_width="210dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="240dp"
+            android:layout_marginEnd="28dp"
+            android:ems="10"
+            android:hint="Contraseña nueva"
+            android:inputType="textPersonName"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Clavetext" />
+
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/button6"
-        android:layout_height="48dp"
+        android:layout_width="100dp"
+        android:layout_height="51dp"
         android:layout_marginEnd="68dp"
         android:layout_marginBottom="88dp"
         android:onClick="volver"
         android:text="Cancelar"
+        android:background="#2c72bc"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="99dp"
+        android:layout_width="112dp"
         android:layout_height="48dp"
         android:layout_marginStart="68dp"
         android:layout_marginBottom="88dp"
         android:onClick="recuperar"
         android:text="Continuar"
+        android:background="#2c72bc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button8"
-        android:layout_width="99dp"
-        android:layout_height="48dp"
+        android:layout_width="112dp"
+        android:layout_height="51dp"
         android:layout_marginStart="68dp"
         android:layout_marginBottom="88dp"
         android:onClick="guardar2"
         android:text="Guardar"
         android:visibility="invisible"
+        android:background="#2c72bc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/idRepeContratxt"
-        android:layout_width="210dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:ems="10"
-        android:hint="Contraseña nueva"
-        android:inputType="textPersonName"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idContraNuevatxt" />
 
-    <TextView
-        android:id="@+id/idRepeContra"
-        android:layout_width="137dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="38dp"
-        android:text="Contraseña nueva"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idContraNueva" />
-
-    <TextView
-        android:id="@+id/idUsuario"
-        android:layout_width="58dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="120dp"
-        android:text="Usuario"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/usuariotext"
-        android:layout_width="210dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="30dp"
-        android:ems="10"
-        android:hint="Usuario"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/idPalaClave"
-        android:layout_width="104dp"
-        android:layout_height="21dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="57dp"
-        android:text="Palabra Clave"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idUsuario" />
-
-    <EditText
-        android:id="@+id/Clavetext"
-        android:layout_width="210dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:ems="10"
-        android:hint="Palabra Clave"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usuariotext" />
-
-    <TextView
-        android:id="@+id/idContraNueva"
-        android:layout_width="137dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="39dp"
-        android:text="Contraseña nueva"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idPalaClave" />
-
-    <EditText
-        android:id="@+id/idContraNuevatxt"
-        android:layout_width="210dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="28dp"
-        android:ems="10"
-        android:hint="Contraseña nueva"
-        android:inputType="textPersonName"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Clavetext" />
 </androidx.constraintlayout.widget.ConstraintLayout>
