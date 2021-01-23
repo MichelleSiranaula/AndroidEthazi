@@ -40,7 +40,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista);
 
-        spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinnerProv);
         spinner.setOnItemSelectedListener(this);
 
         conectarOnClick(null);

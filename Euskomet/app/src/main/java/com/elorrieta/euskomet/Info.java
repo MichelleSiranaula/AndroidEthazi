@@ -51,11 +51,6 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
-        /*imageView3 = findViewById(R.id.imageView3);
-        imageView4 = findViewById(R.id.imgFav);
-        imageView4.setVisibility(View.INVISIBLE);
-        imageView3.setVisibility(View.VISIBLE);*/
-
         byte [] encodeByte= null;
         Bitmap bitmap = null;
         InputStream inputStream = null;
@@ -65,9 +60,6 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         txtInfoMuni.setMovementMethod(new ScrollingMovementMethod());
         cbFavorito = findViewById(R.id.cbFavorito);
         cbFavorito.setOnCheckedChangeListener(this);
-
-        //Bundle extras = getIntent().getExtras();
-        //datosMuni = (ArrayList<Municipio>) getIntent().getSerializableExtra("arrayMunicipios");
 
         try {
             existe = existeDB();
@@ -176,6 +168,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         thread.join();
     }
 
+    //INSERTAR EN LA TABLA FAV_MUNICIPIO
     private void insertarFav() throws InterruptedException {
         ClientThread clientThread = new ClientThread("INSERT into fav_municipio (cod_muni,cod_usuario) values ("+ codMuni +","+ MainActivity.codUsuario +")");
         Thread thread = new Thread(clientThread);
@@ -183,6 +176,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         thread.join();
     }
 
+    //BORRAR DE LA TABLA FAV_MUNICIPIO
     private void borrarFav() throws InterruptedException {
         ClientThread clientThread = new ClientThread("DELETE FROM fav_municipio WHERE cod_muni='" + codMuni + "' AND cod_usuario ="+ MainActivity.codUsuario +"");
         Thread thread = new Thread(clientThread);
@@ -190,6 +184,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         thread.join();
     }
 
+    //SELECT PARA SABER SI EXISTE EN LA TABLA DE FAV_MUNI
     private boolean existeDB() throws InterruptedException {
         ClientThreadSimple clientThread = new ClientThreadSimple("SELECT * FROM fav_municipio WHERE cod_muni='" + codMuni + "' AND cod_usuario ="+ MainActivity.codUsuario +"");
         Thread thread = new Thread(clientThread);
@@ -198,6 +193,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         return clientThread.getExiste();
     }
 
+    //PARA SABER SI ESTA CONECTADO
     public boolean isConnected() {
         boolean ret = false;
         try {
@@ -256,19 +252,6 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         finish();
         Intent volver = new Intent (this, Lista.class);
         startActivity(volver);
-    }
-
-    //ANIMACION
-    public void mostrarfav(View view){
-        imageView3.setVisibility(View.INVISIBLE);
-        imageView4.setVisibility(View.VISIBLE);
-        fav=true;
-    }
-
-    public void quitarfav(View view){
-        imageView3.setVisibility(View.VISIBLE);
-        imageView4.setVisibility(View.INVISIBLE);
-        fav = false;
     }
 
 }

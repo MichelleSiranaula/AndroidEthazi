@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,16 +23,19 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     public static int cod_muni=0;
 
     private ConnectivityManager connectivityManager = null;
-    private Spinner spinner;
+    private Spinner spinnerProv, spinnerFiltros;
     private RecyclerView oRecyclerView;
     private ListaAdapter oListaAdapter = null;
 
+    ArrayList<String> arrayFiltros = new ArrayList<String>();
     ArrayList<Provincia> datosProv = new ArrayList<Provincia>();
 
     ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
     ArrayList<Municipio> datosMuniProvB = new ArrayList<Municipio>();
     ArrayList<Municipio> datosMuniProvG = new ArrayList<Municipio>();
     ArrayList<Municipio> datosMuniProvA = new ArrayList<Municipio>();
+
+    ArrayList<Municipio> muniFav = new ArrayList<Municipio>();
 
     //array que se pasa a la clase INFO
     public static ArrayList<Municipio> arrayMuni = new ArrayList<Municipio>();
@@ -45,10 +47,33 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista);
 
-        spinner = findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(this);
+        spinnerProv = findViewById(R.id.spinnerProv);
+        spinnerProv.setOnItemSelectedListener(this);
 
+        spinnerFiltros = findViewById(R.id.spinnerFiltros);
+        spinnerFiltros.setOnItemSelectedListener(this);
+
+        //PARA LLENAR EL SPINNER DE PROVINCIAS
         conectarOnClick(null);
+
+        //PARA LLENAR EL SPINNER DE FILTROS
+        arrayFiltros.add("Provincias");
+        arrayFiltros.add("Favoritos");
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, arrayFiltros);
+        spinnerFiltros.setAdapter(adapter2);
+
+        //METER DATOS EN EL ARRAY muniFav
+        try {
+            ArrayList<Object> arrObject = new ArrayList<Object>();
+            arrObject = conectarMuniFav();
+            for (int i=0;i<arrObject.size();i++) {
+                muniFav.add((Municipio) arrObject.get(i));
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //METER DATOS EN EL ARRAY datosMuni
         try {
@@ -84,8 +109,12 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
 
     //ITEM SELECTED DEL SPINNER
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-        String selec=spinner.getSelectedItem().toString();
-        if (selec.equals("Bizkaia")) {
+        String selecF= spinnerFiltros.getSelectedItem().toString();
+        //CUANDO SELECCIONA PROVINCIAS EN EL SPINNER FILTROS
+        if (selecF.equals("Provincias")) {
+            spinnerProv.setEnabled(true);
+            String selecP = spinnerProv.getSelectedItem().toString();
+            if (selecP.equals("Bizkaia")) {
                 oListaAdapter = new ListaAdapter(datosMuniProvB, new OnItemClickListener() {
                     @Override
                     public void onItemClick(Municipio item) {
@@ -94,26 +123,40 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
                         siguiente();
                     }
                 });
-        } else if (selec.equals("Gipuzkoa")) {
-            oListaAdapter = new ListaAdapter(datosMuniProvG,new OnItemClickListener() {
+            } else if (selecP.equals("Gipuzkoa")) {
+                oListaAdapter = new ListaAdapter(datosMuniProvG,new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Municipio item) {
+                        cod_muni=item.getCod_muni();
+                        arrayMuni = datosMuniProvG;
+                        siguiente();
+                    }
+                });
+            } else if (selecP.equals("Araba")) {
+                oListaAdapter = new ListaAdapter(datosMuniProvA,new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Municipio item) {
+                        cod_muni=item.getCod_muni();
+                        arrayMuni = datosMuniProvA;
+                        siguiente();
+                    }
+                });
+            }
+            oRecyclerView.setAdapter(oListaAdapter);
+        } else if (selecF.equals("Favoritos")) {
+            spinnerProv.setEnabled(false);
+            oListaAdapter = new ListaAdapter(muniFav,new OnItemClickListener() {
                 @Override
                 public void onItemClick(Municipio item) {
                     cod_muni=item.getCod_muni();
-                    arrayMuni = datosMuniProvG;
+                    arrayMuni = muniFav;
                     siguiente();
                 }
             });
-        } else if (selec.equals("Araba")) {
-            oListaAdapter = new ListaAdapter(datosMuniProvA,new OnItemClickListener() {
-                @Override
-                public void onItemClick(Municipio item) {
-                    cod_muni=item.getCod_muni();
-                    arrayMuni = datosMuniProvA;
-                    siguiente();
-                }
-            });
+            oRecyclerView.setAdapter(oListaAdapter);
         }
-        oRecyclerView.setAdapter(oListaAdapter);
+
+
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
@@ -182,7 +225,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
                 e.printStackTrace();
             }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, listaNombProv);
-                spinner.setAdapter(adapter);
+                spinnerProv.setAdapter(adapter);
         } else {
             Toast.makeText(getApplicationContext(), "ERROR_NO_INTERNET", Toast.LENGTH_SHORT).show();
         }
@@ -199,6 +242,14 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     private ArrayList<Object> conectarMuni() throws InterruptedException {
 
         ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT * FROM municipio", "Municipio");
+        Thread thread = new Thread(clientThreadSelect);
+        thread.start();
+        thread.join();
+        return clientThreadSelect.getDatos();
+    }
+
+    private ArrayList<Object> conectarMuniFav() throws InterruptedException {
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT m.* FROM municipio m, fav_municipio fm WHERE fm.cod_muni=" + cod_muni + " AND fm.cod_usuario ="+ MainActivity.codUsuario +"","Municipio");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();

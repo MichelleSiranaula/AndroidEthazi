@@ -8,15 +8,12 @@
     tools:context=".Lista">
 
     <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="205dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="100dp"
+        android:id="@+id/spinnerProv"
+        android:layout_width="160dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="216dp"
+        android:layout_marginTop="128dp"
         android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,12 +22,21 @@
         android:layout_width="344dp"
         android:layout_height="466dp"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="44dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerProv" />
+
+    <Spinner
+        android:id="@+id/spinnerFiltros"
+        android:layout_width="158dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerProv"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
