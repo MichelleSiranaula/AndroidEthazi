@@ -114,6 +114,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
         String selecF= spinnerFiltros.getSelectedItem().toString();
         //CUANDO SELECCIONA PROVINCIAS EN EL SPINNER FILTROS
         if (selecF.equals("Provincias")) {
+            spinnerProv.setEnabled(true);
             String selec= spinnerProv.getSelectedItem().toString();
             if (selec.equals("Bizkaia")) {
                 oListaAdapter = new ListaAdapterEspacios(datosEspaciosB, new OnItemClickListenerE() {
@@ -239,7 +240,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private ArrayList<Object> conectarEspaciosFav() throws InterruptedException {
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT e.* FROM espacios_naturales e, fav_espacios fe WHERE fe.cod_enatural=" + cod_espacios + " AND fe.cod_usuario ="+ MainActivity.codUsuario +"","EspaciosF");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT e.* FROM espacios_naturales e, fav_espacios fe WHERE fe.cod_enatural = e.cod_enatural AND fe.cod_usuario ="+ MainActivity.codUsuario +"","EspaciosF");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();

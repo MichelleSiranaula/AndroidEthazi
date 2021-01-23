@@ -155,11 +155,18 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
             });
             oRecyclerView.setAdapter(oListaAdapter);
         }
-
-
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    //REFRESCAR LA PAGINA
+    public void refrescar() {
+        Intent intent = new Intent(this, Lista.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivityForResult(intent, 0);
+        overridePendingTransition(0,0);
+
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -237,7 +244,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     }
 
     private ArrayList<Object> conectarMuniFav() throws InterruptedException {
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT m.* FROM municipio m, fav_municipio fm WHERE fm.cod_muni=" + cod_muni + " AND fm.cod_usuario ="+ MainActivity.codUsuario +"","Municipio");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT m.* FROM municipio m, fav_municipio fm WHERE fm.cod_muni = m.cod_muni AND fm.cod_usuario ="+ MainActivity.codUsuario +"","Municipio");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
