@@ -67,7 +67,7 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mapa = googleMap;
         mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        mapa.getUiSettings().setZoomControlsEnabled(true); // Oculta loscontroles de zoom.
+        mapa.getUiSettings().setZoomControlsEnabled(true);
         mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(oSitio, 15));
         mapa.addMarker(new MarkerOptions()
                 .position(oSitio)
