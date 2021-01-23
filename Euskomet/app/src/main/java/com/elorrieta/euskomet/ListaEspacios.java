@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,18 +21,25 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class ListaEspacios extends AppCompatActivity implements AdapterView.OnItemSelectedListener,AdapterView.OnItemClickListener {
+    public static int cod_espacios = 0;
 
     private ConnectivityManager connectivityManager = null;
-    private Spinner spinner;
+    private Spinner spinnerProv, spinnerFiltros;
     private RecyclerView oRecyclerView;
     private ListaAdapterEspacios oListaAdapter = null;
 
+    ArrayList<String> arrayFiltros = new ArrayList<String>();
     ArrayList<Provincia> datosProv = new ArrayList<Provincia>();
 
     ArrayList<EspaciosNaturales> datosEspacios = new ArrayList<EspaciosNaturales>();
     ArrayList<EspaciosNaturales> datosEspaciosB = new ArrayList<EspaciosNaturales>();
     ArrayList<EspaciosNaturales> datosEspaciosG = new ArrayList<EspaciosNaturales>();
     ArrayList<EspaciosNaturales> datosEspaciosA = new ArrayList<EspaciosNaturales>();
+
+    ArrayList<EspaciosNaturales> espaciosFav = new ArrayList<EspaciosNaturales>();
+
+    //array que se pasa a la clase INFO
+    public static ArrayList<EspaciosNaturales> arrayEspacios = new ArrayList<EspaciosNaturales>();
 
     boolean info = true;
 
@@ -40,10 +48,33 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista);
 
-        spinner = findViewById(R.id.spinnerProv);
-        spinner.setOnItemSelectedListener(this);
+        spinnerProv = findViewById(R.id.spinnerProv);
+        spinnerProv.setOnItemSelectedListener(this);
 
+        spinnerFiltros = findViewById(R.id.spinnerFiltros);
+        spinnerFiltros.setOnItemSelectedListener(this);
+
+        //PARA LLENAR EL SPINNER DE PROVINCIAS
         conectarOnClick(null);
+
+        //PARA LLENAR EL SPINNER DE FILTROS
+        arrayFiltros.add("Provincias");
+        arrayFiltros.add("Favoritos");
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, arrayFiltros);
+        spinnerFiltros.setAdapter(adapter2);
+
+        //METER DATOS EN EL ARRAY espaciosFav
+        try {
+            ArrayList<Object> arrObject = new ArrayList<Object>();
+            arrObject = conectarEspaciosFav();
+            for (int i=0;i<arrObject.size();i++) {
+                espaciosFav.add((EspaciosNaturales) arrObject.get(i));
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //METER DATOS EN EL ARRAY datosEspacios
         try {
@@ -80,31 +111,54 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     //
     //ITEM SELECTED DEL SPINNER
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-        String selec=spinner.getSelectedItem().toString();
-        if (selec.equals("Bizkaia")) {
-            oListaAdapter = new ListaAdapterEspacios(datosEspaciosB, new OnItemClickListenerE() {
-                @Override
-                public void onItemClick(EspaciosNaturales item) {
-                    siguiente(datosEspaciosB, item.getCod_enatural());
-                }
-            });
+        String selecF= spinnerFiltros.getSelectedItem().toString();
+        //CUANDO SELECCIONA PROVINCIAS EN EL SPINNER FILTROS
+        if (selecF.equals("Provincias")) {
+            String selec= spinnerProv.getSelectedItem().toString();
+            if (selec.equals("Bizkaia")) {
+                oListaAdapter = new ListaAdapterEspacios(datosEspaciosB, new OnItemClickListenerE() {
+                    @Override
+                    public void onItemClick(EspaciosNaturales item) {
+                        cod_espacios=item.getCod_enatural();
+                        Log.i("cod_ESPACIOS", cod_espacios+"");
+                        arrayEspacios = datosEspaciosB;
+                        siguiente();
+                    }
+                });
 
-        } else if (selec.equals("Gipuzkoa")) {
-            oListaAdapter = new ListaAdapterEspacios(datosEspaciosG,new OnItemClickListenerE() {
+            } else if (selec.equals("Gipuzkoa")) {
+                oListaAdapter = new ListaAdapterEspacios(datosEspaciosG,new OnItemClickListenerE() {
+                    @Override
+                    public void onItemClick(EspaciosNaturales item) {
+                        cod_espacios=item.getCod_enatural();
+                        arrayEspacios = datosEspaciosG;
+                        siguiente();
+                    }
+                });
+            } else if (selec.equals("Araba")) {
+                oListaAdapter = new ListaAdapterEspacios(datosEspaciosA,new OnItemClickListenerE() {
+                    @Override
+                    public void onItemClick(EspaciosNaturales item) {
+                        cod_espacios=item.getCod_enatural();
+                        arrayEspacios = datosEspaciosA;
+                        siguiente();
+                    }
+                });
+            }
+            oRecyclerView.setAdapter(oListaAdapter);
+        } else if (selecF.equals("Favoritos")) {
+            spinnerProv.setEnabled(false);
+            oListaAdapter = new ListaAdapterEspacios(espaciosFav,new OnItemClickListenerE() {
                 @Override
                 public void onItemClick(EspaciosNaturales item) {
-                    siguiente(datosEspaciosG, item.getCod_enatural());
+                    cod_espacios=item.getCod_enatural();
+                    arrayEspacios = espaciosFav;
+                    siguiente();
                 }
             });
-        } else if (selec.equals("Araba")) {
-            oListaAdapter = new ListaAdapterEspacios(datosEspaciosA,new OnItemClickListenerE() {
-                @Override
-                public void onItemClick(EspaciosNaturales item) {
-                    siguiente(datosEspaciosA, item.getCod_enatural());
-                }
-            });
+            oRecyclerView.setAdapter(oListaAdapter);
         }
-        oRecyclerView.setAdapter(oListaAdapter);
+
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
@@ -115,11 +169,9 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     }
 
     //PARA IR A LA PANTALLA DE LISTA
-    public void siguiente(ArrayList<EspaciosNaturales> arrayEspacios, int codEspacios){
+    public void siguiente(){
         finish();
         Intent siguiente = new Intent (this, InfoEspacios.class);
-        siguiente.putExtra("arrayEspacios", arrayEspacios);
-        siguiente.putExtra("codEspacios", codEspacios);
         startActivity(siguiente);
     }
 
@@ -144,18 +196,6 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
             startActivity(volver);
             return true;
         }
-        if (id == R.id.share) {
-            Toast.makeText(this, "En creación", Toast.LENGTH_LONG).show();
-            return true;
-        }
-        if (id == R.id.mapa) {
-            Toast.makeText(this, "En creación", Toast.LENGTH_LONG).show();
-            return true;
-        }
-        if (id == R.id.camara) {
-            Toast.makeText(this, "En creación", Toast.LENGTH_LONG).show();
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -175,7 +215,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
                 e.printStackTrace();
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, listaNombProv);
-            spinner.setAdapter(adapter);
+            spinnerProv.setAdapter(adapter);
         } else {
             Toast.makeText(getApplicationContext(), "ERROR_NO_INTERNET", Toast.LENGTH_SHORT).show();
         }
@@ -192,6 +232,14 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     private ArrayList<Object> conectarEspacios() throws InterruptedException {
 
         ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT e.*, m.cod_prov FROM espacios_naturales e, municipio m, muni_espacios me WHERE e.cod_enatural = me.cod_enatural AND m.cod_muni = me.cod_muni order by e.cod_enatural, m.cod_prov", "Espacios");
+        Thread thread = new Thread(clientThreadSelect);
+        thread.start();
+        thread.join();
+        return clientThreadSelect.getDatos();
+    }
+
+    private ArrayList<Object> conectarEspaciosFav() throws InterruptedException {
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT e.* FROM espacios_naturales e, fav_espacios fe WHERE fe.cod_enatural=" + cod_espacios + " AND fe.cod_usuario ="+ MainActivity.codUsuario +"","EspaciosF");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();

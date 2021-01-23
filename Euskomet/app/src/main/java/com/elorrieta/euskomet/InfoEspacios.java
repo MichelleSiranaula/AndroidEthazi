@@ -9,14 +9,19 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.ls.LSInput;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,30 +29,28 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class InfoEspacios extends AppCompatActivity {
+public class InfoEspacios extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
-    ImageView imageView3,imageView4, imagen;
-    boolean fav = false;
+    ImageView imagen;
     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
     String nombreFoto = timeStamp + ".jpg";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ConnectivityManager connectivityManager = null;
     String imagenString;
     double latitud = 0;
-    String usuarioCon = "";
+    CheckBox cbFavorito;
+    boolean existe;
 
-    Integer codEspacios = 0;
-    ArrayList<EspaciosNaturales> datosEspacios = new ArrayList<EspaciosNaturales>();
+    Integer codEspacios = ListaEspacios.cod_espacios;
+    ArrayList<EspaciosNaturales> datosEspacios = ListaEspacios.arrayEspacios;
     TextView txtNombreEspacios, txtInfoEspacios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info_espacios);imageView3 = findViewById(R.id.imageView3);
-        imageView4 = findViewById(R.id.imgFav);
-        imageView4.setVisibility(View.INVISIBLE);
-        imageView3.setVisibility(View.VISIBLE);
+        setContentView(R.layout.activity_info_espacios);
 
         byte [] encodeByte= null;
         Bitmap bitmap = null;
@@ -55,11 +58,21 @@ public class InfoEspacios extends AppCompatActivity {
         imagen = findViewById(R.id.imagen);
         txtNombreEspacios = findViewById(R.id.txtNombreEspacio);
         txtInfoEspacios = findViewById(R.id.txtInfoEspacio);
+        txtInfoEspacios.setMovementMethod(new ScrollingMovementMethod());
+        cbFavorito = findViewById(R.id.cbFavorito);
+        cbFavorito.setOnCheckedChangeListener(this);
 
-        Bundle extras = getIntent().getExtras();
-        codEspacios = extras.getInt("codEspacios");
-        datosEspacios = (ArrayList<EspaciosNaturales>) getIntent().getSerializableExtra("arrayEspacios");
-        usuarioCon = extras.getString("usuarioCon");
+        try {
+            existe = existeDB();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (existe == true) {
+            cbFavorito.setChecked(true);
+        } else {
+            cbFavorito.setChecked(false);
+        }
 
         for (int i = 0; i< datosEspacios.size(); i++) {
             if (datosEspacios.get(i).getCod_enatural() == codEspacios) {
@@ -83,6 +96,36 @@ public class InfoEspacios extends AppCompatActivity {
                 }*/
             }
         }
+    }
+
+    //ON CHECKEDCHANGED DEL COMBOBOX
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        try {
+            if (isChecked) {
+                if (existe == false) {
+                    insertarFav();
+                    refrescar();
+                }
+            } else {
+                if (existe == true) {
+                    borrarFav();
+                    refrescar();
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //REFRESCAR LA PAGINA
+    public void refrescar() {
+        Intent intent = new Intent(this, InfoEspacios.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivityForResult(intent, 0);
+        overridePendingTransition(0,0);
+
     }
 
     //PARA HACER FOTOS
@@ -110,10 +153,9 @@ public class InfoEspacios extends AppCompatActivity {
         }
     }
 
+
     //PARA GUARDAR LA FOTO EN LA BBDD
     public void conectarOnClick() {
-        //ArrayList<Object> arrObject = new ArrayList<Object>();
-        //ArrayList<String> listaNombProv = new ArrayList<String>();
         if (isConnected()) {
             try {
                 insertarFoto();
@@ -132,6 +174,32 @@ public class InfoEspacios extends AppCompatActivity {
         thread.join();
     }
 
+    //INSERTAR EN LA TABLA FAV_ESPACIOS
+    private void insertarFav() throws InterruptedException {
+        ClientThread clientThread = new ClientThread("INSERT into fav_espacios (cod_enatural,cod_usuario) values ("+ codEspacios +","+ MainActivity.codUsuario +")");
+        Thread thread = new Thread(clientThread);
+        thread.start();
+        thread.join();
+    }
+
+    //BORRAR DE LA TABLA FAV_ESPACIOS
+    private void borrarFav() throws InterruptedException {
+        ClientThread clientThread = new ClientThread("DELETE FROM fav_espacios WHERE cod_enatural='" + codEspacios + "' AND cod_usuario ="+ MainActivity.codUsuario +"");
+        Thread thread = new Thread(clientThread);
+        thread.start();
+        thread.join();
+    }
+
+    //SELECT PARA SABER SI EXISTE EN LA TABLA DE FAV_ESPACIOS
+    private boolean existeDB() throws InterruptedException {
+        ClientThreadSimple clientThread = new ClientThreadSimple("SELECT * FROM fav_espacios WHERE cod_enatural='" + codEspacios + "' AND cod_usuario ="+ MainActivity.codUsuario +"");
+        Thread thread = new Thread(clientThread);
+        thread.start();
+        thread.join();
+        return clientThread.getExiste();
+    }
+
+    //PARA SABER SI ESTA CONECTADO
     public boolean isConnected() {
         boolean ret = false;
         try {
@@ -162,6 +230,8 @@ public class InfoEspacios extends AppCompatActivity {
             finish();
             if (latitud != 0) {
                 abrirMapa(datosEspacios, codEspacios, "Espacios");
+            } else {
+                Toast.makeText(this, "No podemos mostras la ubicacion", Toast.LENGTH_LONG).show();
             }
             return true;
         }
@@ -190,19 +260,6 @@ public class InfoEspacios extends AppCompatActivity {
         finish();
         Intent volver = new Intent (this, ListaEspacios.class);
         startActivity(volver);
-    }
-
-    //ANIMACION
-    public void mostrarfav(View view){
-        imageView3.setVisibility(View.INVISIBLE);
-        imageView4.setVisibility(View.VISIBLE);
-        fav=true;
-    }
-
-    public void quitarfav(View view){
-        imageView3.setVisibility(View.VISIBLE);
-        imageView4.setVisibility(View.INVISIBLE);
-        fav = false;
     }
 
 }

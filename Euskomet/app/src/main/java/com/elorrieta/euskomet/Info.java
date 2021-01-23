@@ -31,8 +31,7 @@ import java.util.Date;
 
 public class Info extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
-    ImageView imageView3,imageView4, imagen;
-    boolean fav = false;
+    ImageView imagen;
     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
     String nombreFoto = timeStamp + ".jpg";
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -184,7 +183,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         thread.join();
     }
 
-    //SELECT PARA SABER SI EXISTE EN LA TABLA DE FAV_MUNI
+    //SELECT PARA SABER SI EXISTE EN LA TABLA DE FAV_MUNICIPIO
     private boolean existeDB() throws InterruptedException {
         ClientThreadSimple clientThread = new ClientThreadSimple("SELECT * FROM fav_municipio WHERE cod_muni='" + codMuni + "' AND cod_usuario ="+ MainActivity.codUsuario +"");
         Thread thread = new Thread(clientThread);
@@ -224,6 +223,8 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
             finish();
             if (latitud != 0) {
                 abrirMapa(datosMuni,codMuni, "Municipios");
+            } else {
+                Toast.makeText(this, "No podemos mostras la ubicacion", Toast.LENGTH_LONG).show();
             }
             return true;
         }

@@ -53,6 +53,9 @@ public class ClientThreadSelect implements Runnable {
                 }else if (tipoObjeto.equals("usuarios")){
                    Usuarios u = new Usuarios(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
                    datos.add(u);
+                } else if (tipoObjeto.equals("EspaciosF")) {
+                    EspaciosNaturales e = new EspaciosNaturales(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6), rs.getString(7));
+                    datos.add(e);
                 }
             }
         } catch (ClassNotFoundException e) {

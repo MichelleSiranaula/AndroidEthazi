@@ -24,6 +24,16 @@ public class EspaciosNaturales implements Serializable {
         this.cod_prov = cod_prov;
     }
 
+    public EspaciosNaturales(int cod_enatural, String nombre, String descripcion, String tipo, Double latitud, Double longitud, String foto) {
+        this.cod_enatural = cod_enatural;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.foto = foto;
+    }
+
     public EspaciosNaturales() {
 
     }

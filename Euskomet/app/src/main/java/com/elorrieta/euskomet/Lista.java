@@ -194,18 +194,6 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
             startActivity(volver);
             return true;
         }
-        if (id == R.id.share) {
-            Toast.makeText(this, "En creación", Toast.LENGTH_LONG).show();
-            return true;
-        }
-        if (id == R.id.mapa) {
-            Toast.makeText(this, "En creación", Toast.LENGTH_LONG).show();
-            return true;
-        }
-        if (id == R.id.camara) {
-            Toast.makeText(this, "En creación", Toast.LENGTH_LONG).show();
-            return true;
-        }
          return super.onOptionsItemSelected(item);
     }
 

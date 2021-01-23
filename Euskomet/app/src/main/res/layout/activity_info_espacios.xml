@@ -10,63 +10,59 @@
         android:id="@+id/txtNombreEspacio"
         android:layout_width="174dp"
         android:layout_height="32dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="124dp"
-        android:layout_marginEnd="200dp"
         android:text="Nombre del Lugar"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imagen"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="28dp"
+        android:layout_width="139dp"
+        android:layout_height="171dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="0dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="300dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star_big_off" />
-
     <TextView
         android:id="@+id/txtInfoEspacio"
-        android:layout_width="350dp"
-        android:layout_height="250dp"
+        android:layout_width="336dp"
+        android:layout_height="259dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="264dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="24dp"
+        android:scrollbars="vertical"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imagen" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/btnHistorico"
         android:layout_width="208dp"
         android:layout_height="36dp"
-        android:layout_marginTop="512dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="100dp"
         android:text="Historico del lugar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txtInfoEspacio" />
 
-    <ImageView
-        android:id="@+id/imgFav"
-        android:layout_width="32dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="300dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+    <CheckBox
+        android:id="@+id/cbFavorito"
+        android:layout_width="127dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="64dp"
+        android:button="@android:drawable/btn_star"
+        android:text="  Favorito"
+        android:textColorHighlight="#FFEB3B"
+        android:textColorLink="#FDE01F"
+        android:textCursorDrawable="@android:drawable/btn_star_big_on"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNombreEspacio" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
