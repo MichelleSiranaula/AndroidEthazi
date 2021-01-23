@@ -13,6 +13,7 @@
         android:layout_height="38dp"
         android:layout_marginStart="216dp"
         android:layout_marginTop="128dp"
+        android:background="#83F8F3F3"
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,6 +36,7 @@
         android:layout_height="38dp"
         android:layout_marginTop="128dp"
         android:layout_marginEnd="20dp"
+        android:background="#83F8F3F3"
         app:layout_constraintEnd_toStartOf="@+id/spinnerProv"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginBottom="28dp"
-        android:text="FILTROS"
+        android:text="ESPACIOS NATURALES"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/spinnerFiltros"
         app:layout_constraintStart_toStartOf="parent" />
