@@ -45,6 +45,7 @@
         android:layout_marginStart="36dp"
         android:layout_marginBottom="28dp"
         android:text="FILTROS"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/spinnerFiltros"
         app:layout_constraintStart_toStartOf="parent" />
 

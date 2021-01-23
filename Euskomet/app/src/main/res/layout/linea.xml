@@ -13,15 +13,6 @@
         android:layout_marginRight="10dp"
         app:cardBackgroundColor="#83F8F3F3">
 
-        <ImageView
-            android:id="@+id/ivFavMuni"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="260dp"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/btn_star" />
-
         <TextView
             android:id="@+id/tvNombre"
             android:layout_width="171dp"

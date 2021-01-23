@@ -4,66 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/nubefondo"
     tools:context=".Info">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="380dp"
+        android:layout_height="598dp"
+        app:cardBackgroundColor="#83F8F3F3"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="58dp">
 
-    <TextView
-        android:id="@+id/txtNombreEspacio"
-        android:layout_width="174dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="124dp"
-        android:text="Nombre del Lugar"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/txtNombreEspacio"
+            android:layout_width="174dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="120dp"
+            android:text="Nombre del Lugar"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imagen"
-        android:layout_width="139dp"
-        android:layout_height="171dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        <ImageView
+            android:id="@+id/imagen"
+            android:layout_width="139dp"
+            android:layout_height="171dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="36dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/txtInfoEspacio"
-        android:layout_width="336dp"
-        android:layout_height="259dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="24dp"
-        android:scrollbars="vertical"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.481"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagen" />
+        <TextView
+            android:id="@+id/txtInfoEspacio"
+            android:layout_width="336dp"
+            android:layout_height="259dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="260dp"
+            android:layout_marginEnd="24dp"
+            android:scrollbars="vertical"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.481"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imagen" />
 
-    <Button
-        android:id="@+id/btnHistorico"
-        android:layout_width="208dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="100dp"
-        android:text="Historico del lugar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInfoEspacio" />
+        <Button
+            android:id="@+id/btnHistorico"
+            android:layout_width="208dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="550dp"
+            android:layout_marginLeft="80dp"
+            android:text="Historico del lugar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInfoEspacio" />
 
-    <CheckBox
-        android:id="@+id/cbFavorito"
-        android:layout_width="127dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="64dp"
-        android:button="@android:drawable/btn_star"
-        android:text="  Favorito"
-        android:textColorHighlight="#FFEB3B"
-        android:textColorLink="#FDE01F"
-        android:textCursorDrawable="@android:drawable/btn_star_big_on"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombreEspacio" />
+        <CheckBox
+            android:id="@+id/cbFavorito"
+            android:layout_width="127dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="180dp"
+            android:button="@android:drawable/btn_star"
+            android:text="  Favorito"
+            android:textColorHighlight="#FFEB3B"
+            android:textColorLink="#FDE01F"
+            android:textCursorDrawable="@android:drawable/btn_star_big_on"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtNombreEspacio" />
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
