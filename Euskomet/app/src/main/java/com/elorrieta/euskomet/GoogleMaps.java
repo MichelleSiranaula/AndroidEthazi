@@ -2,7 +2,9 @@ package com.elorrieta.euskomet;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,13 +19,6 @@ import java.util.ArrayList;
 
 
 public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
-
-    Integer codMuni = 0;
-    ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
-
-    Integer codEspacios = 0;
-    ArrayList<EspaciosNaturales> datosEspacios = new ArrayList<EspaciosNaturales>();
-
     private GoogleMap mapa;
     private LatLng oSitio = null;
     private String nombre="";
@@ -34,26 +29,22 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
-        codMuni = extras.getInt("codMunicipio");
-        datosMuni = (ArrayList<Municipio>) getIntent().getSerializableExtra("arrayMunicipios");
-
-        codEspacios = extras.getInt("codEspacios");
-        datosEspacios = (ArrayList<EspaciosNaturales>) getIntent().getSerializableExtra("arrayEspacios");
-
         quien = extras.getString("mapa");
 
         if (quien.equals("Municipios")) {
-            for (int i=0;i<datosMuni.size();i++) {
-                if (datosMuni.get(i).getCod_muni() == codMuni) {
-                    oSitio = new LatLng(datosMuni.get(i).getLongitud(), datosMuni.get(i).getLatitud());
-                    nombre = datosMuni.get(i).getNombre();
+            for (int i=0;i<Lista.arrayMuni.size();i++) {
+                if (Lista.arrayMuni.get(i).getCod_muni() == Lista.cod_muni) {
+                    oSitio = new LatLng(Lista.arrayMuni.get(i).getLatitud(), Lista.arrayMuni.get(i).getLongitud());
+                    Log.i("latitud", Lista.arrayMuni.get(i).getLatitud()+"");
+                    Log.i("longitud", Lista.arrayMuni.get(i).getLongitud()+"");
+                    nombre = Lista.arrayMuni.get(i).getNombre();
                 }
             }
         } else if (quien.equals("Espacios")) {
-            for (int i=0;i<datosEspacios.size();i++) {
-                if (datosEspacios.get(i).getCod_enatural() == codEspacios) {
-                    oSitio = new LatLng(datosEspacios.get(i).getLongitud(), datosEspacios.get(i).getLatitud());
-                    nombre = datosEspacios.get(i).getNombre();
+            for (int i=0;i<ListaEspacios.arrayEspacios.size();i++) {
+                if (ListaEspacios.arrayEspacios.get(i).getCod_enatural() == ListaEspacios.cod_espacios) {
+                    oSitio = new LatLng(ListaEspacios.arrayEspacios.get(i).getLatitud(), ListaEspacios.arrayEspacios.get(i).getLongitud());
+                    nombre = ListaEspacios.arrayEspacios.get(i).getNombre();
                 }
             }
         }
@@ -82,5 +73,16 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
                 mapa.getCameraPosition().target));
     }
 
+    //PARA IR A LA PANTALLA DE INFO
+    public void volver(View view){
+        finish();
+        Intent volver = null;
+        if (quien.equals("Municipios")) {
+            volver = new Intent (this, Info.class);
+        } else if (quien.equals("Espacios")) {
+            volver = new Intent (this, InfoEspacios.class);
+        }
+        startActivity(volver);
+    }
 
 }

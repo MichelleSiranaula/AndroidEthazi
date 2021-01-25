@@ -229,9 +229,10 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
         if (id == R.id.mapa) {
             finish();
             if (latitud != 0) {
-                abrirMapa(datosEspacios, codEspacios, "Espacios");
+                abrirMapa("Espacios");
             } else {
                 Toast.makeText(this, "No podemos mostras la ubicacion", Toast.LENGTH_LONG).show();
+                refrescar();
             }
             return true;
         }
@@ -247,10 +248,8 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
     }
 
     //PARA ABRIR EL MAPA
-    public void abrirMapa(ArrayList<EspaciosNaturales> datosEspacios, int codEspacios, String mapaE){
+    public void abrirMapa(String mapaE){
         Intent mapa = new Intent (this, GoogleMaps.class);
-        mapa.putExtra("arrayEspacios", datosEspacios);
-        mapa.putExtra("codEspacios", codEspacios);
         mapa.putExtra("mapa", mapaE);
         startActivity(mapa);
     }

@@ -40,7 +40,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ConnectivityManager connectivityManager = null;
     String imagenString;
-    double latitud = 0;
+    double latitud;
     CheckBox cbFavorito;
     boolean existe;
     Bitmap imageBitmap = null;
@@ -83,6 +83,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
                 txtNombreMuni.setText(datosMuni.get(i).getNombre());
                 txtInfoMuni.setText(datosMuni.get(i).getDescripcion());
                 latitud = datosMuni.get(i).getLatitud();
+                Log.i("Longitud desde info", datosMuni.get(i).getLongitud()+"");
             }
         }
 
@@ -233,10 +234,12 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         if (id == R.id.mapa) {
             finish();
             if (latitud != 0) {
-                abrirMapa(datosMuni,codMuni, "Municipios");
+                abrirMapa("Municipios");
             } else {
-                Toast.makeText(this, "No podemos mostras la ubicacion", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "No podemos mostrar la ubicacion", Toast.LENGTH_LONG).show();
+                refrescar();
             }
+
             return true;
         }
         if (id == R.id.share) {
@@ -251,10 +254,8 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     }
 
     //PARA ABRIR EL MAPA
-    public void abrirMapa(ArrayList<Municipio> datosMuni, int codMuni, String mapaM){
+    public void abrirMapa(String mapaM){
         Intent mapa = new Intent (this, GoogleMaps.class);
-        mapa.putExtra("arrayMunicipios", datosMuni);
-        mapa.putExtra("codMunicipio", codMuni);
         mapa.putExtra("mapa", mapaM);
         startActivity(mapa);
     }

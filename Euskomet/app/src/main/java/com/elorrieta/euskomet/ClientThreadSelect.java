@@ -31,9 +31,9 @@ public class ClientThreadSelect implements Runnable {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             //IP de clase
-            sIP = "192.168.106.28";
+            //sIP = "192.168.106.28";
             //IP en casa
-            //sIP = "192.168.1.136";
+            sIP = "192.168.1.136";
             sPuerto = "3306";
             sBBDD = "euskomet_db";
             String url = "jdbc:mysql://" + sIP + ":" + sPuerto + "/" + sBBDD + "?serverTimezone=UTC";
@@ -48,14 +48,11 @@ public class ClientThreadSelect implements Runnable {
                     Provincia p = new Provincia(rs.getInt(1), rs.getString(2));
                     datos.add(p);
                 } else if (tipoObjeto.equals("Espacios")) {
-                    EspaciosNaturales e = new EspaciosNaturales(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6), rs.getString(7), rs.getInt(8));
+                    EspaciosNaturales e = new EspaciosNaturales(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7));
                     datos.add(e);
                 }else if (tipoObjeto.equals("usuarios")){
                    Usuarios u = new Usuarios(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
                    datos.add(u);
-                } else if (tipoObjeto.equals("EspaciosF")) {
-                    EspaciosNaturales e = new EspaciosNaturales(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6), rs.getString(7));
-                    datos.add(e);
                 }
             }
         } catch (ClassNotFoundException e) {

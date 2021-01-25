@@ -11,13 +11,13 @@ public class Municipio implements Serializable {
     private double latitud;
     private double longitud;
 
-    public Municipio(int cod_muni, String nombre, String descripcion, int cod_prov, double latitud, double longitud) {
+    public Municipio(int cod_muni, String nombre, String descripcion, int cod_prov, double longitud, double latitud) {
         this.cod_muni = cod_muni;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.cod_prov = cod_prov;
-        this.latitud = latitud;
         this.longitud = longitud;
+        this.latitud = latitud;
     }
 
     public Municipio() {

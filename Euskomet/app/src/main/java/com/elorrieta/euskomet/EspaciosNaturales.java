@@ -10,28 +10,25 @@ public class EspaciosNaturales implements Serializable {
     private String tipo;
     private Double latitud;
     private Double longitud;
-    private String foto;
     private int cod_prov;
 
-    public EspaciosNaturales(int cod_enatural, String nombre, String descripcion, String tipo, Double latitud, Double longitud, String foto, int cod_prov) {
+    public EspaciosNaturales(int cod_enatural, String nombre, String descripcion, String tipo, Double latitud, Double longitud, int cod_prov) {
         this.cod_enatural = cod_enatural;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tipo = tipo;
         this.latitud = latitud;
         this.longitud = longitud;
-        this.foto = foto;
         this.cod_prov = cod_prov;
     }
 
-    public EspaciosNaturales(int cod_enatural, String nombre, String descripcion, String tipo, Double latitud, Double longitud, String foto) {
+    public EspaciosNaturales(int cod_enatural, String nombre, String descripcion, String tipo, Double latitud, Double longitud) {
         this.cod_enatural = cod_enatural;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tipo = tipo;
         this.latitud = latitud;
         this.longitud = longitud;
-        this.foto = foto;
     }
 
     public EspaciosNaturales() {
@@ -84,14 +81,6 @@ public class EspaciosNaturales implements Serializable {
 
     public void setLongitud(Double longitud) {
         this.longitud = longitud;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
     }
 
     public int getCod_prov() {
