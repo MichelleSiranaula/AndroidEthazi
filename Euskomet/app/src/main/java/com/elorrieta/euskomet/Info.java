@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -23,6 +24,10 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,13 +37,15 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
 
     ImageView imagen;
     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-    String nombreFoto = timeStamp + ".jpg";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ConnectivityManager connectivityManager = null;
     String imagenString;
     double latitud = 0;
     CheckBox cbFavorito;
     boolean existe;
+    Bitmap imageBitmap = null;
+    int tam = 0;
+    byte leer[] = null;
 
     Integer codMuni = Lista.cod_muni;
     ArrayList<Municipio> datosMuni = Lista.arrayMuni;
@@ -76,19 +83,19 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
                 txtNombreMuni.setText(datosMuni.get(i).getNombre());
                 txtInfoMuni.setText(datosMuni.get(i).getDescripcion());
                 latitud = datosMuni.get(i).getLatitud();
-
-                /*encodeByte=Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
-                inputStream  = new ByteArrayInputStream(encodeByte);
-                bitmap  = BitmapFactory.decodeStream(inputStream);
-
-                encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
-                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
-
-                encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.URL_SAFE);
-                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
-                imagen.setImageBitmap(bitmap);*/
             }
         }
+
+        /*try {
+            byte fotoSacada[] = sacarFoto();
+            Log.i("SIzeFOTOSACADA", fotoSacada.length+"");
+            Bitmap bm = BitmapFactory.decodeByteArray(fotoSacada, 0 ,fotoSacada.length);
+            imagen.setImageBitmap(bm);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+
+
     }
 
     //ON CHECKEDCHANGED DEL COMBOBOX
@@ -124,46 +131,51 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     //PARA HACER FOTOS
     public void hacerFoto() {
         Intent intento1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File foto = new File(getExternalFilesDir(null), nombreFoto);
         startActivityForResult(intento1, REQUEST_IMAGE_CAPTURE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageBitmap = (Bitmap) extras.get("data");
             imagen.setImageBitmap(imageBitmap);
+            File outputDir = this.getCacheDir();
+            try {
+                File foto = File.createTempFile(timeStamp, "jpg", outputDir);
+                FileOutputStream fOStream = new FileOutputStream(foto);
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,fOStream);
+                tam = (int) foto.length();
+                leer= new byte[tam];
+                FileInputStream f = new FileInputStream(foto);
+                f.read(leer);
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] imagenB = stream.toByteArray();
-            imagenString = String.valueOf(Base64.encode(imagenB, Base64.DEFAULT));
-            Log.i("foto", imagenString);
+                insertarFoto();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
 
-            conectarOnClick();
+            imagen.setImageBitmap(imageBitmap);
         }
     }
 
     //PARA GUARDAR LA FOTO EN LA BBDD
-    public void conectarOnClick() {
-        if (isConnected()) {
-            try {
-                insertarFoto();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "ERROR_NO_INTERNET", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void insertarFoto() throws InterruptedException {
-        ClientThread clientThread = new ClientThread("UPDATE municipio set foto='" + imagenString + "' where cod_muni ="+ codMuni +"");
+        ClientThread clientThread = new ClientThread("INSERT INTO foto_municipio (imagen,tamanio,cod_usuario,cod_muni) values ('"+ leer +"',"+ tam +","+  MainActivity.codUsuario +","+ codMuni +")");
         Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
+    }
+
+    //PARA SACAR LA FOTO EN LA BBDD
+    private byte[] sacarFoto() throws InterruptedException {
+        ClientThreadFoto clientThread = new ClientThreadFoto("SELECT imagen FROM foto_municipio WHERE cod_muni = "+ codMuni +" AND cod_usuario ="+ MainActivity.codUsuario +"");
+        Thread thread = new Thread(clientThread);
+        thread.start();
+        thread.join();
+        return clientThread.getFotoDb();
     }
 
     //INSERTAR EN LA TABLA FAV_MUNICIPIO

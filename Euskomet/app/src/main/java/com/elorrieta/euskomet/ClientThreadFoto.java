@@ -2,22 +2,19 @@ package com.elorrieta.euskomet;
 
 import android.util.Log;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-public class ClientThreadSelect implements Runnable {
-    private String sql = "";
-    private String tipoObjeto = "";
+public class ClientThreadFoto implements Runnable {
+    private byte fotoDb [] = null;
+    private String sql="";
 
-    ArrayList<Object> datos = new ArrayList<Object>();
-
-    public ClientThreadSelect(String sql, String tipoObjeto) {
+    public ClientThreadFoto (String sql) {
         this.sql = sql;
-        this.tipoObjeto = tipoObjeto;
     }
 
     @Override
@@ -41,21 +38,11 @@ public class ClientThreadSelect implements Runnable {
             st = con.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()) {
-                if (tipoObjeto.equals("Municipio")) {
-                    Municipio m = new Municipio(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), rs.getDouble(6));
-                    datos.add(m);
-                } else if (tipoObjeto.equals("Provincia")) {
-                    Provincia p = new Provincia(rs.getInt(1), rs.getString(2));
-                    datos.add(p);
-                } else if (tipoObjeto.equals("Espacios")) {
-                    EspaciosNaturales e = new EspaciosNaturales(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6), rs.getString(7), rs.getInt(8));
-                    datos.add(e);
-                }else if (tipoObjeto.equals("usuarios")){
-                   Usuarios u = new Usuarios(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
-                   datos.add(u);
-                } else if (tipoObjeto.equals("EspaciosF")) {
-                    EspaciosNaturales e = new EspaciosNaturales(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6), rs.getString(7));
-                    datos.add(e);
+                if (rs != null) {
+                    Blob blob = rs.getBlob(1);
+                    int blobSize = (int)blob.length();
+                    Log.i("sizeBLOB",blobSize+"");
+                    fotoDb = blob.getBytes(1,blobSize);
                 }
             }
         } catch (ClassNotFoundException e) {
@@ -85,8 +72,7 @@ public class ClientThreadSelect implements Runnable {
         }
     }
 
-    public ArrayList<Object> getDatos() {
-        return datos;
+    public byte[] getFotoDb() {
+        return fotoDb;
     }
 }
-

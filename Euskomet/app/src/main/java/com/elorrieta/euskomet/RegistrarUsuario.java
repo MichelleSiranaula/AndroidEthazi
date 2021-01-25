@@ -12,11 +12,16 @@ import android.widget.Toast;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 public class RegistrarUsuario extends AppCompatActivity {
 
     EditText UsuarioNombre, ContraNueva, RepeContraNueva, Localidad, PalabraClave;
     String claveUsuario = "holatiocomoestas";
+    ArrayList<Usuarios> usuarioarr = new ArrayList<Usuarios>();
+    ArrayList<String> nombrearr = new ArrayList<String>();
+
+    boolean encontrado = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,50 +39,68 @@ public class RegistrarUsuario extends AppCompatActivity {
         String usuario = UsuarioNombre.getText().toString();
         String contraseñaNueva1 = ContraNueva.getText().toString();
         String contraseñaNueva2 = RepeContraNueva.getText().toString();
-        String localidad = Localidad.getText().toString();
+//        String localidad = Localidad.getText().toString();
         String Clave = PalabraClave.getText().toString();
 
-        MainActivity.prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
-        String d= MainActivity.prefe.getString(usuario+"nombre", "");
+
+//        MainActivity.prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
+//        String d= MainActivity.prefe.getString(usuario+"nombre", "");
 
 
         if (usuario.equals("") || contraseñaNueva1.equals("") || contraseñaNueva2.equals("") || Clave.equals("")) {
             Toast.makeText(this, "Algún campo está vacio", Toast.LENGTH_SHORT).show();
         } else {
-            if(MainActivity.prefe.contains(d)){
-                Toast.makeText(this, "El usuario "+usuario+" ya está registrado", Toast.LENGTH_SHORT).show();
-            }else{
+            ArrayList<Object> arrObject = new ArrayList<Object>();
+            arrObject = usuarnombre();
+            for (int i = 0; i < arrObject.size(); i++) {
+                usuarioarr.add((Usuarios) arrObject.get(i));
+            }
+
+
+            for (int i = 0; i < usuarioarr.size(); i++) {
+
+                nombrearr.add( usuarioarr.get(i).getNombre().toString());
+
+                if (usuario.equals(nombrearr.get(i))) {
+                    Toast.makeText(this, "El usuario " + usuario + " ya está registrado", Toast.LENGTH_SHORT).show();
+                    encontrado = true;
+                }
+            }
+
+            if (encontrado==false) {
+
                 if (contraseñaNueva1.equals(contraseñaNueva2)) {
 
-                        MessageDigest md = MessageDigest.getInstance("SHA");
-                        byte dataBytes[] = contraseñaNueva1.getBytes();
-                        md.update(dataBytes);
-                        byte array[] = md.digest();
-                        String texto2 = "";
-                        for (byte b : array) {
-                         texto2 += b;
-                        }
+                    MessageDigest md = MessageDigest.getInstance("SHA");
+                    byte dataBytes[] = contraseñaNueva1.getBytes();
+                    md.update(dataBytes);
+                    byte array[] = md.digest();
+                    String texto2 = "";
+                    for (byte b : array) {
+                        texto2 += b;
+                    }
 
-                        MessageDigest md2 = MessageDigest.getInstance("SHA");
-                        byte dataBytes2[] = Clave.getBytes();
-                        md2.update(dataBytes2);
+                    MessageDigest md2 = MessageDigest.getInstance("SHA");
+                    byte dataBytes2[] = Clave.getBytes();
+                    md2.update(dataBytes2);
 
-                        byte array2[] = md2.digest();
-                        String texto3 = "";
-                        for (byte b : array2) {
-                            texto3 += b;
-                        }
+                    byte array2[] = md2.digest();
+                    String texto3 = "";
+                    for (byte b : array2) {
+                        texto3 += b;
+                    }
 
-                        usuarioInsert(usuario,texto2,texto3);
+                    usuarioInsert(usuario, texto2, texto3);
 
-                        Toast.makeText(this, "Usuario registrado", Toast.LENGTH_LONG).show();
-                        finish();
-                        Intent volver = new Intent(this, MainActivity.class);
-                        startActivity(volver);
-                    }else {
+                    Toast.makeText(this, "Usuario registrado", Toast.LENGTH_LONG).show();
+                    finish();
+                    Intent volver = new Intent(this, MainActivity.class);
+                    startActivity(volver);
+                } else {
                     Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
 
                 }
+
             }
         }
     }
@@ -93,5 +116,13 @@ public class RegistrarUsuario extends AppCompatActivity {
         finish();
         Intent volver = new Intent (this, MainActivity.class);
         startActivity(volver);
+    }
+
+    private ArrayList<Object> usuarnombre() throws InterruptedException {
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT * FROM usuario", "usuarios");
+        Thread thread = new Thread(clientThreadSelect);
+        thread.start();
+        thread.join();
+        return clientThreadSelect.getDatos();
     }
 }
