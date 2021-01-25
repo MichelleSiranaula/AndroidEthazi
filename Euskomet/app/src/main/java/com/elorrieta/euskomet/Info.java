@@ -1,6 +1,7 @@
 package com.elorrieta.euskomet;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
@@ -36,16 +38,15 @@ import java.util.Date;
 public class Info extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     ImageView imagen;
-    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ConnectivityManager connectivityManager = null;
-    String imagenString;
     double latitud;
     CheckBox cbFavorito;
     boolean existe;
+
+    String rutaFoto;
+    File foto;
     Bitmap imageBitmap = null;
-    int tam = 0;
-    byte leer[] = null;
 
     Integer codMuni = Lista.cod_muni;
     ArrayList<Municipio> datosMuni = Lista.arrayMuni;
@@ -56,9 +57,6 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
-        byte [] encodeByte= null;
-        Bitmap bitmap = null;
-        InputStream inputStream = null;
         imagen = findViewById(R.id.imagen);
         txtNombreMuni = findViewById(R.id.txtNombreEspacio);
         txtInfoMuni = findViewById(R.id.txtInfoEspacio);
@@ -83,19 +81,17 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
                 txtNombreMuni.setText(datosMuni.get(i).getNombre());
                 txtInfoMuni.setText(datosMuni.get(i).getDescripcion());
                 latitud = datosMuni.get(i).getLatitud();
-                Log.i("Longitud desde info", datosMuni.get(i).getLongitud()+"");
             }
         }
 
-        /*try {
-            byte fotoSacada[] = sacarFoto();
-            Log.i("SIzeFOTOSACADA", fotoSacada.length+"");
-            Bitmap bm = BitmapFactory.decodeByteArray(fotoSacada, 0 ,fotoSacada.length);
-            imagen.setImageBitmap(bm);
+        try {
+            imageBitmap = sacarFoto();
+            if (imageBitmap != null) {
+                imagen.setImageBitmap(imageBitmap);
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
-
+        }
 
     }
 
@@ -132,7 +128,25 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     //PARA HACER FOTOS
     public void hacerFoto() {
         Intent intento1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intento1, REQUEST_IMAGE_CAPTURE);
+        File fotoArchivo = null;
+        try {
+            fotoArchivo = crearFoto();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (fotoArchivo != null) {
+            Uri fotoUri = FileProvider.getUriForFile(this,"com.elorrieta.euskomet.fileprovider",fotoArchivo);
+            intento1.putExtra(MediaStore.EXTRA_OUTPUT,fotoUri);
+            startActivityForResult(intento1, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    public File crearFoto() throws IOException {
+        String nomFoto = "foto_";
+        File dir = getExternalFilesDir(null);
+        foto = File.createTempFile(nomFoto,".jpg",dir);
+        rutaFoto = foto.getAbsolutePath();
+        return foto;
     }
 
     @Override
@@ -140,43 +154,32 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            imageBitmap = (Bitmap) extras.get("data");
+            imageBitmap = BitmapFactory.decodeFile(rutaFoto);
             imagen.setImageBitmap(imageBitmap);
-            File outputDir = this.getCacheDir();
             try {
-                File foto = File.createTempFile(timeStamp, "jpg", outputDir);
-                FileOutputStream fOStream = new FileOutputStream(foto);
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,fOStream);
-                tam = (int) foto.length();
-                leer= new byte[tam];
-                FileInputStream f = new FileInputStream(foto);
-                f.read(leer);
-
                 insertarFoto();
-            } catch (IOException | InterruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            imagen.setImageBitmap(imageBitmap);
         }
     }
 
     //PARA GUARDAR LA FOTO EN LA BBDD
     private void insertarFoto() throws InterruptedException {
-        ClientThread clientThread = new ClientThread("INSERT INTO foto_municipio (imagen,tamanio,cod_usuario,cod_muni) values ('"+ leer +"',"+ tam +","+  MainActivity.codUsuario +","+ codMuni +")");
+        ClientThreadFoto clientThread = new ClientThreadFoto("INSERT INTO foto_municipio (imagen,cod_usuario,cod_muni) values (?,"+  MainActivity.codUsuario +","+ codMuni +")","InsertF");
+        clientThread.setFoto(foto);
         Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
     }
 
     //PARA SACAR LA FOTO EN LA BBDD
-    private byte[] sacarFoto() throws InterruptedException {
-        ClientThreadFoto clientThread = new ClientThreadFoto("SELECT imagen FROM foto_municipio WHERE cod_muni = "+ codMuni +" AND cod_usuario ="+ MainActivity.codUsuario +"");
+    private Bitmap sacarFoto() throws InterruptedException {
+        ClientThreadFoto clientThread = new ClientThreadFoto("SELECT imagen FROM foto_municipio WHERE cod_muni = "+ codMuni +" AND cod_usuario ="+ MainActivity.codUsuario +"","SelectF");
         Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
-        return clientThread.getFotoDb();
+        return clientThread.getBitmap();
     }
 
     //INSERTAR EN LA TABLA FAV_MUNICIPIO
@@ -243,11 +246,15 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
             return true;
         }
         if (id == R.id.share) {
-            Toast.makeText(this, "Aquí podremos compartir.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Aquí podremos compartir", Toast.LENGTH_LONG).show();
             return true;
         }
         if (id == R.id.camara) {
-            hacerFoto();
+            if (imageBitmap == null) {
+                hacerFoto();
+            } else {
+                Toast.makeText(this, "Ya tienes una foto disponible", Toast.LENGTH_LONG).show();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

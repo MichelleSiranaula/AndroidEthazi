@@ -1,12 +1,15 @@
 package com.elorrieta.euskomet;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
@@ -25,6 +28,7 @@ import org.w3c.dom.ls.LSInput;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,14 +38,15 @@ import java.util.List;
 public class InfoEspacios extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     ImageView imagen;
-    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-    String nombreFoto = timeStamp + ".jpg";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ConnectivityManager connectivityManager = null;
-    String imagenString;
     double latitud = 0;
     CheckBox cbFavorito;
     boolean existe;
+
+    String rutaFoto;
+    File foto;
+    Bitmap imageBitmap = null;
 
     Integer codEspacios = ListaEspacios.cod_espacios;
     ArrayList<EspaciosNaturales> datosEspacios = ListaEspacios.arrayEspacios;
@@ -52,9 +57,6 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_espacios);
 
-        byte [] encodeByte= null;
-        Bitmap bitmap = null;
-        InputStream inputStream = null;
         imagen = findViewById(R.id.imagen);
         txtNombreEspacios = findViewById(R.id.txtNombreEspacio);
         txtInfoEspacios = findViewById(R.id.txtInfoEspacio);
@@ -79,22 +81,16 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
                 txtNombreEspacios.setText(datosEspacios.get(i).getNombre());
                 txtInfoEspacios.setText(datosEspacios.get(i).getDescripcion());
                 latitud = datosEspacios.get(i).getLatitud();
-
-                //FOTO DESDE DB
-                /*if (datosEspacios.get(i).getFoto().length() != 0) {
-                    Log.i("bitmap", datosEspacios.get(i).getFoto());
-                    encodeByte=Base64.decode(datosEspacios.get(i).getFoto(),Base64.DEFAULT);
-                    inputStream  = new ByteArrayInputStream(encodeByte);
-                    bitmap  = BitmapFactory.decodeStream(inputStream);
-
-                encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.DEFAULT);
-                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
-
-                encodeByte = Base64.decode(datosMuni.get(i).getFoto(),Base64.URL_SAFE);
-                bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
-                    imagen.setImageBitmap(bitmap);
-                }*/
             }
+        }
+
+        try {
+            imageBitmap = sacarFoto();
+            if (imageBitmap != null) {
+                imagen.setImageBitmap(imageBitmap);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -131,47 +127,59 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
     //PARA HACER FOTOS
     public void hacerFoto() {
         Intent intento1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File foto = new File(getExternalFilesDir(null), nombreFoto);
-        startActivityForResult(intento1, REQUEST_IMAGE_CAPTURE);
+        File fotoArchivo = null;
+        try {
+            fotoArchivo = crearFoto();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (fotoArchivo != null) {
+            Uri fotoUri = FileProvider.getUriForFile(this,"com.elorrieta.euskomet.fileprovider",fotoArchivo);
+            intento1.putExtra(MediaStore.EXTRA_OUTPUT,fotoUri);
+            startActivityForResult(intento1, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    public File crearFoto() throws IOException {
+        String nomFoto = "foto_";
+        File dir = getExternalFilesDir(null);
+        foto = File.createTempFile(nomFoto,".jpg",dir);
+        rutaFoto = foto.getAbsolutePath();
+        return foto;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageBitmap = BitmapFactory.decodeFile(rutaFoto);
             imagen.setImageBitmap(imageBitmap);
-
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] imagen = stream.toByteArray();
-            imagenString = String.valueOf(Base64.encode(imagen, Base64.DEFAULT));
-            Log.i("foto", imagenString);
-
-            conectarOnClick();
-        }
-    }
-
-
-    //PARA GUARDAR LA FOTO EN LA BBDD
-    public void conectarOnClick() {
-        if (isConnected()) {
             try {
                 insertarFoto();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } else {
-            Toast.makeText(getApplicationContext(), "ERROR_NO_INTERNET", Toast.LENGTH_SHORT).show();
         }
     }
 
+
+    //PARA GUARDAR LA FOTO EN LA BBDD
     private void insertarFoto() throws InterruptedException {
-        ClientThread clientThread = new ClientThread("UPDATE espacios_naturales set foto='" + imagenString + "' where cod_enatural ="+ codEspacios +"");
+        ClientThreadFoto clientThread = new ClientThreadFoto("INSERT INTO foto_espacios (imagen_e,cod_enatural,cod_usuario) values (?,"+  codEspacios +","+ MainActivity.codUsuario +")","InsertF");
+        clientThread.setFoto(foto);
         Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
+    }
+
+    //PARA SACAR LA FOTO EN LA BBDD
+    private Bitmap sacarFoto() throws InterruptedException {
+        ClientThreadFoto clientThread = new ClientThreadFoto("SELECT imagen_e FROM foto_espacios WHERE cod_enatural = "+ codEspacios +" AND cod_usuario ="+ MainActivity.codUsuario +"","SelectF");
+        Thread thread = new Thread(clientThread);
+        thread.start();
+        thread.join();
+        return clientThread.getBitmap();
     }
 
     //INSERTAR EN LA TABLA FAV_ESPACIOS
@@ -241,7 +249,11 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
             return true;
         }
         if (id == R.id.camara) {
-            hacerFoto();
+            if (imageBitmap == null) {
+                hacerFoto();
+            } else {
+                Toast.makeText(this, "Ya tienes una foto disponible", Toast.LENGTH_LONG).show();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

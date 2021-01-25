@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.elorrieta.euskomet">
+
     <!-- Permiso para poder el estado de la red en el teléfono -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Permiso para poder acceder a internet -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Permiso para cámara -->
@@ -16,14 +17,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InfoEspacios"></activity>
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/file_paths" />
+
+        <activity android:name=".InfoEspacios" />
         <activity android:name=".ListaEspacios" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD8_C6tC9dXhtsQ7IvfiYIq3iZZKdn0Oag" />
-            <!--android:value="AIzaSyB2R5tY79IWsG6iynDEWtj5h8vkfkUfxv4" -->
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.elorrieta.euskomet.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <uses-library
             android:name="org.apache.http.legacy"

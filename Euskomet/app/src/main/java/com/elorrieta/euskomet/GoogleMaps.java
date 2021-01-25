@@ -35,8 +35,6 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
             for (int i=0;i<Lista.arrayMuni.size();i++) {
                 if (Lista.arrayMuni.get(i).getCod_muni() == Lista.cod_muni) {
                     oSitio = new LatLng(Lista.arrayMuni.get(i).getLatitud(), Lista.arrayMuni.get(i).getLongitud());
-                    Log.i("latitud", Lista.arrayMuni.get(i).getLatitud()+"");
-                    Log.i("longitud", Lista.arrayMuni.get(i).getLongitud()+"");
                     nombre = Lista.arrayMuni.get(i).getNombre();
                 }
             }
