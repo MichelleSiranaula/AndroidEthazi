@@ -189,7 +189,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
 
     //BARRA DE ACCIONES
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menulista, menu);
         return true;
     }
 
@@ -199,6 +199,11 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
             finish();
             Intent volver = new Intent (this, menuprincipal.class);
             startActivity(volver);
+            return true;
+        }
+
+        if (id == R.id.info) {
+            Toast.makeText(this, "Somos el DreamTeam real.", Toast.LENGTH_LONG).show();
             return true;
         }
          return super.onOptionsItemSelected(item);

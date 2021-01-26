@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +38,7 @@ public class menuprincipal extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.logout) {
+        if (id == R.id.casa) {
             Intent volver = new Intent (this, MainActivity.class);
             startActivity(volver);
             return true;

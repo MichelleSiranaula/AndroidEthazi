@@ -197,6 +197,11 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
             startActivity(volver);
             return true;
         }
+
+        if (id == R.id.info) {
+            Toast.makeText(this, "Somos el DreamTeam real.", Toast.LENGTH_LONG).show();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
