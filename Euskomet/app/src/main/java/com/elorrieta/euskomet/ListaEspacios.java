@@ -10,12 +10,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -169,6 +172,42 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
         String text = parent.getItemAtPosition(position).toString();
     }
 
+    public void onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+    }
+
+    //Menu contextual
+
+
+//public void OnLongItem
+
+    public void OnCreateContextMenu (ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        menu.setHeaderTitle("QUÉ DESEA HACER?");
+        MenuInflater oInflater = getMenuInflater();
+        oInflater.inflate(R.menu.menuctx, menu);
+
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position;
+
+        switch (item.getItemId()) {
+            case R.id.Añadir:
+                DialogoFav res;
+
+                res = new DialogoFav();
+                res.show(getSupportFragmentManager(), "Mi Diálogo");
+
+                break;
+
+
+        }
+
+
+        return true;
+    }
+
     //PARA IR A LA PANTALLA DE LISTA
     public void siguiente(){
         finish();
@@ -187,6 +226,16 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
+    }
+
+    //Dialogo de respuesta
+
+    public void onRespuesta(String psRespuesta) {
+        TextView oTextView;
+        oTextView = findViewById(R.id.textView);
+        oTextView.setText(psRespuesta);
+        //---- Muestra un mensaje que desaparece en unos segundos.
+        Toast.makeText( this, psRespuesta, Toast.LENGTH_LONG).show();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
