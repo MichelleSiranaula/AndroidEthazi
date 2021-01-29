@@ -221,6 +221,11 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         return ret;
     }
 
+    //COMPARTIR CON OTRAS APPS
+    public void compartirConApp() {
+
+    }
+
     //ACTIONBAR
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -274,4 +279,9 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         startActivity(volver);
     }
 
+    public void siguiente(View view) {
+        finish();
+        Intent siguiente = new Intent (this, Historico.class);
+        startActivity(siguiente);
+    }
 }

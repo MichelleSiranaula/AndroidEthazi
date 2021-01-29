@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ClientThreadSelect implements Runnable {
@@ -50,9 +51,15 @@ public class ClientThreadSelect implements Runnable {
                 } else if (tipoObjeto.equals("Espacios")) {
                     EspaciosNaturales e = new EspaciosNaturales(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7));
                     datos.add(e);
-                }else if (tipoObjeto.equals("usuarios")){
-                   Usuarios u = new Usuarios(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
+                } else if (tipoObjeto.equals("usuarios")){
+                   Usuarios u = new Usuarios(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
                    datos.add(u);
+                } else if (tipoObjeto.equals("Estacion")) {
+                    Estacion em = new Estacion(rs.getInt(1), rs.getString(2), rs.getInt(3));
+                    datos.add(em);
+                } else if (tipoObjeto.equals("CalidadAire")) {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    CalidadAire ca = new CalidadAire(dateFormat.format(rs.getTimestamp(1)), rs.getString(2), rs.getInt(3));
                 }
             }
         } catch (ClassNotFoundException e) {
