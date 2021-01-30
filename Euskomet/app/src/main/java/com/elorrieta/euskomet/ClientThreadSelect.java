@@ -32,9 +32,9 @@ public class ClientThreadSelect implements Runnable {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             //IP de clase
-            sIP = "192.168.106.28";
+            //sIP = "192.168.106.28";
             //IP en casa
-            //sIP = "192.168.1.136";
+            sIP = "192.168.1.136";
             sPuerto = "3306";
             sBBDD = "euskomet_db";
             String url = "jdbc:mysql://" + sIP + ":" + sPuerto + "/" + sBBDD + "?serverTimezone=UTC";
@@ -60,6 +60,7 @@ public class ClientThreadSelect implements Runnable {
                 } else if (tipoObjeto.equals("CalidadAire")) {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     CalidadAire ca = new CalidadAire(dateFormat.format(rs.getTimestamp(1)), rs.getString(2), rs.getInt(3));
+                    datos.add(ca);
                 }
             }
         } catch (ClassNotFoundException e) {
