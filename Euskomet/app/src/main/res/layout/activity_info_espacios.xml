@@ -34,7 +34,7 @@
             android:layout_width="139dp"
             android:layout_height="171dp"
             android:layout_marginStart="220dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="36dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -78,6 +78,24 @@
             android:textCursorDrawable="@android:drawable/btn_star_big_on"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtNombreEspacio" />
+
+        <Button
+            android:id="@+id/btnFAtrasEsp"
+            android:layout_width="53dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="200dp"
+            android:onClick="fotoAnterior"
+            android:text="anterior" />
+
+        <Button
+            android:id="@+id/btnFAdelanteEsp"
+            android:layout_width="53dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="306dp"
+            android:layout_marginTop="200dp"
+            android:onClick="siguenteFoto"
+            android:text="siguiente" />
 
     </androidx.cardview.widget.CardView>
 

@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ClientThreadFoto implements Runnable {
     private byte byteFoto [] = null;
@@ -19,6 +20,7 @@ public class ClientThreadFoto implements Runnable {
     private String tipoFoto;
     private File foto;
     private Bitmap bitmap;
+    private ArrayList<Bitmap> arrBitmap = new ArrayList<Bitmap>();
 
     public ClientThreadFoto (String sql, String tipoFoto) {
         this.sql = sql;
@@ -56,6 +58,7 @@ public class ClientThreadFoto implements Runnable {
                     int blobSize = (int)blob.length();
                     byteFoto = blob.getBytes(1,blobSize);
                     bitmap = BitmapFactory.decodeByteArray(byteFoto,0,byteFoto.length);
+                    arrBitmap.add(bitmap);
                 }
             }
         } catch (ClassNotFoundException e) {
@@ -85,8 +88,10 @@ public class ClientThreadFoto implements Runnable {
         }
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
+
+
+    public ArrayList<Bitmap> getarrBitmap() {
+        return arrBitmap;
     }
 
     public void setFoto(File foto) {

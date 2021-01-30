@@ -13,27 +13,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Info extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -47,6 +39,9 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     String rutaFoto;
     File foto;
     Bitmap imageBitmap = null;
+    Button btnFAtrasMuni, btnFAdelanteMuni;
+    ArrayList<Bitmap> arrBitmap = new ArrayList<Bitmap>();
+    Integer kontFotos = 0;
 
     Integer codMuni = Lista.cod_muni;
     ArrayList<Municipio> datosMuni = Lista.arrayMuni;
@@ -63,6 +58,10 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         txtInfoMuni.setMovementMethod(new ScrollingMovementMethod());
         cbFavorito = findViewById(R.id.cbFavorito);
         cbFavorito.setOnCheckedChangeListener(this);
+        btnFAtrasMuni = findViewById(R.id.btnFAtrasMuni);
+        btnFAtrasMuni.setEnabled(false);
+        btnFAdelanteMuni = findViewById(R.id.btnFAdelanteMuni);
+
 
         try {
             existe = existeDB();
@@ -85,14 +84,42 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         }
 
         try {
-            imageBitmap = sacarFoto();
-            if (imageBitmap != null) {
-                imagen.setImageBitmap(imageBitmap);
+            arrBitmap = sacarFoto();
+            if (arrBitmap.size() != 0) {
+                imagen.setImageBitmap(arrBitmap.get(kontFotos));
+            } else {
+                btnFAdelanteMuni.setEnabled(false);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+    }
+
+    //BOTON FOTO ADELANTE
+    public void siguenteFoto(View view) {
+        if (arrBitmap.size()-1 > kontFotos) {
+            kontFotos++;
+            imagen.setImageBitmap(arrBitmap.get(kontFotos));
+            btnFAtrasMuni.setEnabled(true);
+        }
+
+        if (arrBitmap.size()-1 == kontFotos) {
+            btnFAdelanteMuni.setEnabled(false);
+        }
+    }
+
+    //BOTON FOTO ATRAS
+    public void fotoAnterior(View view) {
+        if (kontFotos > 0) {
+            kontFotos --;
+            imagen.setImageBitmap(arrBitmap.get(kontFotos));
+            btnFAdelanteMuni.setEnabled(true);
+        }
+
+        if (kontFotos == 0) {
+            btnFAtrasMuni.setEnabled(false);
+        }
     }
 
     //ON CHECKEDCHANGED DEL COMBOBOX
@@ -155,7 +182,15 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             imageBitmap = BitmapFactory.decodeFile(rutaFoto);
-            imagen.setImageBitmap(imageBitmap);
+            if (arrBitmap.size() == 0) {
+                imagen.setImageBitmap(imageBitmap);
+                btnFAdelanteMuni.setEnabled(false);
+                btnFAtrasMuni.setEnabled(false);
+            } else {
+                btnFAdelanteMuni.setEnabled(true);
+            }
+            arrBitmap.add(imageBitmap);
+
             try {
                 insertarFoto();
             } catch (InterruptedException e) {
@@ -174,12 +209,12 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     }
 
     //PARA SACAR LA FOTO EN LA BBDD
-    private Bitmap sacarFoto() throws InterruptedException {
+    private ArrayList<Bitmap> sacarFoto() throws InterruptedException {
         ClientThreadFoto clientThread = new ClientThreadFoto("SELECT imagen FROM foto_municipio WHERE cod_muni = "+ codMuni +" AND cod_usuario ="+ MainActivity.codUsuario +"","SelectF");
         Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
-        return clientThread.getBitmap();
+        return clientThread.getarrBitmap();
     }
 
     //INSERTAR EN LA TABLA FAV_MUNICIPIO
@@ -255,11 +290,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
             return true;
         }
         if (id == R.id.camara) {
-            if (imageBitmap == null) {
-                hacerFoto();
-            } else {
-                Toast.makeText(this, "Ya tienes una foto disponible", Toast.LENGTH_LONG).show();
-            }
+            hacerFoto();
             return true;
         }
         return super.onOptionsItemSelected(item);

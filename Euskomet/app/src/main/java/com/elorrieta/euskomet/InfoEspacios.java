@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -47,6 +48,9 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
     String rutaFoto;
     File foto;
     Bitmap imageBitmap = null;
+    Button btnFAtrasEsp, btnFAdelanteEsp;
+    ArrayList<Bitmap> arrBitmap = new ArrayList<Bitmap>();
+    Integer kontFotos = 0;
 
     Integer codEspacios = ListaEspacios.cod_espacios;
     ArrayList<EspaciosNaturales> datosEspacios = ListaEspacios.arrayEspacios;
@@ -63,6 +67,9 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
         txtInfoEspacios.setMovementMethod(new ScrollingMovementMethod());
         cbFavorito = findViewById(R.id.cbFavorito);
         cbFavorito.setOnCheckedChangeListener(this);
+        btnFAtrasEsp = findViewById(R.id.btnFAtrasEsp);
+        btnFAtrasEsp.setEnabled(false);
+        btnFAdelanteEsp = findViewById(R.id.btnFAdelanteEsp);
 
         try {
             existe = existeDB();
@@ -85,12 +92,41 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
         }
 
         try {
-            imageBitmap = sacarFoto();
-            if (imageBitmap != null) {
-                imagen.setImageBitmap(imageBitmap);
+            arrBitmap = sacarFoto();
+            if (arrBitmap.size() != 0) {
+                imagen.setImageBitmap(arrBitmap.get(kontFotos));
+            } else {
+                btnFAdelanteEsp.setEnabled(false);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    //BOTON FOTO ADELANTE
+    public void siguenteFoto(View view) {
+        if (arrBitmap.size()-1 > kontFotos) {
+            kontFotos++;
+            imagen.setImageBitmap(arrBitmap.get(kontFotos));
+            btnFAtrasEsp.setEnabled(true);
+        }
+
+        if (arrBitmap.size()-1 == kontFotos) {
+            btnFAdelanteEsp.setEnabled(false);
+        }
+    }
+
+    //BOTON FOTO ATRAS
+    public void fotoAnterior(View view) {
+        if (kontFotos > 0) {
+            kontFotos --;
+            imagen.setImageBitmap(arrBitmap.get(kontFotos));
+            btnFAdelanteEsp.setEnabled(true);
+        }
+
+        if (kontFotos == 0) {
+            btnFAtrasEsp.setEnabled(false);
         }
     }
 
@@ -154,7 +190,15 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             imageBitmap = BitmapFactory.decodeFile(rutaFoto);
-            imagen.setImageBitmap(imageBitmap);
+            if (arrBitmap.size() == 0) {
+                imagen.setImageBitmap(imageBitmap);
+                btnFAdelanteEsp.setEnabled(false);
+                btnFAtrasEsp.setEnabled(false);
+            } else {
+                btnFAdelanteEsp.setEnabled(true);
+            }
+            arrBitmap.add(imageBitmap);
+
             try {
                 insertarFoto();
             } catch (InterruptedException e) {
@@ -174,12 +218,12 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
     }
 
     //PARA SACAR LA FOTO EN LA BBDD
-    private Bitmap sacarFoto() throws InterruptedException {
+    private ArrayList<Bitmap> sacarFoto() throws InterruptedException {
         ClientThreadFoto clientThread = new ClientThreadFoto("SELECT imagen_e FROM foto_espacios WHERE cod_enatural = "+ codEspacios +" AND cod_usuario ="+ MainActivity.codUsuario +"","SelectF");
         Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
-        return clientThread.getBitmap();
+        return clientThread.getarrBitmap();
     }
 
     //INSERTAR EN LA TABLA FAV_ESPACIOS
@@ -249,11 +293,7 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
             return true;
         }
         if (id == R.id.camara) {
-            if (imageBitmap == null) {
-                hacerFoto();
-            } else {
-                Toast.makeText(this, "Ya tienes una foto disponible", Toast.LENGTH_LONG).show();
-            }
+            hacerFoto();
             return true;
         }
         return super.onOptionsItemSelected(item);
