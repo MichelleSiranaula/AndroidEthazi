@@ -29,8 +29,10 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
     private ArrayList<TopFavMunicipio> topFavBizkaia = new ArrayList<TopFavMunicipio>();
 
     private ArrayList<Municipio> topGipuzkoa = new ArrayList<Municipio>();
+    private ArrayList<TopFavMunicipio> topFavGipuzkoa = new ArrayList<TopFavMunicipio>();
 
     private ArrayList<Municipio> topAraba = new ArrayList<Municipio>();
+    private ArrayList<TopFavMunicipio> topFavAraba = new ArrayList<TopFavMunicipio>();
 
 
     @Override
@@ -45,8 +47,16 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
         try {
             llenarSpinnerProv();
             llenarMunicipios();
+            //BIZKAIA
             llenarTopFavBizkaia();
             llenarTopBizkaia();
+            //GIPUZKOA
+            llenarTopFavGipuzkoa();
+            llenarTopGipuzkoa();
+            //ARABA
+            llenarTopFavAraba();
+            llenarTopAraba();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -65,6 +75,7 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String selec= spinnerTop.getSelectedItem().toString();
         if (selec.equals("Bizkaia")) {
+            Log.i("SIZE_TOP_B", topBizkaia.size()+"");
             oListaAdapter = new ListaAdapter(topBizkaia, new OnItemClickListener() {
                 @Override
                 public void onItemClick(Municipio item) {
@@ -77,6 +88,7 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
         } else if (selec.equals("Araba")) {
 
         }
+        oRecyclerView.setAdapter(oListaAdapter);
     }
 
     @Override
@@ -113,19 +125,56 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
         arrObject = favBizkaia();
         for (int i=0;i<arrObject.size();i++) {
             topFavBizkaia.add((TopFavMunicipio) arrObject.get(i));
-            Log.i("TOPFAV_CANT", topFavBizkaia.get(i).getCant()+"");
-            Log.i("TOPFAV_COD_MUNI", topFavBizkaia.get(i).getCod_muni()+"");
-
         }
     }
 
     //LLENAR ARRAY MUNI FAV DE BIZKAIA
     public void llenarTopBizkaia() throws InterruptedException {
         for (int i=0;i<topFavBizkaia.size();i++) {
-            if (topFavBizkaia.get(i).getCod_muni() == datosMuni.get(i).getCod_muni()) {
-                topBizkaia.add(datosMuni.get(i));
-                Log.i("COD_MUNI", topBizkaia.get(0).getCod_muni()+"");
-                Log.i("CONT", topBizkaia.get(0).getNombre()+"");
+            for (int j=0;j<datosMuni.size();j++) {
+                if (topFavBizkaia.get(i).getCod_muni() == datosMuni.get(j).getCod_muni()) {
+                    topBizkaia.add(datosMuni.get(j));
+                }
+            }
+        }
+    }
+
+    //LLENAR ARRAY DE TOP MUNI FAV DE GIPUZKOA
+    public void llenarTopFavGipuzkoa() throws InterruptedException {
+        ArrayList<Object> arrObject = new ArrayList<Object>();
+        arrObject = favGipuzkoa();
+        for (int i=0;i<arrObject.size();i++) {
+            topFavGipuzkoa.add((TopFavMunicipio) arrObject.get(i));
+        }
+    }
+
+    //LLENAR ARRAY MUNI FAV DE GIPUZKOA
+    public void llenarTopGipuzkoa() throws InterruptedException {
+        for (int i=0;i<topFavGipuzkoa.size();i++) {
+            for (int j=0;j<datosMuni.size();j++) {
+                if (topFavGipuzkoa.get(i).getCod_muni() == datosMuni.get(j).getCod_muni()) {
+                    topGipuzkoa.add(datosMuni.get(j));
+                }
+            }
+        }
+    }
+
+    //LLENAR ARRAY DE TOP MUNI FAV DE BIZKAIA
+    public void llenarTopFavAraba() throws InterruptedException {
+        ArrayList<Object> arrObject = new ArrayList<Object>();
+        arrObject = favAraba();
+        for (int i=0;i<arrObject.size();i++) {
+            topFavAraba.add((TopFavMunicipio) arrObject.get(i));
+        }
+    }
+
+    //LLENAR ARRAY MUNI FAV DE BIZKAIA
+    public void llenarTopAraba() throws InterruptedException {
+        for (int i=0;i<topFavAraba.size();i++) {
+            for (int j=0;j<datosMuni.size();j++) {
+                if (topFavAraba.get(i).getCod_muni() == datosMuni.get(j).getCod_muni()) {
+                    topAraba.add(datosMuni.get(j));
+                }
             }
         }
     }
@@ -159,7 +208,7 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
 
     //PARA SACAR LOS MUNICIPIOS MAS FAVORITOS DE GIPUZKOA
     private ArrayList<Object> favGipuzkoa() throws InterruptedException {
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fm.cod_muni), fm.cod_muni FROM fav_municipio fm, municipio m WHERE fm.cod_muni = m.cod_muni AND m.cod_prov = 2", "Top");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fm.cod_muni), fm.cod_muni FROM fav_municipio fm, municipio m WHERE fm.cod_muni = m.cod_muni AND m.cod_prov = 2 GROUP BY m.cod_muni ORDER BY COUNT(fm.cod_muni) DESC", "Top");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
@@ -167,7 +216,7 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
     }
     //PARA SACAR LOS MUNICIPIOS MAS FAVORITOS DE ARABA
     private ArrayList<Object> favAraba() throws InterruptedException {
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fm.cod_muni), fm.cod_muni FROM fav_municipio fm, municipio m WHERE fm.cod_muni = m.cod_muni AND m.cod_prov = 3", "Top");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fm.cod_muni), fm.cod_muni FROM fav_municipio fm, municipio m WHERE fm.cod_muni = m.cod_muni AND m.cod_prov = 3 GROUP BY m.cod_muni ORDER BY COUNT(fm.cod_muni) DESC", "Top");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
