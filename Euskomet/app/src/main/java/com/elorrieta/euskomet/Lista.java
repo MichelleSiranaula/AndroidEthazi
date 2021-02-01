@@ -240,7 +240,6 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     }
 
     private ArrayList<Object> conectarMuni() throws InterruptedException {
-
         ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT * FROM municipio", "Municipio");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
