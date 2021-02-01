@@ -116,7 +116,9 @@ public class Historico extends AppCompatActivity implements AdapterView.OnItemSe
                 if (datosCalidadAire.get(i).getFecha_hora().length() == 0) {
                     txtCalidadAire.setText("Sin datos");
                 } else {
-                    txtCalidadAire.setText(datosCalidadAire.get(i).getCalidad());
+                    String texto = "Calidad del aire: "+datosCalidadAire.get(i).getCalidad() + "\n" + "PM25 :" + datosCalidadAire.get(i).getPm25() + "\n" + "PM10 :" + datosCalidadAire.get(i).getPm10() + "\n" + "SO2 :" + datosCalidadAire.get(i).getSo2() + "\n" + "NO2 :" + datosCalidadAire.get(i).getNo2() + "\n" + "O3 :" + datosCalidadAire.get(i).getO3() + "\n" + "CO :" + datosCalidadAire.get(i).getCo();
+                    txtCalidadAire.setText(texto);
+
                 }
             }
         }

@@ -59,7 +59,7 @@ public class ClientThreadSelect implements Runnable {
                     datos.add(em);
                 } else if (tipoObjeto.equals("CalidadAire")) {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    CalidadAire ca = new CalidadAire(dateFormat.format(rs.getTimestamp(1)), rs.getString(2), rs.getInt(9));
+                    CalidadAire ca = new CalidadAire(dateFormat.format(rs.getTimestamp(1)), rs.getString(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5),rs.getDouble(6),rs.getDouble(7),rs.getDouble(8),rs.getInt(9));
                     datos.add(ca);
                 } else if (tipoObjeto.equals("Top")) {
                     TopFavMunicipio fm = new TopFavMunicipio(rs.getInt(1), rs.getInt(2));

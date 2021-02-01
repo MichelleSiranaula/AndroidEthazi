@@ -4,15 +4,15 @@ public class CalidadAire {
 
     private String fecha_hora;
     private String calidad;
-    private int cod_estacion;
     private double pm25;
     private double pm10;
     private double so2;
     private double no2;
     private double o3;
     private double co;
+    private int cod_estacion;
 
-    public CalidadAire(String fecha_hora, String calidad, int cod_estacion, double pm25, double pm10, double so2, double no2, double o3, double co) {
+    public CalidadAire(String fecha_hora, String calidad, double pm25, double pm10, double so2, double no2, double o3, double co, int cod_estacion) {
         this.fecha_hora = fecha_hora;
         this.calidad = calidad;
         this.cod_estacion = cod_estacion;
