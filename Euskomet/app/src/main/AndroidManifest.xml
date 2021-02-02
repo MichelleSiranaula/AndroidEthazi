@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HistoricoEspacios"></activity>
+        <activity android:name=".TopEspacios"></activity>
+        <activity android:name=".HistoricoEspacios" />
         <activity android:name=".TopMunicipio" />
 
         <meta-data

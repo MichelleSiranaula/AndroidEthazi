@@ -135,7 +135,7 @@
         android:layout_marginBottom="88dp"
         android:onClick="recuperar"
         android:text="Continuar"
-        android:background="#2c72bc"
+        android:background="@drawable/button_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -148,7 +148,7 @@
         android:onClick="guardar2"
         android:text="Guardar"
         android:visibility="invisible"
-        android:background="#2c72bc"
+        android:background="@drawable/button_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

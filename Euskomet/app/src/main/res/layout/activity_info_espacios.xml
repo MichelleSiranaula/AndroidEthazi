@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/txtNombreEspacio"
-            android:layout_width="166dp"
+            android:layout_width="wrap_content"
             android:layout_height="61dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="105dp"
@@ -60,7 +60,7 @@
             android:layout_height="36dp"
             android:layout_marginLeft="80dp"
             android:layout_marginTop="550dp"
-            android:background="#2c72bc"
+            android:background="@drawable/button_border"
             android:onClick="siguiente"
             android:text="Historico del lugar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,8 +86,9 @@
             android:layout_height="34dp"
             android:layout_marginStart="220dp"
             android:layout_marginTop="200dp"
+            android:background="@drawable/button_border"
             android:onClick="fotoAnterior"
-            android:text="anterior" />
+            android:text="ant" />
 
         <Button
             android:id="@+id/btnFAdelanteEsp"
@@ -95,8 +96,9 @@
             android:layout_height="34dp"
             android:layout_marginStart="306dp"
             android:layout_marginTop="200dp"
+            android:background="@drawable/button_border"
             android:onClick="siguenteFoto"
-            android:text="siguiente" />
+            android:text="sig" />
 
     </androidx.cardview.widget.CardView>
 
@@ -106,7 +108,7 @@
         android:layout_height="34dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:background="#2c72bc"
+        android:background="@drawable/button_border"
         android:onClick="volver"
         android:text="ATRAS"
         app:layout_constraintStart_toStartOf="parent"

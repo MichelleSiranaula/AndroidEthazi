@@ -25,7 +25,7 @@
         android:layout_height="34dp"
         android:layout_marginStart="40dp"
         android:layout_marginBottom="16dp"
-        android:background="#2c72bc"
+        android:background="@drawable/button_border"
         android:onClick="volver"
         android:text="Atras"
         app:layout_constraintBottom_toBottomOf="parent"
