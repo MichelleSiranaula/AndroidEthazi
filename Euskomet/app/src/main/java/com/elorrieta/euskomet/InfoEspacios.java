@@ -251,18 +251,13 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
         return clientThread.getExiste();
     }
 
-    //PARA SABER SI ESTA CONECTADO
-    public boolean isConnected() {
-        boolean ret = false;
-        try {
-            connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            if ((networkInfo != null) && (networkInfo.isAvailable()) && (networkInfo.isConnected()))
-                ret = true;
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error_comunicación", Toast.LENGTH_SHORT).show();
-        }
-        return ret;
+    //SELECT PARA LAS ESTACIONES
+    private boolean conectarEstacion() throws InterruptedException {
+        ClientThreadSimple clientThreadSelect = new ClientThreadSimple("SELECT e.cod_estacion, e.nombre, e.cod_muni FROM estaciones e, municipio m, muni_espacios me WHERE e.cod_muni = m.cod_muni AND me.cod_muni = m.cod_muni AND me.cod_enatural ="+ codEspacios +"");
+        Thread thread = new Thread(clientThreadSelect);
+        thread.start();
+        thread.join();
+        return clientThreadSelect.getExiste();
     }
 
     //ACTIONBAR
@@ -311,6 +306,18 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
         finish();
         Intent volver = new Intent (this, ListaEspacios.class);
         startActivity(volver);
+    }
+
+    //PARA IR A LA PANTALLA HISTORICO ESPACIOS
+    public void siguiente(View view) throws InterruptedException {
+        boolean existe = conectarEstacion();
+        if (existe == true) {
+            finish();
+            Intent siguiente = new Intent (this, HistoricoEspacios.class);
+            startActivity(siguiente);
+        } else {
+            Toast.makeText(this, "No hay información disponible.", Toast.LENGTH_LONG).show();
+        }
     }
 
 }

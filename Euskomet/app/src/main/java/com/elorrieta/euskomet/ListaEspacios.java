@@ -286,7 +286,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
 
     private ArrayList<Object> conectarEspacios() throws InterruptedException {
 
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT e.*, m.cod_prov FROM espacios_naturales e, municipio m, muni_espacios me WHERE e.cod_enatural = me.cod_enatural AND m.cod_muni = me.cod_muni order by e.cod_enatural, m.cod_prov", "Espacios");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT DISTINCT e.*, m.cod_prov FROM espacios_naturales e, municipio m, muni_espacios me WHERE e.cod_enatural = me.cod_enatural AND m.cod_muni = me.cod_muni order by e.cod_enatural, m.cod_prov", "Espacios");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();

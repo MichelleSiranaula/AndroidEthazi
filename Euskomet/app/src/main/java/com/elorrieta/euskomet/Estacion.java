@@ -12,6 +12,11 @@ public class Estacion {
         this.cod_muni = cod_muni;
     }
 
+    public Estacion (int cod_estacion, String nombreEstacion) {
+        this.cod_estacion = cod_estacion;
+        this.nombreEstacion = nombreEstacion;
+    }
+
     public int getCod_estacion() {
         return cod_estacion;
     }

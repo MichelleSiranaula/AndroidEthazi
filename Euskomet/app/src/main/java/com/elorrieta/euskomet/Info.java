@@ -245,18 +245,13 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         return clientThread.getExiste();
     }
 
-    //PARA SABER SI ESTA CONECTADO
-    public boolean isConnected() {
-        boolean ret = false;
-        try {
-            connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            if ((networkInfo != null) && (networkInfo.isAvailable()) && (networkInfo.isConnected()))
-                ret = true;
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error_comunicación", Toast.LENGTH_SHORT).show();
-        }
-        return ret;
+    //SELECT PARA LAS ESTACIONES
+    private boolean conectarEstacion() throws InterruptedException {
+        ClientThreadSimple clientThreadSelect = new ClientThreadSimple("SELECT e.cod_estacion, e.nombre, e.cod_muni FROM estaciones e, municipio m WHERE e.cod_muni = m.cod_muni AND e.cod_muni ="+ codMuni +"");
+        Thread thread = new Thread(clientThreadSelect);
+        thread.start();
+        thread.join();
+        return clientThreadSelect.getExiste();
     }
 
     //COMPARTIR CON OTRAS APPS
@@ -313,9 +308,15 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         startActivity(volver);
     }
 
-    public void siguiente(View view) {
-        finish();
-        Intent siguiente = new Intent (this, Historico.class);
-        startActivity(siguiente);
+    //PARA IR A LA PANTALLA HISTORICO
+    public void siguiente(View view) throws InterruptedException {
+        boolean existe = conectarEstacion();
+        if (existe == true) {
+            finish();
+            Intent siguiente = new Intent (this, Historico.class);
+            startActivity(siguiente);
+        } else {
+            Toast.makeText(this, "No hay información disponible.", Toast.LENGTH_LONG).show();
+        }
     }
 }
