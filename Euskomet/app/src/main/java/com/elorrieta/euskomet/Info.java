@@ -62,8 +62,9 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         btnFAtrasMuni.setEnabled(false);
         btnFAdelanteMuni = findViewById(R.id.btnFAdelanteMuni);
 
-        if (codMuni == 0) {
-            //codMuni = TopMunicipio.cod_muni;
+        if (codMuni == 0 && datosMuni.size() == 0) {
+            codMuni = TopMunicipio.cod_muni;
+            datosMuni = TopMunicipio.arrayMuni;
         }
 
         try {

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -75,18 +76,32 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String selec= spinnerTop.getSelectedItem().toString();
         if (selec.equals("Bizkaia")) {
-            Log.i("SIZE_TOP_B", topBizkaia.size()+"");
-            oListaAdapter = new ListaAdapter(topBizkaia, new OnItemClickListener() {
+            oListaAdapter = new ListaAdapter(topBizkaia, "Medalla", new OnItemClickListener() {
                 @Override
                 public void onItemClick(Municipio item) {
                     cod_muni=item.getCod_muni();
                     arrayMuni = topBizkaia;
+                    siguiente();
                 }
             });
         } else if (selec.equals("Gipuzkoa")) {
-
+            oListaAdapter = new ListaAdapter(topGipuzkoa, "Medalla", new OnItemClickListener() {
+                @Override
+                public void onItemClick(Municipio item) {
+                    cod_muni=item.getCod_muni();
+                    arrayMuni = topGipuzkoa;
+                    siguiente();
+                }
+            });
         } else if (selec.equals("Araba")) {
-
+            oListaAdapter = new ListaAdapter(topAraba, "Medalla", new OnItemClickListener() {
+                @Override
+                public void onItemClick(Municipio item) {
+                    cod_muni=item.getCod_muni();
+                    arrayMuni = topAraba;
+                    siguiente();
+                }
+            });
         }
         oRecyclerView.setAdapter(oListaAdapter);
     }
@@ -223,5 +238,11 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
         return clientThreadSelect.getDatos();
     }
 
+    //PARA IR A LA PANTALLA DE INFO
+    public void siguiente(){
+        finish();
+        Intent siguiente = new Intent (this, Info.class);
+        startActivity(siguiente);
+    }
 
 }

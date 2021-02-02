@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/Añadir"
+        android:id="@+id/añadirFav"
         android:title="Añadir Favorito" />
-    <item android:title="Eliminar Favorito" />
+    <item
+        android:id="@+id/eliminarFav"
+        android:title="Eliminar Favorito" />
 </menu>

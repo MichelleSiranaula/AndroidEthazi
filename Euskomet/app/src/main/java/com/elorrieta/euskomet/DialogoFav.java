@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment;
 public class DialogoFav extends DialogFragment {
 
     AlertDialog.Builder Builder;
-    RespuestaDialogo respusta;
+    RespuestaDialogo respuesta;
     boolean elegido = false;
 
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -26,6 +26,7 @@ public class DialogoFav extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 elegido = true;
+                respuesta.respuesta("Añadido!");
             }
         });
 
@@ -34,6 +35,7 @@ public class DialogoFav extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 elegido = false;
+                respuesta.respuesta("En otro momento será");
             }
         });
 
@@ -42,6 +44,6 @@ public class DialogoFav extends DialogFragment {
 
     public void onAttach(Context contecto) {
         super.onAttach(contecto);
-        respusta = (RespuestaDialogo) contecto;
+        respuesta = (RespuestaDialogo) contecto;
     }
 }

@@ -13,19 +13,26 @@ import java.util.ArrayList;
 public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiViewHolder> {
     private ArrayList<Municipio> datosMuni = new ArrayList<Municipio>();
     private OnItemClickListener listener;
+    private String tipo;
 
     public class MiViewHolder extends RecyclerView.ViewHolder {
         public TextView nombreMuni;
 
         public MiViewHolder(View view) {
             super(view);
-            nombreMuni = (TextView) view.findViewById(R.id.tvNombre);
+            if (tipo.equals("Mapita")) {
+                nombreMuni = (TextView) view.findViewById(R.id.tvNombre);
+            } else if (tipo.equals("Medalla")) {
+                nombreMuni = (TextView) view.findViewById(R.id.nombreTop);
+            }
+
         }
     }
 
-    public ListaAdapter(ArrayList<Municipio> datosMuni, OnItemClickListener onItemClickListener) {
+    public ListaAdapter(ArrayList<Municipio> datosMuni, String tipo, OnItemClickListener onItemClickListener) {
         this.datosMuni = datosMuni;
         this.listener = onItemClickListener;
+        this.tipo = tipo;
     }
 
     @Override
@@ -47,7 +54,13 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiViewHolder
 
     @Override
     public MiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.linea,parent, false);
+        View v = null;
+        if (tipo.equals("Mapita")) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.linea,parent, false);
+        } else if (tipo.equals("Medalla")) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.linea2,parent, false);
+        }
+
         return new MiViewHolder(v);
     }
 }

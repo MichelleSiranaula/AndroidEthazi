@@ -120,7 +120,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
             spinnerProv.setEnabled(true);
             String selec= spinnerProv.getSelectedItem().toString();
             if (selec.equals("Bizkaia")) {
-                oListaAdapter = new ListaAdapterEspacios(datosEspaciosB, new OnItemClickListenerE() {
+                oListaAdapter = new ListaAdapterEspacios(datosEspaciosB, "Mapita", new OnItemClickListenerE() {
                     @Override
                     public void onItemClick(EspaciosNaturales item) {
                         cod_espacios=item.getCod_enatural();
@@ -131,7 +131,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
                 });
 
             } else if (selec.equals("Gipuzkoa")) {
-                oListaAdapter = new ListaAdapterEspacios(datosEspaciosG,new OnItemClickListenerE() {
+                oListaAdapter = new ListaAdapterEspacios(datosEspaciosG, "Mapita",new OnItemClickListenerE() {
                     @Override
                     public void onItemClick(EspaciosNaturales item) {
                         cod_espacios=item.getCod_enatural();
@@ -140,7 +140,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
                     }
                 });
             } else if (selec.equals("Araba")) {
-                oListaAdapter = new ListaAdapterEspacios(datosEspaciosA,new OnItemClickListenerE() {
+                oListaAdapter = new ListaAdapterEspacios(datosEspaciosA, "Mapita",new OnItemClickListenerE() {
                     @Override
                     public void onItemClick(EspaciosNaturales item) {
                         cod_espacios=item.getCod_enatural();
@@ -152,7 +152,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
             oRecyclerView.setAdapter(oListaAdapter);
         } else if (selecF.equals("Favoritos")) {
             spinnerProv.setEnabled(false);
-            oListaAdapter = new ListaAdapterEspacios(espaciosFav,new OnItemClickListenerE() {
+            oListaAdapter = new ListaAdapterEspacios(espaciosFav, "Mapita",new OnItemClickListenerE() {
                 @Override
                 public void onItemClick(EspaciosNaturales item) {
                     cod_espacios=item.getCod_enatural();
@@ -193,7 +193,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
         int index = info.position;
 
         switch (item.getItemId()) {
-            case R.id.Añadir:
+            case R.id.añadirFav:
                 DialogoFav res;
 
                 res = new DialogoFav();

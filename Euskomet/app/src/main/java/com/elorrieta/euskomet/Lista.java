@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -115,7 +117,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
             spinnerProv.setEnabled(true);
             String selecP = spinnerProv.getSelectedItem().toString();
             if (selecP.equals("Bizkaia")) {
-                oListaAdapter = new ListaAdapter(datosMuniProvB, new OnItemClickListener() {
+                oListaAdapter = new ListaAdapter(datosMuniProvB, "Mapita", new OnItemClickListener() {
                     @Override
                     public void onItemClick(Municipio item) {
                         cod_muni=item.getCod_muni();
@@ -124,7 +126,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
                     }
                 });
             } else if (selecP.equals("Gipuzkoa")) {
-                oListaAdapter = new ListaAdapter(datosMuniProvG,new OnItemClickListener() {
+                oListaAdapter = new ListaAdapter(datosMuniProvG, "Mapita",new OnItemClickListener() {
                     @Override
                     public void onItemClick(Municipio item) {
                         cod_muni=item.getCod_muni();
@@ -133,7 +135,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
                     }
                 });
             } else if (selecP.equals("Araba")) {
-                oListaAdapter = new ListaAdapter(datosMuniProvA,new OnItemClickListener() {
+                oListaAdapter = new ListaAdapter(datosMuniProvA, "Mapita",new OnItemClickListener() {
                     @Override
                     public void onItemClick(Municipio item) {
                         cod_muni=item.getCod_muni();
@@ -145,7 +147,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
             oRecyclerView.setAdapter(oListaAdapter);
         } else if (selecF.equals("Favoritos")) {
             spinnerProv.setEnabled(false);
-            oListaAdapter = new ListaAdapter(muniFav,new OnItemClickListener() {
+            oListaAdapter = new ListaAdapter(muniFav, "Mapita",new OnItemClickListener() {
                 @Override
                 public void onItemClick(Municipio item) {
                     cod_muni=item.getCod_muni();
@@ -173,7 +175,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
         String text = parent.getItemAtPosition(position).toString();
     }
 
-    //PARA IR A LA PANTALLA DE LISTA
+    //PARA IR A LA PANTALLA DE INFO
     public void siguiente(){
         finish();
         Intent siguiente = new Intent (this, Info.class);
