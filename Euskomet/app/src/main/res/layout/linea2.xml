@@ -29,7 +29,7 @@
             android:layout_height="32dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
-            app:srcCompat="@mipmap/iconomedalla" />
+            app:srcCompat="@mipmap/medalla" />
 
     </androidx.cardview.widget.CardView>
 

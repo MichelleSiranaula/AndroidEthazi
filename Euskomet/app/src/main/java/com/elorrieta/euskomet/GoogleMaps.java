@@ -77,8 +77,10 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
         Intent volver = null;
         if (quien.equals("Municipios")) {
             volver = new Intent (this, Info.class);
+            volver.putExtra("Volver",getIntent().getExtras().get("Volver").toString());
         } else if (quien.equals("Espacios")) {
             volver = new Intent (this, InfoEspacios.class);
+            volver.putExtra("VolverE",getIntent().getExtras().get("VolverE").toString());
         }
         startActivity(volver);
     }

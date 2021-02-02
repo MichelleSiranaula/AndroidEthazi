@@ -212,6 +212,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     public void siguiente(){
         finish();
         Intent siguiente = new Intent (this, InfoEspacios.class);
+        siguiente.putExtra("VolverE", "Lista");
         startActivity(siguiente);
     }
 

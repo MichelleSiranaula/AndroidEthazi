@@ -242,7 +242,13 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
     public void siguiente(){
         finish();
         Intent siguiente = new Intent (this, Info.class);
+        siguiente.putExtra("Volver", "Top");
         startActivity(siguiente);
     }
 
+    public void volver(View view) {
+        finish();
+        Intent siguiente = new Intent (this, menuprincipal.class);
+        startActivity(siguiente);
+    }
 }

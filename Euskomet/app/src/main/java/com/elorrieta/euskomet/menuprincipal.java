@@ -36,6 +36,12 @@ public class menuprincipal extends AppCompatActivity {
         Intent siguiente = new Intent(this, TopMunicipio.class);
         startActivity(siguiente);
     }
+
+    public void siguienteTopE(View view) {
+        finish();
+        Intent siguiente = new Intent(this, TopEspacios.class);
+        startActivity(siguiente);
+    }
     
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menusen, menu);

@@ -179,6 +179,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
     public void siguiente(){
         finish();
         Intent siguiente = new Intent (this, Info.class);
+        siguiente.putExtra("Volver", "Lista");
         startActivity(siguiente);
     }
 

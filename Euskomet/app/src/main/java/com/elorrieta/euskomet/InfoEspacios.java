@@ -56,6 +56,8 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
     ArrayList<EspaciosNaturales> datosEspacios = ListaEspacios.arrayEspacios;
     TextView txtNombreEspacios, txtInfoEspacios;
 
+    String volverA;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,13 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
         btnFAtrasEsp = findViewById(R.id.btnFAtrasEsp);
         btnFAtrasEsp.setEnabled(false);
         btnFAdelanteEsp = findViewById(R.id.btnFAdelanteEsp);
+
+        volverA = getIntent().getExtras().get("VolverE").toString();
+
+        if (codEspacios == 0 && datosEspacios.size() == 0) {
+            codEspacios = TopEspacios.cod_espacio;
+            datosEspacios = TopEspacios.arrayEspacios;
+        }
 
         try {
             existe = existeDB();
@@ -274,12 +283,10 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
             return true;
         }
         if (id == R.id.mapa) {
-            finish();
             if (latitud != 0) {
                 abrirMapa("Espacios");
             } else {
                 Toast.makeText(this, "No podemos mostras la ubicacion", Toast.LENGTH_LONG).show();
-                refrescar();
             }
             return true;
         }
@@ -298,13 +305,19 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
     public void abrirMapa(String mapaE){
         Intent mapa = new Intent (this, GoogleMaps.class);
         mapa.putExtra("mapa", mapaE);
+        mapa.putExtra("VolverE", volverA);
         startActivity(mapa);
     }
 
     //PARA IR A LA PANTALLA DE LISTA
     public void volver(View view){
         finish();
-        Intent volver = new Intent (this, ListaEspacios.class);
+        Intent volver = null;
+        if (volverA.equals("Lista")) {
+            volver = new Intent (this, ListaEspacios.class);
+        } else if (volverA.equals("Top")) {
+            volver = new Intent (this, TopEspacios.class);
+        }
         startActivity(volver);
     }
 

@@ -67,6 +67,12 @@ public class ClientThreadSelect implements Runnable {
                 } else if (tipoObjeto.equals("Est_Esp")) {
                     Estacion est = new Estacion(rs.getInt(1), rs.getString(2));
                     datos.add(est);
+                } else if (tipoObjeto.equals("TopEsp")) {
+                    TopFavEspacios fe = new TopFavEspacios(rs.getInt(1), rs.getInt(2));
+                    datos.add(fe);
+                } else if (tipoObjeto.equals("Espacios2")) {
+                    EspaciosNaturales e = new EspaciosNaturales(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6));
+                    datos.add(e);
                 }
             }
         } catch (ClassNotFoundException e) {

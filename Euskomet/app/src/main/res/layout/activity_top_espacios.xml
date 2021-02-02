@@ -19,7 +19,7 @@
         tools:ignore="MissingConstraints">
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinnerTopE"
             android:layout_width="172dp"
             android:layout_height="29dp"
             android:layout_marginStart="90dp"
@@ -63,6 +63,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/button_border"
+        android:onClick="volver"
         android:text="ATRAS"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />

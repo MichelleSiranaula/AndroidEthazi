@@ -47,6 +47,8 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     ArrayList<Municipio> datosMuni = Lista.arrayMuni;
     TextView txtNombreMuni, txtInfoMuni;
 
+    String volverA = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,8 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         btnFAtrasMuni = findViewById(R.id.btnFAtrasMuni);
         btnFAtrasMuni.setEnabled(false);
         btnFAdelanteMuni = findViewById(R.id.btnFAdelanteMuni);
+
+        volverA = getIntent().getExtras().get("Volver").toString();
 
         if (codMuni == 0 && datosMuni.size() == 0) {
             codMuni = TopMunicipio.cod_muni;
@@ -256,8 +260,14 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     }
 
     //COMPARTIR CON OTRAS APPS
-    public void compartirConApp() {
+    public void compartirTexto(){
+        Intent sendI = new Intent();
+        sendI.setAction(Intent.ACTION_SEND);
+        sendI.putExtra(Intent.EXTRA_TEXT, txtNombreMuni.getText());
+        sendI.setType("text/plain");
 
+        Intent shareIntent = Intent.createChooser(sendI, null);
+        startActivity(shareIntent);
     }
 
     //ACTIONBAR
@@ -274,18 +284,16 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
             return true;
         }
         if (id == R.id.mapa) {
-            finish();
             if (latitud != 0) {
                 abrirMapa("Municipios");
             } else {
                 Toast.makeText(this, "No podemos mostrar la ubicacion", Toast.LENGTH_LONG).show();
-                refrescar();
             }
 
             return true;
         }
         if (id == R.id.share) {
-            Toast.makeText(this, "Aquí podremos compartir", Toast.LENGTH_LONG).show();
+            compartirTexto();
             return true;
         }
         if (id == R.id.camara) {
@@ -299,13 +307,20 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     public void abrirMapa(String mapaM){
         Intent mapa = new Intent (this, GoogleMaps.class);
         mapa.putExtra("mapa", mapaM);
+        mapa.putExtra("Volver", volverA);
+
         startActivity(mapa);
     }
 
     //PARA IR A LA PANTALLA DE LISTA
     public void volver(View view){
         finish();
-        Intent volver = new Intent (this, Lista.class);
+        Intent volver = null;
+        if (volverA.equals("Lista")) {
+            volver = new Intent (this, Lista.class);
+        } else if (volverA.equals("Top")) {
+            volver = new Intent (this,  TopMunicipio.class);
+        }
         startActivity(volver);
     }
 
