@@ -35,20 +35,13 @@ public class RegistrarUsuario extends AppCompatActivity {
 
 
     public void crear(View View) throws NoSuchAlgorithmException, InterruptedException {
-
         String usuario = UsuarioNombre.getText().toString();
         String contraseñaNueva1 = ContraNueva.getText().toString();
         String contraseñaNueva2 = RepeContraNueva.getText().toString();
-//        String localidad = Localidad.getText().toString();
         String Clave = PalabraClave.getText().toString();
 
-
-//        MainActivity.prefe = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
-//        String d= MainActivity.prefe.getString(usuario+"nombre", "");
-
-
         if (usuario.equals("") || contraseñaNueva1.equals("") || contraseñaNueva2.equals("") || Clave.equals("")) {
-            Toast.makeText(this, "Algún campo está vacio", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.campo_vacio), Toast.LENGTH_SHORT).show();
         } else {
             ArrayList<Object> arrObject = new ArrayList<Object>();
             arrObject = usuarnombre();
@@ -62,7 +55,7 @@ public class RegistrarUsuario extends AppCompatActivity {
                 nombrearr.add( usuarioarr.get(i).getNombre().toString());
 
                 if (usuario.equals(nombrearr.get(i))) {
-                    Toast.makeText(this, "El usuario " + usuario + " ya está registrado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.el_usuario) +" "+ usuario +" "+ getResources().getString(R.string.ya_registrado), Toast.LENGTH_SHORT).show();
                     encontrado = true;
                 }
             }
@@ -92,12 +85,12 @@ public class RegistrarUsuario extends AppCompatActivity {
 
                     usuarioInsert(usuario, texto2, texto3);
 
-                    Toast.makeText(this, "Usuario registrado", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getResources().getString(R.string.usu_registrado), Toast.LENGTH_LONG).show();
                     finish();
                     Intent volver = new Intent(this, MainActivity.class);
                     startActivity(volver);
                 } else {
-                    Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.contra_no_coincide), Toast.LENGTH_SHORT).show();
 
                 }
 

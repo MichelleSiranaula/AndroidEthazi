@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -44,7 +45,7 @@ public class TopEspacios extends AppCompatActivity implements AdapterView.OnItem
 
         try {
             llenarSpinnerProv();
-            llenarMunicipios();
+            llenarEspacios();
             //BIZKAIA
             llenarTopFavBizkaia();
             llenarTopBizkaia();
@@ -76,6 +77,7 @@ public class TopEspacios extends AppCompatActivity implements AdapterView.OnItem
                 @Override
                 public void onItemClick(EspaciosNaturales item) {
                     cod_espacio=item.getCod_enatural();
+                    Log.i("COD_ESPACIO",cod_espacio+"");
                     arrayEspacios = topBizkaia;
                     siguiente();
                 }
@@ -122,7 +124,7 @@ public class TopEspacios extends AppCompatActivity implements AdapterView.OnItem
     }
 
     //LLENAR ARRAY CON TODOS LOS MUNICIPIOS
-    public void llenarMunicipios() throws InterruptedException {
+    public void llenarEspacios() throws InterruptedException {
         ArrayList<Object> arrObject = new ArrayList<Object>();
         arrObject = conectarEspacios();
         for (int i=0;i<arrObject.size();i++) {

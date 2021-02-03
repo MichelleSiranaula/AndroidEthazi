@@ -56,7 +56,7 @@ public class menuprincipal extends AppCompatActivity {
             return true;
         }
         if (id == R.id.info) {
-            Toast.makeText(this, "Somos el DreamTeam real.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.talde_3), Toast.LENGTH_LONG).show();
             return true;
         }
         return super.onOptionsItemSelected(item);

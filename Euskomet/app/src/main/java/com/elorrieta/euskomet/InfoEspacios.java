@@ -75,7 +75,7 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
 
         volverA = getIntent().getExtras().get("VolverE").toString();
 
-        if (codEspacios == 0 && datosEspacios.size() == 0) {
+        if (volverA.equals("Top")) {
             codEspacios = TopEspacios.cod_espacio;
             datosEspacios = TopEspacios.arrayEspacios;
         }
@@ -263,11 +263,11 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
 
     //SELECT PARA LAS ESTACIONES
     private boolean conectarEstacion() throws InterruptedException {
-        ClientThreadSimple clientThreadSelect = new ClientThreadSimple("SELECT e.cod_estacion, e.nombre, e.cod_muni FROM estaciones e, municipio m, muni_espacios me WHERE e.cod_muni = m.cod_muni AND me.cod_muni = m.cod_muni AND me.cod_enatural ="+ codEspacios +"");
-        Thread thread = new Thread(clientThreadSelect);
+        ClientThreadSimple clientThread = new ClientThreadSimple("SELECT DISTINCT e.cod_estacion, e.nombre, e.cod_muni FROM estaciones e, municipio m, muni_espacios me WHERE e.cod_muni = me.cod_muni AND me.cod_enatural ="+ codEspacios +"");
+        Thread thread = new Thread(clientThread);
         thread.start();
         thread.join();
-        return clientThreadSelect.getExiste();
+        return clientThread.getExiste();
     }
 
     //ACTIONBAR
@@ -287,7 +287,7 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
             if (latitud != 0) {
                 abrirMapa("Espacios");
             } else {
-                Toast.makeText(this, "No podemos mostras la ubicacion", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.no_ubicacion), Toast.LENGTH_LONG).show();
             }
             return true;
         }
@@ -342,7 +342,7 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
             siguiente.putExtra("VolverE", volverA);
             startActivity(siguiente);
         } else {
-            Toast.makeText(this, "No hay información disponible.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.no_informacion), Toast.LENGTH_LONG).show();
         }
     }
 

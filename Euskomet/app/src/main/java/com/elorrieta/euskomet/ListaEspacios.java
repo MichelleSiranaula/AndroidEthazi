@@ -73,6 +73,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
             arrObject = conectarEspaciosFav();
             for (int i=0;i<arrObject.size();i++) {
                 espaciosFav.add((EspaciosNaturales) arrObject.get(i));
+                Log.i("LOGI FOR", "HOLA");
             }
 
         } catch (InterruptedException e) {
@@ -151,6 +152,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
             }
             oRecyclerView.setAdapter(oListaAdapter);
         } else if (selecF.equals("Favoritos")) {
+            Log.i("SIZE", espaciosFav.size()+"");
             spinnerProv.setEnabled(false);
             oListaAdapter = new ListaAdapterEspacios(espaciosFav, "Mapita",new OnItemClickListenerE() {
                 @Override
@@ -170,42 +172,6 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
-    }
-
-    public void onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-    }
-
-    //Menu contextual
-
-
-//public void OnLongItem
-
-    public void OnCreateContextMenu (ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
-        menu.setHeaderTitle("QUÉ DESEA HACER?");
-        MenuInflater oInflater = getMenuInflater();
-        oInflater.inflate(R.menu.menuctx, menu);
-
-    }
-
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        int index = info.position;
-
-        switch (item.getItemId()) {
-            case R.id.añadirFav:
-                DialogoFav res;
-
-                res = new DialogoFav();
-                res.show(getSupportFragmentManager(), "Mi Diálogo");
-
-                break;
-
-
-        }
-
-
-        return true;
     }
 
     //PARA IR A LA PANTALLA DE LISTA
@@ -229,16 +195,6 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
         return true;
     }
 
-    //Dialogo de respuesta
-
-    public void onRespuesta(String psRespuesta) {
-        TextView oTextView;
-        oTextView = findViewById(R.id.textView);
-        oTextView.setText(psRespuesta);
-        //---- Muestra un mensaje que desaparece en unos segundos.
-        Toast.makeText( this, psRespuesta, Toast.LENGTH_LONG).show();
-    }
-
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.casa) {
@@ -249,7 +205,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
         }
 
         if (id == R.id.info) {
-            Toast.makeText(this, "Somos el DreamTeam real.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.talde_3), Toast.LENGTH_LONG).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -273,7 +229,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
             ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, listaNombProv);
             spinnerProv.setAdapter(adapter);
         } else {
-            Toast.makeText(getApplicationContext(), "ERROR_NO_INTERNET", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -295,7 +251,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private ArrayList<Object> conectarEspaciosFav() throws InterruptedException {
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT e.* FROM espacios_naturales e, fav_espacios fe WHERE fe.cod_enatural = e.cod_enatural AND fe.cod_usuario ="+ MainActivity.codUsuario +"","EspaciosF");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT e.* FROM espacios_naturales e, fav_espacios fe WHERE fe.cod_enatural = e.cod_enatural AND fe.cod_usuario ="+ MainActivity.codUsuario +"","Espacios2");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
@@ -310,7 +266,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
             if ((networkInfo != null) && (networkInfo.isAvailable()) && (networkInfo.isConnected()))
                 ret = true;
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error_comunicación", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_comunicacion), Toast.LENGTH_SHORT).show();
         }
         return ret;
     }

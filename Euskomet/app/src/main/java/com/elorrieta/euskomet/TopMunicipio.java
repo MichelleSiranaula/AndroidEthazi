@@ -214,7 +214,7 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
 
     //PARA SACAR LOS MUNICIPIOS MAS FAVORITOS DE BIZKAIA
     private ArrayList<Object> favBizkaia() throws InterruptedException {
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fm.cod_muni), fm.cod_muni FROM fav_municipio fm, municipio m WHERE fm.cod_muni = m.cod_muni AND m.cod_prov = 1 GROUP BY m.cod_muni ORDER BY COUNT(fm.cod_muni) DESC", "Top");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fm.cod_muni), fm.cod_muni FROM fav_municipio fm, municipio m WHERE fm.cod_muni = m.cod_muni AND m.cod_prov = 1 GROUP BY m.cod_muni ORDER BY COUNT(fm.cod_muni) DESC LIMIT 5", "Top");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
@@ -223,7 +223,7 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
 
     //PARA SACAR LOS MUNICIPIOS MAS FAVORITOS DE GIPUZKOA
     private ArrayList<Object> favGipuzkoa() throws InterruptedException {
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fm.cod_muni), fm.cod_muni FROM fav_municipio fm, municipio m WHERE fm.cod_muni = m.cod_muni AND m.cod_prov = 2 GROUP BY m.cod_muni ORDER BY COUNT(fm.cod_muni) DESC", "Top");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fm.cod_muni), fm.cod_muni FROM fav_municipio fm, municipio m WHERE fm.cod_muni = m.cod_muni AND m.cod_prov = 2 GROUP BY m.cod_muni ORDER BY COUNT(fm.cod_muni) DESC LIMIT 5", "Top");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
@@ -231,7 +231,7 @@ public class TopMunicipio extends AppCompatActivity implements AdapterView.OnIte
     }
     //PARA SACAR LOS MUNICIPIOS MAS FAVORITOS DE ARABA
     private ArrayList<Object> favAraba() throws InterruptedException {
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fm.cod_muni), fm.cod_muni FROM fav_municipio fm, municipio m WHERE fm.cod_muni = m.cod_muni AND m.cod_prov = 3 GROUP BY m.cod_muni ORDER BY COUNT(fm.cod_muni) DESC", "Top");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fm.cod_muni), fm.cod_muni FROM fav_municipio fm, municipio m WHERE fm.cod_muni = m.cod_muni AND m.cod_prov = 3 GROUP BY m.cod_muni ORDER BY COUNT(fm.cod_muni) DESC LIMIT 5", "Top");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();

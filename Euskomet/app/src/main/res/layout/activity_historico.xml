@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="130dp"
-            android:text="Estaciones :"
+            android:text="@string/estaciones"
             app:layout_constraintStart_toStartOf="@+id/spinnerEstacion"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="190dp"
             android:layout_marginTop="220dp"
-            android:text="Fecha :"
+            android:text="@string/fecha"
             app:layout_constraintStart_toStartOf="@+id/etFecha"
             app:layout_constraintTop_toBottomOf="@+id/spinnerEstacion" />
 
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="220dp"
-            android:text="Hora :"
+            android:text="@string/hora"
             app:layout_constraintStart_toStartOf="@+id/spinnerHora"
             app:layout_constraintTop_toBottomOf="@+id/spinnerEstacion" />
 
@@ -109,7 +109,7 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="44dp"
             android:fontFamily="sans-serif-black"
-            android:text="CALIDAD DEL AIRE"
+            android:text="@string/calidad_del_aire"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -125,9 +125,9 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/button_border"
-        android:textColor="#ffffff"
         android:onClick="volver"
-        android:text="ATRAS"
+        android:text="@string/atras"
+        android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 

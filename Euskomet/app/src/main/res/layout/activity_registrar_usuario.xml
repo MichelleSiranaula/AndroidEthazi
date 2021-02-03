@@ -36,7 +36,7 @@
             android:layout_height="19dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:text="Usuario"
+            android:text="@string/usuario"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,7 +59,7 @@
             android:layout_height="19dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="100dp"
-            android:text="Contraseña"
+            android:text="@string/contrase_a"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvUsuario" />
 
@@ -82,7 +82,7 @@
             android:layout_height="19dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="190dp"
-            android:text="Repetir Contraseña"
+            android:text="@string/repetir_contrase_a"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvContraseña" />
 
@@ -105,7 +105,7 @@
             android:layout_height="19dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="280dp"
-            android:text="Palabra Clave"
+            android:text="@string/palabra_clave"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -118,7 +118,7 @@
         android:layout_marginStart="260dp"
         android:layout_marginBottom="96dp"
         android:onClick="volver"
-        android:text="Cancelar"
+        android:text="@string/cancelar"
         android:textColor="#ffffff"
         android:background="@drawable/button_border"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -131,7 +131,7 @@
         android:layout_marginEnd="260dp"
         android:layout_marginBottom="96dp"
         android:onClick="crear"
-        android:text="Guardar"
+        android:text="@string/guardar"
         android:textColor="#ffffff"
         android:background="@drawable/button_border"
         app:layout_constraintBottom_toBottomOf="parent"

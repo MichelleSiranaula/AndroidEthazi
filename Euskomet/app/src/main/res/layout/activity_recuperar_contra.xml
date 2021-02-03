@@ -37,7 +37,7 @@
             android:layout_height="27dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="310dp"
-            android:text="Contraseña nueva"
+            android:text="@string/contrase_a_nueva"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/idContraNueva" />
@@ -48,7 +48,7 @@
             android:layout_height="19dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="25dp"
-            android:text="Usuario"
+            android:text="@string/usuario"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,7 +71,7 @@
             android:layout_height="21dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="115dp"
-            android:text="Palabra Clave"
+            android:text="@string/palabra_clave"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/idUsuario" />
 
@@ -94,7 +94,7 @@
             android:layout_height="27dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="210dp"
-            android:text="Contraseña nueva"
+            android:text="@string/contrase_a_nueva"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/idPalaClave" />
@@ -121,10 +121,10 @@
         android:layout_height="51dp"
         android:layout_marginEnd="68dp"
         android:layout_marginBottom="88dp"
-        android:onClick="volver"
-        android:text="Cancelar"
-        android:textColor="#ffffff"
         android:background="@drawable/button_border"
+        android:onClick="volver"
+        android:text="@string/cancelar"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -135,7 +135,7 @@
         android:layout_marginStart="68dp"
         android:layout_marginBottom="88dp"
         android:onClick="recuperar"
-        android:text="Continuar"
+        android:text="@string/continuar"
         android:textColor="#ffffff"
         android:background="@drawable/button_border"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -147,11 +147,11 @@
         android:layout_height="51dp"
         android:layout_marginStart="68dp"
         android:layout_marginBottom="88dp"
-        android:onClick="guardar2"
-        android:text="Guardar"
-        android:visibility="invisible"
-        android:textColor="#ffffff"
         android:background="@drawable/button_border"
+        android:onClick="guardar2"
+        android:text="@string/guardar"
+        android:textColor="#ffffff"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

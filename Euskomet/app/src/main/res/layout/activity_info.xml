@@ -24,7 +24,7 @@
             android:layout_height="59dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="105dp"
-            android:text="Nombre del Lugar"
+            android:text="@string/nombre_del_lugar"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +38,8 @@
             android:layout_marginEnd="36dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@tools:sample/avatars"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/txtInfoEspacio"
@@ -58,12 +59,12 @@
             android:id="@+id/btnHistorico"
             android:layout_width="208dp"
             android:layout_height="36dp"
-            android:layout_marginLeft="80dp"
+            android:layout_marginStart="80dp"
             android:layout_marginTop="550dp"
             android:background="@drawable/button_border"
             android:onClick="siguiente"
             android:textColor="#ffffff"
-            android:text="Historico del lugar"
+            android:text="@string/historico_del_lugar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtInfoEspacio" />
 
@@ -74,7 +75,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="180dp"
             android:button="@android:drawable/btn_star"
-            android:text="  Favorito"
+            android:text="@string/favorito"
             android:textColorHighlight="#FFEB3B"
             android:textColorLink="#FDE01F"
             android:textCursorDrawable="@android:drawable/btn_star_big_on"
@@ -89,7 +90,7 @@
             android:layout_marginTop="200dp"
             android:background="@drawable/button_border"
             android:onClick="fotoAnterior"
-            android:text="ant" />
+            android:text="@string/ant" />
 
         <Button
             android:id="@+id/btnFAdelanteMuni"
@@ -99,7 +100,7 @@
             android:layout_marginTop="200dp"
             android:background="@drawable/button_border"
             android:onClick="siguenteFoto"
-            android:text="sig" />
+            android:text="@string/sig" />
 
     </androidx.cardview.widget.CardView>
 
@@ -109,10 +110,10 @@
         android:layout_height="34dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:textColor="#ffffff"
         android:background="@drawable/button_border"
         android:onClick="volver"
-        android:text="ATRAS"
+        android:text="@string/atras"
+        android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 

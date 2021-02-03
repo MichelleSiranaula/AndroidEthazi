@@ -66,7 +66,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
 
         volverA = getIntent().getExtras().get("Volver").toString();
 
-        if (codMuni == 0 && datosMuni.size() == 0) {
+        if (volverA.equals("Top")) {
             codMuni = TopMunicipio.cod_muni;
             datosMuni = TopMunicipio.arrayMuni;
         }
@@ -288,7 +288,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
             if (latitud != 0) {
                 abrirMapa("Municipios");
             } else {
-                Toast.makeText(this, "No podemos mostrar la ubicacion", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.no_ubicacion), Toast.LENGTH_LONG).show();
             }
 
             return true;
@@ -333,7 +333,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
             siguiente.putExtra("Volver", volverA);
             startActivity(siguiente);
         } else {
-            Toast.makeText(this, "No hay información disponible.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.no_informacion), Toast.LENGTH_LONG).show();
         }
     }
 }

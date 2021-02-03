@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         String contraseña = etContraseña.getText().toString();
 
         if (etUsuario.getText().toString().isEmpty() || etContraseña.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Algún campo está vacio", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.campo_vacio), Toast.LENGTH_LONG).show();
         } else {
 
             ArrayList<Object> arrObject = new ArrayList<Object>();
@@ -75,17 +75,17 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if (texto3.equals(contrarr)) {
-                        Toast.makeText(this, "SESIÓN INICIADA", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getResources().getString(R.string.sesion_iniciada), Toast.LENGTH_LONG).show();
                         siguiente();
                         break;
                     } else {
-                        Toast.makeText(this, "CONTRASEÑA INCORRECTA", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getResources().getString(R.string.contra_incorrecta), Toast.LENGTH_LONG).show();
                     }
 
                 }
                 }
             if(!usuario.equals(nombrearr)){
-                Toast.makeText(this, "USUARIO NO REGISTRADO", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.usu_no_registrado), Toast.LENGTH_LONG).show();
             }
         }
     }

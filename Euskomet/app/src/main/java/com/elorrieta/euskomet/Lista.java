@@ -206,7 +206,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
         }
 
         if (id == R.id.info) {
-            Toast.makeText(this, "Somos el DreamTeam real.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.talde_3), Toast.LENGTH_LONG).show();
             return true;
         }
          return super.onOptionsItemSelected(item);
@@ -230,7 +230,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
                 ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, listaNombProv);
                 spinnerProv.setAdapter(adapter);
         } else {
-            Toast.makeText(getApplicationContext(), "ERROR_NO_INTERNET", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -266,7 +266,7 @@ public class Lista extends AppCompatActivity implements AdapterView.OnItemSelect
             if ((networkInfo != null) && (networkInfo.isAvailable()) && (networkInfo.isConnected()))
                 ret = true;
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error_comunicación", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_comunicacion), Toast.LENGTH_SHORT).show();
         }
         return ret;
     }

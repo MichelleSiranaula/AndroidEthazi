@@ -55,7 +55,7 @@ public class RecuperarContra extends AppCompatActivity {
 
 
         if (Usuario.isEmpty() || Clave.isEmpty()) {
-            Toast.makeText(this, "Alguno de los campos están vacios", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.campo_vacio), Toast.LENGTH_SHORT).show();
         } else {
 
             ArrayList<Object> arrObject = new ArrayList<Object>();
@@ -91,13 +91,13 @@ public class RecuperarContra extends AppCompatActivity {
                         break;
 
                     } else {
-                        Toast.makeText(this, "Palabra clave no coincide", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.p_clave_no_coincide), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             if(!Usuario.equals(nombrearr)){
-                Toast.makeText(this, "Usuario no existe", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.usu_no_existe), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -115,14 +115,13 @@ public class RecuperarContra extends AppCompatActivity {
         startActivity(guardar);
     }
 
-private ArrayList<Object> usuar() throws InterruptedException {
+    private ArrayList<Object> usuar() throws InterruptedException {
         ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT * FROM usuario", "usuarios");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
         return clientThreadSelect.getDatos();
         }
-
 
 
     public void guardar2(View v) throws NoSuchAlgorithmException, InterruptedException {
@@ -134,7 +133,7 @@ private ArrayList<Object> usuar() throws InterruptedException {
 
 
         if (Contranueva1.isEmpty() || Repecontranueva.isEmpty()) {
-            Toast.makeText(this, "Campos vacios", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.campo_vacio), Toast.LENGTH_SHORT).show();
         } else {
 
             ArrayList<Object> arrObject = new ArrayList<Object>();
@@ -144,8 +143,6 @@ private ArrayList<Object> usuar() throws InterruptedException {
             }
 
             for (int i = 0; i < usuarioarr.size(); i++) {
-
-
                 nombrearr = usuarioarr.get(i).getNombre().toString();
                 contrarr = usuarioarr.get(i).getContraseña().toString();
 
@@ -163,25 +160,20 @@ private ArrayList<Object> usuar() throws InterruptedException {
                         }
 
                         if (texto3.equals(contrarr)) {
-                            Toast.makeText(this, "No puede ser la contraseña antigua", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, getResources().getString(R.string.no_contra_antig), Toast.LENGTH_SHORT).show();
                         } else {
-
                             usuarcamcontr();
 
-                            Toast.makeText(this, "Contraseña cambiada", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, getResources().getString(R.string.contra_cambiada), Toast.LENGTH_SHORT).show();
 
                             finish();
                             Intent guardar = new Intent(this, MainActivity.class);
                             startActivity(guardar);
-
-//                            break;
-
                         }
                     } else {
-                        Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.contra_no_coincide), Toast.LENGTH_SHORT).show();
                     }
                 }
-
             }
         }
 

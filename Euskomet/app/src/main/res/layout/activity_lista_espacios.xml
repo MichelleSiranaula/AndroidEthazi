@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:fontFamily="sans-serif-black"
-        android:text="ESPACIOS NATURALES"
+        android:text="@string/espacios_naturales"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toTopOf="@+id/spinnerFiltros"
         app:layout_constraintStart_toStartOf="parent"

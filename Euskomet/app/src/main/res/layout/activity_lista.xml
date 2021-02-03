@@ -47,7 +47,7 @@
         android:layout_marginStart="36dp"
         android:layout_marginBottom="12dp"
         android:fontFamily="sans-serif-black"
-        android:text="MUNICIPIOS"
+        android:text="@string/municipios"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toTopOf="@+id/spinnerFiltros"
         app:layout_constraintStart_toStartOf="parent" />

@@ -49,7 +49,7 @@
         android:layout_marginTop="36dp"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
-        android:text="TOP 5 ESPACIOS NATURALES FAVORITOS"
+        android:text="@string/top_5_espacios_naturales_favoritos"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -64,8 +64,8 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/button_border"
         android:onClick="volver"
+        android:text="@string/atras"
         android:textColor="#ffffff"
-        android:text="ATRAS"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
