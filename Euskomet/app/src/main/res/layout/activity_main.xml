@@ -58,6 +58,7 @@
             android:layout_marginTop="500dp"
             android:onClick="logear"
             android:text="Log In"
+            android:textColor="#ffffff"
             android:background="@drawable/button_border"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -71,6 +72,7 @@
             android:layout_marginStart="210dp"
             android:onClick="Registrar"
             android:text="Registrar"
+            android:textColor="#ffffff"
             android:background="@drawable/button_border"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

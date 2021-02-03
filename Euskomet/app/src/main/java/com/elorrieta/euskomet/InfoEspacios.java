@@ -327,6 +327,7 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
         if (existe == true) {
             finish();
             Intent siguiente = new Intent (this, HistoricoEspacios.class);
+            siguiente.putExtra("VolverE", volverA);
             startActivity(siguiente);
         } else {
             Toast.makeText(this, "No hay información disponible.", Toast.LENGTH_LONG).show();

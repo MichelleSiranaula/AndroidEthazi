@@ -330,6 +330,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
         if (existe == true) {
             finish();
             Intent siguiente = new Intent (this, Historico.class);
+            siguiente.putExtra("Volver", volverA);
             startActivity(siguiente);
         } else {
             Toast.makeText(this, "No hay información disponible.", Toast.LENGTH_LONG).show();

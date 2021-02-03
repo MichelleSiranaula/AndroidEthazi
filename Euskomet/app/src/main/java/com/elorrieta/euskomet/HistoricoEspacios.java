@@ -3,6 +3,7 @@ package com.elorrieta.euskomet;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -111,7 +112,7 @@ public class HistoricoEspacios extends AppCompatActivity implements AdapterView.
                 if (datosCalidadAire.get(i).getFecha_hora().length() == 0) {
                     txtCalidadA.setText("Sin datos");
                 } else {
-                    String texto = "Calidad del aire: "+datosCalidadAire.get(i).getCalidad() + "\n" + "PM25 :" + datosCalidadAire.get(i).getPm25() + "\n" + "PM10 :" + datosCalidadAire.get(i).getPm10() + "\n" + "SO2 :" + datosCalidadAire.get(i).getSo2() + "\n" + "NO2 :" + datosCalidadAire.get(i).getNo2() + "\n" + "O3 :" + datosCalidadAire.get(i).getO3() + "\n" + "CO :" + datosCalidadAire.get(i).getCo();
+                    String texto = "Calidad del aire: "+" "+datosCalidadAire.get(i).getCalidad() + "\n" + "PM25 :"+" " + datosCalidadAire.get(i).getPm25() + "\n" + "PM10 :"+" " + datosCalidadAire.get(i).getPm10() + "\n" + "SO2 :"+" " + datosCalidadAire.get(i).getSo2() + "\n" + "NO2 :"+" " + datosCalidadAire.get(i).getNo2() + "\n" + "O3 :"+" " + datosCalidadAire.get(i).getO3() + "\n" + "CO :"+" " + datosCalidadAire.get(i).getCo();
                     txtCalidadA.setText(texto);
                 }
             }
@@ -184,5 +185,12 @@ public class HistoricoEspacios extends AppCompatActivity implements AdapterView.
         });
 
         newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void volver(View view){
+        finish();
+        Intent volver = new Intent (this, Info.class);
+        volver.putExtra("VolverE",getIntent().getExtras().get("VolverE").toString());
+        startActivity(volver);
     }
 }
