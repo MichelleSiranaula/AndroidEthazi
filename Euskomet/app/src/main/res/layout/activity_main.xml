@@ -24,7 +24,7 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="296dp"
             android:ems="10"
-            android:hint="Usuario"
+            android:hint="@string/usuario"
             android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -83,7 +83,7 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="388dp"
             android:ems="10"
-            android:hint="Contraseña"
+            android:hint="@string/contrase_a"
             android:inputType="textPassword"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
