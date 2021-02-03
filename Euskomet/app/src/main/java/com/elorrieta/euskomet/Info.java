@@ -154,6 +154,7 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     //REFRESCAR LA PAGINA
     public void refrescar() {
         Intent intent = new Intent(this, Info.class);
+        intent.putExtra("Volver",getIntent().getExtras().get("Volver").toString());
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivityForResult(intent, 0);
         overridePendingTransition(0,0);
@@ -328,7 +329,6 @@ public class Info extends AppCompatActivity implements CompoundButton.OnCheckedC
     public void siguiente(View view) throws InterruptedException {
         boolean existe = conectarEstacion();
         if (existe == true) {
-            finish();
             Intent siguiente = new Intent (this, Historico.class);
             siguiente.putExtra("Volver", volverA);
             startActivity(siguiente);

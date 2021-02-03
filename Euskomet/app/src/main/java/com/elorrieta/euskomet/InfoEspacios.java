@@ -163,6 +163,7 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
     //REFRESCAR LA PAGINA
     public void refrescar() {
         Intent intent = new Intent(this, InfoEspacios.class);
+        intent.putExtra("VolverE",getIntent().getExtras().get("VolverE").toString());
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivityForResult(intent, 0);
         overridePendingTransition(0,0);
@@ -291,7 +292,7 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
             return true;
         }
         if (id == R.id.share) {
-            Toast.makeText(this, "Aquí podremos compartir.", Toast.LENGTH_LONG).show();
+            compartirTexto();
             return true;
         }
         if (id == R.id.camara) {
@@ -299,6 +300,17 @@ public class InfoEspacios extends AppCompatActivity implements CompoundButton.On
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //COMPARTIR CON OTRAS APPS
+    public void compartirTexto(){
+        Intent sendI = new Intent();
+        sendI.setAction(Intent.ACTION_SEND);
+        sendI.putExtra(Intent.EXTRA_TEXT, txtNombreEspacios.getText());
+        sendI.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendI, null);
+        startActivity(shareIntent);
     }
 
     //PARA ABRIR EL MAPA

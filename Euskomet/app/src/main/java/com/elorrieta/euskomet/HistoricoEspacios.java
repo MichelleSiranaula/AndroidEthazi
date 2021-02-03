@@ -189,7 +189,7 @@ public class HistoricoEspacios extends AppCompatActivity implements AdapterView.
 
     public void volver(View view){
         finish();
-        Intent volver = new Intent (this, Info.class);
+        Intent volver = new Intent (this, InfoEspacios.class);
         volver.putExtra("VolverE",getIntent().getExtras().get("VolverE").toString());
         startActivity(volver);
     }

@@ -210,7 +210,7 @@ public class TopEspacios extends AppCompatActivity implements AdapterView.OnItem
 
     //PARA SACAR LOS MUNICIPIOS MAS FAVORITOS DE BIZKAIA
     private ArrayList<Object> favBizkaia() throws InterruptedException {
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fav_espacios.cod_enatural), fav_espacios.cod_enatural FROM fav_espacios, muni_espacios, municipio WHERE muni_espacios.cod_enatural = fav_espacios.cod_enatural AND muni_espacios.cod_muni = municipio.cod_muni AND municipio.cod_prov = 1 GROUP BY fav_espacios.cod_enatural ORDER BY COUNT(fav_espacios.cod_enatural) DESC", "TopEsp");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fav_espacios.cod_enatural), fav_espacios.cod_enatural FROM fav_espacios, muni_espacios, municipio WHERE muni_espacios.cod_enatural = fav_espacios.cod_enatural AND muni_espacios.cod_muni = municipio.cod_muni AND municipio.cod_prov = 1 GROUP BY fav_espacios.cod_enatural ORDER BY COUNT(fav_espacios.cod_enatural) DESC LIMIT 5", "TopEsp");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
@@ -219,7 +219,7 @@ public class TopEspacios extends AppCompatActivity implements AdapterView.OnItem
 
     //PARA SACAR LOS MUNICIPIOS MAS FAVORITOS DE BIZKAIA
     private ArrayList<Object> favGipuzkoa() throws InterruptedException {
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fav_espacios.cod_enatural), fav_espacios.cod_enatural FROM fav_espacios, muni_espacios, municipio WHERE muni_espacios.cod_enatural = fav_espacios.cod_enatural AND muni_espacios.cod_muni = municipio.cod_muni AND municipio.cod_prov = 2 GROUP BY fav_espacios.cod_enatural ORDER BY COUNT(fav_espacios.cod_enatural) DESC", "TopEsp");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fav_espacios.cod_enatural), fav_espacios.cod_enatural FROM fav_espacios, muni_espacios, municipio WHERE muni_espacios.cod_enatural = fav_espacios.cod_enatural AND muni_espacios.cod_muni = municipio.cod_muni AND municipio.cod_prov = 2 GROUP BY fav_espacios.cod_enatural ORDER BY COUNT(fav_espacios.cod_enatural) DESC LIMIT 5", "TopEsp");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();
@@ -228,7 +228,7 @@ public class TopEspacios extends AppCompatActivity implements AdapterView.OnItem
 
     //PARA SACAR LOS MUNICIPIOS MAS FAVORITOS DE BIZKAIA
     private ArrayList<Object> favAraba() throws InterruptedException {
-        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fav_espacios.cod_enatural), fav_espacios.cod_enatural FROM fav_espacios, muni_espacios, municipio WHERE muni_espacios.cod_enatural = fav_espacios.cod_enatural AND muni_espacios.cod_muni = municipio.cod_muni AND municipio.cod_prov = 3 GROUP BY fav_espacios.cod_enatural ORDER BY COUNT(fav_espacios.cod_enatural) DESC", "TopEsp");
+        ClientThreadSelect clientThreadSelect = new ClientThreadSelect("SELECT COUNT(fav_espacios.cod_enatural), fav_espacios.cod_enatural FROM fav_espacios, muni_espacios, municipio WHERE muni_espacios.cod_enatural = fav_espacios.cod_enatural AND muni_espacios.cod_muni = municipio.cod_muni AND municipio.cod_prov = 3 GROUP BY fav_espacios.cod_enatural ORDER BY COUNT(fav_espacios.cod_enatural) DESC LIMIT 5", "TopEsp");
         Thread thread = new Thread(clientThreadSelect);
         thread.start();
         thread.join();

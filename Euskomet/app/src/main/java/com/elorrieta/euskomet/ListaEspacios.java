@@ -225,7 +225,7 @@ public class ListaEspacios extends AppCompatActivity implements AdapterView.OnIt
 
     //BARRA DE ACCIONES
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menulista, menu);
         return true;
     }
 
